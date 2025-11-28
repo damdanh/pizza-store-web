@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên Hệ - PIZZA & PASTA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico"> 
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #E6D9CE;
+        }
+
+        /* Top Banner */
+        .top-banner {
+            background-color: #3D3934;
+            color: white;
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 13px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .top-banner a {
+            color: white;
+            text-decoration: underline;
+            margin-left: 10px;
+        }
+
+        /* Header */
+        .header {
+            background-color: #C4B5A8;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: #3D3934;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            overflow: hidden;
+        }
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .brand-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #3D3934;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            margin-left: 50px;
+        }
+
+        .nav-menu a {
+            color: #3D3934;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #8B7355;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .auth-btn {
+            background: transparent;
+            color: #3D3934;
+            border: 1px solid #3D3934;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .auth-btn:hover {
+            background: #3D3934;
+            color: white;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .social-icon.facebook {
+            background: #1877F2;
+            color: white;
+        }
+
+        .social-icon.zalo {
+            background: #0068FF;
+            color: white;
+        }
+
+        .social-icon.phone {
+            background: #E53935;
+            color: white;
+        }
+
+        /* Sub Header */
+        .sub-header {
+            background-color: #D9D9D9;
+            padding: 12px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #3D3934;
+        }
+
+        .sub-header-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .hotline {
+            color: #E53935;
+            font-weight: bold;
+        }
+
+        /* Banner */
+        .banner {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+
+        .banner-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 64px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        }
+
+        /* Contact Section */
+        .contact-container {
+            max-width: 1400px;
+            margin: 60px auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 60px;
+        }
+
+        /* Left Sidebar */
+        .contact-sidebar {
+            background: rgba(250, 235, 230, 0.6);
+            padding: 40px 30px;
+            border-radius: 10px;
+            border: 2px solid rgba(200, 180, 170, 0.3);
+        }
+
+        .sidebar-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #3D3934;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #3D3934;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input,
+        .form-textarea {
+            padding: 12px 15px;
+            border: none;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            font-size: 14px;
+            color: #3D3934;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: #999;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-submit {
+            background: rgba(200, 180, 170, 0.8);
+            color: #3D3934;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .form-submit:hover {
+            background: rgba(180, 160, 150, 0.9);
+            transform: translateY(-2px);
+        }
+
+        /* Right Content */
+        .contact-content {
+            background: white;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .content-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #3D3934;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .info-card {
+            text-align: center;
+        }
+
+        .info-icon {
+            width: 60px;
+            height: 60px;
+            background: #E8DFD1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .info-icon i {
+            font-size: 24px;
+            color: #3D3934;
+        }
+
+        .info-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #3D3934;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .info-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Map */
+        .map-container {
+            width: 100%;
+            height: 400px;
+            background: #E8DFD1;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 50px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Footer Newsletter */
+        .newsletter-section {
+            background: rgba(217, 197, 183, 0.5);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .newsletter-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #3D3934;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .newsletter-subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 15px;
+            max-width: 900px;
+            margin: 0 auto;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 1px solid #999;
+            border-radius: 5px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .newsletter-submit {
+            background: #3D3934;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background 0.3s;
+        }
+
+        .newsletter-submit:hover {
+            background: #2C2824;
+        }
+
+        .newsletter-note {
+            font-size: 12px;
+            color: #666;
+            margin-top: 20px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .footer {
+            background: #DDD6CB;
+            color: #333;
+            padding: 40px 0 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 50px 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .footer-section p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .footer-social-icon {
+            width: 35px;
+            height: 35px;
+            background: #666;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .footer-social-icon:hover {
+            background: #333;
+        }
+
+        .footer-bottom {
+            background: #382F24;
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        @media (max-width: 768px) {
+            .nav-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .subscribe-form {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .policies {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Banner -->
+    <div class="top-banner">
+        <span>NẾU BẠN KHÔNG CÓ SỐ ĐIỆN THOẠI VIỆT NAM, BẠN CÓ THỂ ĐẶT BÀN QUA</span>
+        <a href="#">FANPAGE</a>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <div class="logo-circle"><img src="img/logo.jpg" alt=""></div>
+            </div>
+            <div class="brand-name">PIZZA &<br>PASTA</div>
+            <ul class="nav-menu">
+                <li><a href="#">Về Chúng Tôi</a></li>
+                <li><a href="#">Thực Đơn</a></li>
+                <li><a href="#">Sự Kiện</a></li>
+                <li><a href="#">Báo Chí</a></li>
+                <li><a href="#">Đặt Bàn</a></li>
+                <li><a href="#">Liên Hệ</a></li>
+            </ul>
+        </div>
+        <div class="header-right">
+            <div class="auth-buttons">
+                <button class="auth-btn">Đăng Nhập</button>
+                <button class="auth-btn">Đăng Ký</button>
+            </div>
+            <div class="social-icons">
+                <div class="social-icon facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </div>
+                <div class="social-icon zalo">
+                    <span style="font-weight: bold; font-size: 18px;">Z</span>
+                </div>
+                <div class="social-icon phone">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sub Header -->
+    <div class="sub-header">
+        <div class="sub-header-item">Chính sách giao hàng</div>
+        <div class="sub-header-item">Chính sách đổi trả hoàn tiền</div>
+        <div class="sub-header-item">
+            Đường dây nóng: <span class="hotline">19001000</span>
+        </div>
+    </div>
+
+    <!-- Banner -->
+    <div class="banner">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&h=400&fit=crop" alt="Contact Banner">
+        <div class="banner-text">LIÊN HỆ</div>
+    </div>
+
+    <!-- Contact Content -->
+    <div class="contact-container">
+        <!-- Left Sidebar -->
+        <aside class="contact-sidebar">
+            <h2 class="sidebar-title">Gửi Thông Tin</h2>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label>HỌ VÀ TÊN</label>
+                    <input type="text" placeholder="Nguyễn Văn A" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>SỐ ĐIỆN THOẠI</label>
+                    <input type="tel" placeholder="Số điện thoại" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>EMAIL</label>
+                    <input type="email" placeholder="abc@gmail.com" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>NỘI DUNG</label>
+                    <textarea placeholder="" class="form-textarea" rows="5"></textarea>
+                </div>
+                <button type="submit" class="form-submit">GỬI</button>
+            </form>
+        </aside>
+
+        <!-- Right Content -->
+        <div class="contact-content">
+            <h2 class="content-title">Thông Tin Liên Hệ</h2>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="info-label">Địa Chỉ</div>
+                    <div class="info-text">
+                        24, Nguyễn Thị Nghĩa,<br>
+                        Phường Bến Thành, Quận 1<br>
+                        Thành Phố Hồ Chí Minh
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="far fa-clock"></i>
+                    </div>
+                    <div class="info-label">Giờ Hoạt Động</div>
+                    <div class="info-text">
+                        Thứ 2 - Chủ Nhật (Trừ ngày<br>
+                        lễ và Tết): 10:30 - 23:00<br>
+                        Phục vụ theo phiên: Trưa,<br>
+                        Chiều/Tối (TPV)
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="far fa-envelope"></i>
+                    </div>
+                    <div class="info-label">Email</div>
+                    <div class="info-text">
+                        ivan.sinaga@
+gmail.com
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="info-label">Phone</div>
+                    <div class="info-text">
+                        +6287654321
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map -->
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.4967829956694!2d106.69741831533428!3d10.773004962181988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f4b3330bcc9%3A0xb55e07593e74d9d!2zMjQgTmd1eeG7hW4gVGjhu4sgTmdoxKlhLCBCw6BuIE5naMOoLCBRdeG6rW4gMSwgVGjDoG5oIHBo4buRIEjhu5MgQ2jDrSBNaW5oLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1624511234567!5m2!1svi!2s" ...></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Newsletter Section -->
+    <div class="newsletter-section">
+        <h2 class="newsletter-title">Tham Gia Cộng Đồng Của Chúng Tôi</h2>
+        <p class="newsletter-subtitle">Đăng ký để nhận quyền truy cập sớm vào các Thực Đơn, Ưu Đãi, Tin Tức và các Cập Nhật mới nhất của chúng tôi</p>
+        
+        <div class="newsletter-form">
+            <input type="text" class="newsletter-input" placeholder="Tên">
+            <input type="text" class="newsletter-input" placeholder="Họ">
+            <input type="email" class="newsletter-input" placeholder="Địa chỉ Email của bạn">
+            <button class="newsletter-submit">Đăng Ký</button>
+        </div>
+
+        <p class="newsletter-note">
+            Mọi thông tin của khách hàng sẽ được bảo mật và không chia sẻ cho các bên khác.<br>
+            Bạn có thể hủy đăng ký với chúng tôi bất cứ lúc nào.
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>ĐỊA CHỈ</h3>
+                <p>24 Nguyễn Thị Nghĩa, Phường Bến Thành, Quận 1,</p>
+                <p>TP.HCM, Việt Nam</p>
+            </div>
+            <div class="footer-section">
+                <h3>GIỜ MỞ CỬA</h3>
+                <p>Thứ Hai – Chủ Nhật</p>
+                <p>10:00 – 23:00</p>
+            </div>
+            <div class="footer-section">
+                <h3>LIÊN HỆ</h3>
+                <p>tuafrenguyonbusauday.vn</p>
+                <p>+841 62 389 6980</p>
+            </div>
+            <div class="footer-section">
+                <h3>THEO DÕI CHÚNG TÔI</h3>
+                <div class="footer-social">
+                    <a href="#" class="footer-social-icon">f</a>
+                    <a href="#" class="footer-social-icon">in</a>
+                    <a href="#" class="footer-social-icon">▶</a>
+                    <a href="#" class="footer-social-icon">📧</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© Copyright 2024. All rights reserved</p>
+        </div>
+    </footer>
+</body>
+</html>
