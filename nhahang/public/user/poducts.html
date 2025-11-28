@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIZZA & PASTA - Food Delivery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #E6D9CE;
+        }
+
+        /* Top Banner */
+        .top-banner {
+            background-color: #3D3934;
+            color: white;
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 13px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .top-banner a {
+            color: white;
+            text-decoration: underline;
+            margin-left: 10px;
+        }
+
+        /* Header */
+        .header {
+            background-color: #C4B5A8;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: #3D3934;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            overflow: hidden;
+        }
+        .logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;  
+        }
+
+        .brand-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #3D3934;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            margin-left: 50px;
+        }
+
+        .nav-menu a {
+            color: #3D3934;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #8B7355;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .auth-btn {
+            background: transparent;
+            color: #3D3934;
+            border: 1px solid #3D3934;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .auth-btn:hover {
+            background: #3D3934;
+            color: white;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .social-icon.facebook {
+            background: #1877F2;
+            color: white;
+        }
+
+        .social-icon.zalo {
+            background: #0068FF;
+            color: white;
+        }
+
+        .social-icon.phone {
+            background: #E53935;
+            color: white;
+        }
+
+        /* Sub Header */
+        .sub-header {
+            background-color: #D9D9D9;
+            padding: 12px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #3D3934;
+        }
+
+        .sub-header-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .hotline {
+            color: #E53935;
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #3D3934;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+        }
+
+        /* Menu Categories */
+        .menu-categories {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+        }
+
+        .category-name {
+            padding: 15px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: #0066CC;
+        }
+
+        /* Product Section */
+        .products-section h2 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #3D3934;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .product-card {
+            background: linear-gradient(to bottom, white 0%, white 45%, #F5F0E8 45%, #F5F0E8 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.3s;
+            position: relative;
+            border: 3px solid #E8DFD1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .special-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #00B300;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        .product-img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2C3E50;
+            margin-bottom: 20px;
+        }
+
+        .product-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .add-to-cart-btn {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: 2px solid #3D3934;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 24px;
+            color: #3D3934;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #3D3934;
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2C3E50;
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .cart-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #3D3934;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .cart-icon {
+            width: 120px;
+            height: 120px;
+            background: #2C3E50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .cart-icon i {
+            font-size: 60px;
+            color: white;
+        }
+
+        .cart-empty-text {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #D4C5B9;
+            padding: 60px 40px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-main {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #3D3934;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .footer-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 40px;
+        }
+
+        .footer-form {
+            display: flex;
+            gap: 15px;
+            max-width: 1000px;
+            margin: 0 auto 20px;
+            align-items: center;
+        }
+
+        .footer-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 1px solid #999;
+            border-radius: 5px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .footer-submit {
+            background: #3D3934;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background 0.3s;
+        }
+
+        .footer-submit:hover {
+            background: #2C2824;
+        }
+
+        .footer-note {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            max-width: 800px;
+            margin: 0 auto 50px;
+            line-height: 1.6;
+        }
+
+        .footer-info {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .footer-info-item h3 {
+            font-size: 14px;
+            font-weight: bold;
+            color: #3D3934;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .footer-info-item p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .footer-social-icon {
+            width: 40px;
+            height: 40px;
+            background: #3D3934;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .footer-social-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .footer-copyright {
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid #999;
+            color:    white;
+            font-size: 13px;
+            background-color :#382F24;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Banner -->
+    <div class="top-banner">
+        <span>NẾU BẠN KHÔNG CÓ SỐ ĐIỆN THOẠI VIỆT NAM, BẠN CÓ THỂ ĐẶT BẠN QUA</span>
+        <a href="#">FANPAGE</a>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <div class="logo-circle"><img src="img/logo.jpg" alt=""></div>
+            </div>
+            <div class="brand-name">PIZZA &<br>PASTA</div>
+            <ul class="nav-menu">
+                <li><a href="#">Về Chúng Tôi</a></li>
+                <li><a href="#">Thực Đơn</a></li>
+                <li><a href="#">Sự Kiện</a></li>
+                <li><a href="#">Báo Chí</a></li>
+                <li><a href="#">Đặt Bàn</a></li>
+                <li><a href="#">Liên Hệ</a></li>
+            </ul>
+        </div>
+        <div class="header-right">
+            <div class="auth-buttons">
+                <button class="auth-btn">Đăng Nhập</button>
+                <button class="auth-btn">Đăng Ký</button>
+            </div>
+            <div class="social-icons">
+                <div class="social-icon facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </div>
+                <div class="social-icon zalo">
+                    <span style="font-weight: bold; font-size: 18px;">Z</span>
+                </div>
+                <div class="social-icon phone">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sub Header -->
+    <div class="sub-header">
+        <div class="sub-header-item">Chính sách giao hàng</div>
+        <div class="sub-header-item">Chính sách đổi trả hoàn tiền</div>
+        <div class="sub-header-item">
+            Đường dây nóng: <span class="hotline">19001000</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="breadcrumb">Thực đơn/Delivery combo</div>
+        
+        <h1 class="section-title">Thực Đơn</h1>
+
+        <!-- Menu Categories -->
+        <div class="menu-categories">
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=300&h=300&fit=crop" alt="Delivery Combo" class="category-img">
+                <div class="category-name">Delivery Combo</div>
+            </div>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300&h=300&fit=crop" alt="Bánh pizza" class="category-img">
+                <div class="category-name">Bánh pizza</div>
+            </div>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=300&h=300&fit=crop" alt="Khai vị" class="category-img">
+                <div class="category-name">Khai vị</div>
+            </div>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=300&h=300&fit=crop" alt="Món chính/ mì ý" class="category-img">
+                <div class="category-name">Món chính/ mì ý</div>
+            </div>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop" alt="Salad" class="category-img">
+                <div class="category-name">Salad</div>
+            </div>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300&h=300&fit=crop" alt="Thức uống" class="category-img">
+                <div class="category-name">Thức uống</div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <!-- Products Section -->
+            <div class="products-section">
+                <h2>Delivery Combo</h2>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <span class="special-badge">Món Đặc Biệt</span>
+                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=400&fit=crop" alt="Happy Pasta" class="product-img">
+                        <div class="product-info">
+                            <div class="product-name">Happy Family</div>
+                            <div class="product-actions">
+                                <button class="add-to-cart-btn">+</button>
+                                <div class="product-price">695,000 vnđ</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <span class="special-badge">Món Đặc Biệt</span>
+                        <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&h=400&fit=crop" alt="Wow Pasta" class="product-img">
+                        <div class="product-info">
+                            <div class="product-name">Wow Pasta</div>
+                            <div class="product-actions">
+                                <button class="add-to-cart-btn">+</button>
+                                <div class="product-price">550,000 vnđ</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <span class="special-badge">Món Đặc Biệt</span>
+                        <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=400&h=400&fit=crop" alt="Wow Pizza" class="product-img">
+                        <div class="product-info">
+                            <div class="product-name">Wow Pizza</div>
+                            <div class="product-actions">
+                                <button class="add-to-cart-btn">+</button>
+                                <div class="product-price">540,000 vnđ</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=400&h=400&fit=crop" alt="Happy Ribs" class="product-img">
+                        <div class="product-info">
+                            <div class="product-name">Happy Ribs</div>
+                            <div class="product-actions">
+                                <button class="add-to-cart-btn">+</button>
+                                <div class="product-price">275,000 vnđ</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&h=400&fit=crop" alt="Classic Delight" class="product-img">
+                        <div class="product-info">
+                            <div class="product-name">Classic Delight</div>
+                            <div class="product-actions">
+                                <button class="add-to-cart-btn">+</button>
+                                <div class="product-price">455,000 vnđ</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=400&h=400&fit=crop" alt="Sizzler Pizza" class="product-img">
+                        <div class="product-info">
+                            <div class="product-name">Sizzler Pizza</div>
+                            <div class="product-actions">
+                                <button class="add-to-cart-btn">+</button>
+                                <div class="product-price">455,000 vnđ</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cart Sidebar -->
+            <aside class="cart-sidebar">
+                <h2 class="cart-title">Giỏ hàng của tôi</h2>
+                <div class="cart-empty">
+                    <div class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <p class="cart-empty-text">Giỏ hàng của bạn đang trống</p>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-main">
+            <h2 class="footer-title">Tham Gia Cộng Đồng Của Chúng Tôi</h2>
+            <p class="footer-subtitle">Đăng ký để nhận quyền truy cập sớm vào các Thực Đơn, Ưu Đãi, Tin Tức và các Cập Nhật mới nhất của chúng tôi</p>
+            
+            <div class="footer-form">
+                <input type="text" class="footer-input" placeholder="Tên">
+                <input type="text" class="footer-input" placeholder="Họ">
+                <input type="email" class="footer-input" placeholder="Địa chỉ Email của bạn">
+                <button class="footer-submit">Đăng Ký</button>
+            </div>
+
+            <p class="footer-note">
+                Mọi thông tin của khách hàng sẽ được bảo mật và không chia sẻ cho các bên khác.<br>
+                Bạn có thể hủy đăng ký với chúng tôi bất cứ lúc nào.
+            </p>
+
+            <div class="footer-info">
+                <div class="footer-info-item">
+                    <h3>Địa Chỉ</h3>
+                    <p>24 Nguyễn Thị Nghĩa, Phường Bến Thành, Quận 1,<br>TP.HCM, Việt Nam</p>
+                </div>
+                <div class="footer-info-item">
+                    <h3>Giờ Mở Cửa</h3>
+                    <p>Thứ Hai - Chủ Nhật<br>10:30 - 23:00</p>
+                </div>
+                <div class="footer-info-item">
+                    <h3>Liên Hệ</h3>
+                    <p>booking@bomhospitality.vn<br>(+84) 82 399 9980</p>
+                </div>
+                <div class="footer-info-item">
+                    <h3>Theo Dõi Chúng Tôi</h3>
+                    <div class="footer-social">
+                        <div class="footer-social-icon">
+                            <i class="fab fa-facebook-f"></i>
+                        </div>
+                        <div class="footer-social-icon">
+                            <i class="fab fa-tiktok"></i>
+                        </div>
+                        <div class="footer-social-icon">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <div class="footer-social-icon">
+                            <i class="fab fa-linkedin-in"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-copyright">
+                © Copyright 2024. All rights reserved
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
