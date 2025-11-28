@@ -1,4 +1,7 @@
 <!-- Hero Section -->
+ <?php
+$base_url_path = '/WD20302-PRO1014_N5/nhahang/';
+?>
     <section class="hero">
         <div class="hero-images">
             <div class="hero-image"></div>
@@ -45,57 +48,31 @@
         <div class="container">
             <h2 class="section-title">PHỔ BIẾN NHẤT</h2>
             <div class="dish-grid">
+                <?php 
+                // Biến $popularProducts được Controller gửi sang.
+                if (!empty($popularProducts)): 
+                    
+                    foreach ($popularProducts as $product):
+                        // CÁC CỘT DỮ LIỆU: id_mon, ten_mon, gia, hinh_anh
+                ?>
+                
                 <div class="dish-card">
-                    <div class="dish-badge">Dáng thử</div>
-                    <div class="dish-image" style="background-image: url('https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400')"></div>
+                    <div class="dish-image" style="background-image: url('<?php echo htmlspecialchars($product['hinh_anh']); ?>')"></div>
                     <div class="dish-info">
-                        <p class="dish-name">Pizza 4 loại phô mai<br>nhà làm</p>
+                        <p class="dish-name"><?php echo htmlspecialchars($product['ten_mon']); ?></p>
                         <div class="dish-footer">
                             <button class="add-btn">+</button>
-                            <p class="dish-price">168,000 vnđ</p>
+                            <p class="dish-price"><?php echo number_format($product['gia'], 0, ',', '.'); ?> vnđ</p>
                         </div>
                     </div>
                 </div>
-                <div class="dish-card">
-                    <div class="dish-image" style="background-image: url('https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400')"></div>
-                    <div class="dish-info">
-                        <p class="dish-name">Mỳ ý cua<br>xé với hải sản & rau củ</p>
-                        <div class="dish-footer">
-                            <button class="add-btn">+</button>
-                            <p class="dish-price">22,000 vnđ</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="dish-card">
-                    <div class="dish-image" style="background-image: url('https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=400')"></div>
-                    <div class="dish-info">
-                        <p class="dish-name">Pizza 3 loại phô mai<br>căm bơn</p>
-                        <div class="dish-footer">
-                            <button class="add-btn">+</button>
-                            <p class="dish-price">105,000 vnđ</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="dish-card">
-                    <div class="dish-image" style="background-image: url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400')"></div>
-                    <div class="dish-info">
-                        <p class="dish-name">Sò điệp nướng rau<br>phòng&phô ma & thịt cua</p>
-                        <div class="dish-footer">
-                            <button class="add-btn">+</button>
-                            <p class="dish-price">55,000 vnđ</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="dish-card">
-                    <div class="dish-image" style="background-image: url('https://images.unsplash.com/photo-1567337710282-00d5aa220013?w=400')"></div>
-                    <div class="dish-info">
-                        <p class="dish-name">Mỳ ý bò băm xá xíu thịt<br>ba chỉ</p>
-                        <div class="dish-footer">
-                            <button class="add-btn">+</button>
-                            <p class="dish-price">45,000 vnđ</p>
-                        </div>
-                    </div>
-                </div>
+
+                <?php 
+                    endforeach; 
+                else:
+                ?>
+                <p>Hiện chưa có món ăn phổ biến nào để hiển thị.</p>
+                <?php endif; ?>
                 
             </div>
         </div>
