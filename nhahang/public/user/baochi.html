@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIZZA & PASTA - Báo Chí & Tin Tức</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background: #E6D9CE;
+        }
+        
+        /* Header */
+        .header {
+            background: #4A4A4A;
+            padding: 8px 0;
+        }
+        
+        .top-banner {
+            text-align: left;
+            font-size: 11px;
+            color: white;
+            letter-spacing: 0.5px;
+            padding: 8px;
+            background: #3D3934;
+        }
+        
+        .top-banner a {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background: #E6D9CE;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-circle {
+            width: 50px;
+            height: 50px;
+            background: #8B6F47;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .logo-text h2 {
+            font-size: 14px;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+        
+        .nav-menu a {
+            color: #333;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-menu a:hover {
+            color: #8B6F47;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        
+        .auth-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .auth-btn {
+            background: transparent;
+            color: #3D3934;
+            border: 1px solid #3D3934;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .auth-btn:hover {
+            background: #3D3934;
+            color: white;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .social-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+        
+        .social-icon.facebook {
+            background: #1877F2;
+            color: white;
+        }
+        
+        .social-icon.instagram {
+            background: #E4405F;
+            color: white;
+        }
+        
+        .social-icon.phone {
+            background: #E91E63;
+            color: white;
+        }
+        
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: #E6D9CE;
+        }
+        
+        .page-header h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .category-tab {
+            padding: 12px 30px;
+            background: #4A3829;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .category-tab:hover {
+            background: #5A4839;
+            transform: translateY(-2px);
+        }
+        
+        .category-tab.active {
+            background: #6B5848;
+        }
+        
+        /* News Articles Section */
+        .news-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .news-grid {
+            display: grid;
+            gap: 40px;
+        }
+        
+        /* Featured Article */
+        .featured-article {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .featured-image {
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .featured-content {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .featured-content h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+        
+        .featured-content p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .read-more-btn {
+            padding: 10px 25px;
+            background: transparent;
+            color: #4A3829;
+            border: 2px solid #4A3829;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+            align-self: flex-start;
+        }
+        
+        .read-more-btn:hover {
+            background: #4A3829;
+            color: white;
+        }
+        
+        /* Highlighted Article with Border */
+        .highlighted-article {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            border: 4px dashed #4A9FD8;
+            border-radius: 15px;
+            padding: 30px;
+            background: rgba(74, 159, 216, 0.05);
+        }
+        
+        .highlighted-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .highlighted-content h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .highlighted-content p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .highlighted-image {
+            height: 350px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+        }
+        
+        /* Regular Article */
+        .regular-article {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .article-image {
+            height: 350px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .article-content {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .article-content h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+        
+        .article-content p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        /* Full Width Article */
+        .full-width-article {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .full-width-image {
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .full-width-content {
+            padding: 40px;
+        }
+        
+        .full-width-content h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .full-width-content p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        /* Community Section */
+        .community-section {
+            background: #DDD6CB;
+            padding: 50px 0;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .community-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .community-section p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .subscribe-form {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr auto;
+            gap: 10px;
+        }
+        
+        .subscribe-form input {
+            padding: 12px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 13px;
+            background: white;
+        }
+        
+        .subscribe-form button {
+            padding: 12px 25px;
+            background: #382F24;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .subscribe-form button:hover {
+            background: #4A4037;
+        }
+        
+        .subscribe-note {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #DDD6CB;
+            color: #333;
+            padding: 40px 0 0;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 50px 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .footer-section p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        
+        .footer-social-icon {
+            width: 35px;
+            height: 35px;
+            background: #666;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        
+        .footer-social-icon:hover {
+            background: #333;
+        }
+        
+        .footer-bottom {
+            background: #382F24;
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        @media (max-width: 968px) {
+            .featured-article,
+            .highlighted-article,
+            .regular-article {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .subscribe-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .category-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="top-banner">
+            NẾU BẠN KHÔNG CÓ SỐ ĐIỆN THOẠI VIỆT NAM, BẠN CÓ THỂ ĐẶT BÀN QUA <a href="#">FANPAGE</a>
+        </div>
+        <nav class="nav-bar">
+            <div class="logo">
+                <div class="logo-circle">P&P</div>
+                <div class="logo-text">
+                    <h2>PIZZA &<br>PASTA</h2>
+                </div>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="chungtoi.html">Về Chúng Tôi</a></li>
+                <li><a href="#menu">Thực Đơn</a></li>
+                <li><a href="sukien.html">Sự Kiện</a></li>
+                <li><a href="baochi.html">Báo Chí</a></li>
+                <li><a href="datban.html">Đặt Bàn</a></li>
+                <li><a href="#contact">Liên Hệ</a></li>
+            </ul>
+            <div class="nav-right">
+                <div class="auth-links">
+                    <button class="auth-btn">Đăng Nhập</button>
+                    <button class="auth-btn">Đăng Ký</button>
+                </div>
+                <div class="social-icons">
+                    <a href="#" class="social-icon facebook">f</a>
+                    <a href="#" class="social-icon instagram">📷</a>
+                    <a href="#" class="social-icon phone">📞</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>Tư liệu truyền thông</h1>
+        <div class="category-tabs">
+            <a href="#" class="category-tab active">
+                KHÔNG GIAN ⬇
+            </a>
+            <a href="#" class="category-tab">
+                F & B ⬇
+            </a>
+            <a href="#" class="category-tab">
+                SỰ KIỆN ⬇
+            </a>
+        </div>
+    </section>
+
+    <!-- News Articles Section -->
+    <section class="news-section">
+        <div class="news-grid">
+            
+            <!-- Featured Article 1 -->
+            <article class="featured-article">
+                <div class="featured-image" style="background-image: url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=600')"></div>
+                <div class="featured-content">
+                    <h2>Bôm Kitchen & Winebar – Cú twist trong ẩm thực truyền thống</h2>
+                    <p>Qua một hành lang mở, ban được vào không gian được trang trí bằng tre, mứa, gỗ và mây dân, vấy quanh họ sung thành khác mhau, những câu chuyện ám bánh về bèn bánh trà, cùng ký tách sư xá vào nhau. Một không gian không thể nào Việt Nam hơn, nhưng nó không gỡ bạn trữ, thềm các của cao bạn trư song, cho bạn một trái nghệm khác.</p>
+                    <button class="read-more-btn">ĐỌC TIẾP</button>
+                </div>
+            </article>
+
+            <!-- Highlighted Article with Border -->
+            <article class="highlighted-article">
+                <div class="highlighted-content">
+                    <h2>Bôm Kitchen & Winebar – Cú twist trong ẩm thực truyền thống</h2>
+                    <p>Qua một hành lang mở, ban được vào không gian được trang trí bằng tre, mứa, gỗ và mây dân, vấy quanh họ sung thành khác mhau, những câu chuyện ám bánh về bèn bánh trà, cùng ký tách sư xá vào nhau. Một không gian không thể nào Việt Nam hơn, nhưng nó không gỡ bạn trữ, thềm các của cao bạn trư song, cho bạn một trái nghệm khác.</p>
+                    <button class="read-more-btn">ĐỌC TIẾP</button>
+                </div>
+                <div class="highlighted-image" style="background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600')"></div>
+            </article>
+
+            <!-- Regular Article 2 -->
+            <article class="regular-article">
+                <div class="article-image" style="background-image: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600')"></div>
+                <div class="article-content">
+                    <h2>Bom Kitchen & Winebar ra mắt nhà hàng flagship mới tại Sài Gòn</h2>
+                    <p>Những khác giả Việt Nam của chúng tỏ hẳn sẽ mở đến Bom, một bật tương âm thử Việt Nam mổ tiếng tử thưa ấu thứ. Trong trường hợp này, Jen Do mang đến chúng ta một hiểu lầm hoàn toàn mới. Không xem là Bồm chủ đỏ khâh thả giới, chỉa xẻ nhằm đảm mả âm thực Việt khảo, đồng thời hoàn phả xẽ có mơn ngon trong khả năng tại chính căn nhà.</p>
+                    <button class="read-more-btn">ĐỌC TIẾP</button>
+                </div>
+            </article>
+
+            <!-- Full Width Article -->
+            <article class="full-width-article">
+                <div class="full-width-image" style="background-image: url('https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=1200')"></div>
+                <div class="full-width-content">
+                    <h2>Ngọn Lửa Việt Nam – Hành Trình Day Nhiệt Huyết Từ Bếp & Quầy Rượu Bom đến Startup Khách Sạn Đang Lên</h2>
+                    <p>Bom Hospitality đã là một ngọn lửa đài đáng cùng chời trên cải trường F&B Việt Nam kể từ năm 2022, mang đến một làn gió mới vội thương hiệu bếp của mình Bom. Thọy vào đó, đây là nơi bạn trồn cái không âm là Á Đông, tìm kiếm những món ấn Á Đông tỉnh tê vúy bằng thời đại tại nhiều thành phố lớn cửu Việt Nam.</p>
+                    <button class="read-more-btn">ĐỌC TIẾP</button>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="community-section">
+        <div class="container">
+            <h2>THAM GIA CỘNG ĐỒNG CỦA CHÚNG TÔI</h2>
+            <p>Đăng ký để nhận thông tin khuyến mại mới nhất về Thực Đơn, Ưu Đãi, Tin Tức và Sự Kiện của chúng tôi</p>
+            <form class="subscribe-form">
+                <input type="text" placeholder="Tên">
+                <input type="text" placeholder="Họ">
+                <input type="email" placeholder="Địa chỉ Email của bạn">
+                <button type="submit">ĐĂNG KÝ</button>
+            </form>
+            <p class="subscribe-note">Mọi thông tin được bảo mật theo chính sách của chúng tôi. Bạn có thể hủy đăng ký bất cứ lúc nào.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>ĐỊA CHỈ</h3>
+                <p>24 Nguyễn Thị Nghĩa,</p>
+                <p>Phường Bến Thành, Quận 1,</p>
+                <p>TP.HCM, Việt Nam</p>
+            </div>
+            <div class="footer-section">
+                <h3>GIỜ MỞ CỬA</h3>
+                <p>Thứ Hai – Chủ Nhật</p>
+                <p>10:00 – 23:00</p>
+            </div>
+            <div class="footer-section">
+                <h3>LIÊN HỆ</h3>
+                <p>contact@pizzapasta.vn</p>
+                <p>+84 162 389 6980</p>
+            </div>
+            <div class="footer-section">
+                <h3>THEO DÕI CHÚNG TÔI</h3>
+                <div class="footer-social">
+                    <a href="#" class="footer-social-icon">f</a>
+                    <a href="#" class="footer-social-icon">in</a>
+                    <a href="#" class="footer-social-icon">▶</a>
+                    <a href="#" class="footer-social-icon">📧</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© Copyright 2024. All rights reserved</p>
+        </div>
+    </footer>
+</body>
+</html>
