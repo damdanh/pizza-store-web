@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập - PIZZA & PASTA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #E6D9CE;
+        }
+
+        /* Top Banner */
+        .top-banner {
+            background-color: #3D3934;
+            color: white;
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 13px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .top-banner a {
+            color: white;
+            text-decoration: underline;
+            margin-left: 10px;
+        }
+
+        /* Header */
+        .header {
+            background-color: #C4B5A8;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: #3D3934;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            overflow: hidden;
+        }
+          .logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;  
+        }
+
+        .brand-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #3D3934;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            margin-left: 50px;
+        }
+
+        .nav-menu a {
+            color: #3D3934;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #8B7355;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .auth-btn {
+            background: transparent;
+            color: #3D3934;
+            border: 1px solid #3D3934;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .auth-btn:hover {
+            background: #3D3934;
+            color: white;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .social-icon.facebook {
+            background: #1877F2;
+            color: white;
+        }
+
+        .social-icon.zalo {
+            background: #0068FF;
+            color: white;
+        }
+
+        .social-icon.phone {
+            background: #E53935;
+            color: white;
+        }
+
+        /* Sub Header */
+        .sub-header {
+            background-color: #D9D9D9;
+            padding: 12px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #3D3934;
+        }
+
+        .sub-header-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .hotline {
+            color: #E53935;
+            font-weight: bold;
+        }
+
+        /* Login Section */
+        .login-container {
+            max-width: 1400px;
+            margin: 60px auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px 60px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .login-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #3D3934;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #8B7355;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .forgot-password a {
+            color: #666;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        .forgot-password a:hover {
+            color: #3D3934;
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: #E6D9CE;
+            color: black;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
+
+        .login-btn:hover {
+            background: #6B5335;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: #ddd;
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        .divider-text {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .google-login-btn {
+            width: 100%;
+            padding: 15px;
+            background: #E6D9CE;
+            color: #3D3934;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .google-login-btn:hover {
+            background: #f5f5f5;
+            border-color: #999;
+        }
+
+        .privacy-note {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+
+        .privacy-note a {
+            color: #E53935;
+            text-decoration: none;
+        }
+
+        .privacy-note a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .footer {
+            background: #ddd6cb;
+            padding: 60px 40px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-main {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #3D3934;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .footer-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 40px;
+        }
+
+        .footer-form {
+            display: flex;
+            gap: 15px;
+            max-width: 1000px;
+            margin: 0 auto 20px;
+            align-items: center;
+        }
+
+        .footer-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 1px solid #999;
+            border-radius: 5px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .footer-submit {
+            background: #3D3934;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background 0.3s;
+        }
+
+        .footer-submit:hover {
+            background: #2C2824;
+        }
+
+        .footer-note {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            max-width: 800px;
+            margin: 0 auto 50px;
+            line-height: 1.6;
+        }
+
+        .footer-info {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .footer-info-item h3 {
+            font-size: 14px;
+            font-weight: bold;
+            color: #3D3934;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .footer-info-item p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .footer-social-icon {
+            width: 40px;
+            height: 40px;
+            background: #3D3934;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .footer-social-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .footer-copyright {
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid #999;
+            color: white;
+            font-size: 13px;
+            background-color: #382F24;
+            margin: 0 -40px;
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Banner -->
+    <div class="top-banner">
+        <span>NẾU BẠN KHÔNG CÓ SỐ ĐIỆN THOẠI VIỆT NAM, BẠN CÓ THỂ ĐẶT BÀN QUA</span>
+        <a href="#">FANPAGE</a>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+             <img src="img/logo.jpg" alt="">
+            </div>
+            <div class="brand-name">PIZZA &<br>PASTA</div>
+            <ul class="nav-menu">
+                <li><a href="#">Về Chúng Tôi</a></li>
+                <li><a href="#">Thực Đơn</a></li>
+                <li><a href="#">Sự Kiện</a></li>
+                <li><a href="#">Báo Chí</a></li>
+                <li><a href="#">Đặt Bàn</a></li>
+                <li><a href="#">Liên Hệ</a></li>
+            </ul>
+        </div>
+        <div class="header-right">
+            <div class="auth-buttons">
+                <button class="auth-btn">Đăng Nhập</button>
+                <button class="auth-btn">Đăng Ký</button>
+            </div>
+            <div class="social-icons">
+                <div class="social-icon facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </div>
+                <div class="social-icon zalo">
+                    <span style="font-weight: bold; font-size: 18px;">Z</span>
+                </div>
+                <div class="social-icon phone">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sub Header -->
+    <div class="sub-header">
+        <div class="sub-header-item">Chính sách giao hàng</div>
+        <div class="sub-header-item">Chính sách đổi trả hoàn tiền</div>
+        <div class="sub-header-item">
+            Đường dây nóng: <span class="hotline">19001000</span>
+        </div>
+    </div>
+
+    <!-- Login Section -->
+    <div class="login-container">
+        <div class="login-box">
+            <h1 class="login-title">Đăng nhập</h1>
+            
+            <form>
+                <div class="form-group">
+                    <label class="form-label">Tên người dùng</label>
+                    <input type="text" class="form-input" placeholder="Tên người dùng">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Mật khẩu</label>
+                    <input type="password" class="form-input" placeholder="Mật khẩu">
+                </div>
+
+                <div class="forgot-password">
+                    <a href="#">Quên mật khẩu?</a>
+                </div>
+
+                <button type="submit" class="login-btn">Đăng nhập</button>
+            </form>
+
+            <div class="divider">
+                <span class="divider-text">Or</span>
+            </div>
+
+            <button class="google-login-btn">
+                <i class="fab fa-google"></i>
+                Đăng nhập bằng google
+            </button>
+
+            <p class="privacy-note">
+                Tất cả dữ liệu và hình ảnh của Chúng tôi được lưu trữ<br>
+                Bên chúng tôi sẽ không <a href="#">chính sách quyền riêng tư</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-main">
+            <h2 class="footer-title">Tham Gia Cộng Đồng Của Chúng Tôi</h2>
+            <p class="footer-subtitle">Đăng ký để nhận quyền truy cập sớm vào các Thực Đơn, Ưu Đãi, Tin Tức và các Cập Nhật mới nhất của chúng tôi</p>
+            
+            <div class="footer-form">
+                <input type="text" class="footer-input" placeholder="Tên">
+                <input type="text" class="footer-input" placeholder="Họ">
+                <input type="email" class="footer-input" placeholder="Địa chỉ Email của bạn">
+                <button class="footer-submit">Đăng Ký</button>
+            </div>
+
+            <p class="footer-note">
+                Mọi thông tin của khách hàng sẽ được bảo mật và không chia sẻ cho các bên khác.<br>
+                Bạn có thể hủy đăng ký với chúng tôi bất cứ lúc nào.
+            </p>
+
+            <div class="footer-info">
+                <div class="footer-info-item">
+                    <h3>Địa Chỉ</h3>
+                    <p>24 Nguyễn Thị Nghĩa, Phường Bến Thành, Quận 1,<br>TP.HCM, Việt Nam</p>
+                </div>
+                <div class="footer-info-item">
+                    <h3>Giờ Mở Cửa</h3>
+                    <p>Thứ Hai - Chủ Nhật<br>10:30 - 23:00</p>
+                </div>
+                <div class="footer-info-item">
+                    <h3>Liên Hệ</h3>
+                    <p>booking@bomhospitality.vn<br>(+84) 82 399 9980</p>
+                </div>
+                <div class="footer-info-item">
+                    <h3>Theo Dõi Chúng Tôi</h3>
+                    <div class="footer-social">
+                        <div class="footer-social-icon">
+                            <i class="fab fa-facebook-f"></i>
+                        </div>
+                        <div class="footer-social-icon">
+                            <i class="fab fa-tiktok"></i>
+                        </div>
+                        <div class="footer-social-icon">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <div class="footer-social-icon">
+                            <i class="fab fa-linkedin-in"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-copyright">
+                © Copyright 2024. All rights reserved
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
