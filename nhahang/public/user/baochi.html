@@ -4,41 +4,571 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PIZZA & PASTA - Báo Chí & Tin Tức</title>
-    <link rel="stylesheet" href="css/baochi.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background: #E6D9CE;
+        }
+         /* Top Banner */
+         .top-banner {
+            background-color: #3D3934;
+            color: white;
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 13px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .top-banner a {
+            color: white;
+            text-decoration: underline;
+            margin-left: 10px;
+        }
+        .header {
+            background-color: #C4B5A8;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: #3D3934;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            overflow: hidden;
+        }
+        .logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;  
+        }
+
+        .brand-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #3D3934;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            margin-left: 50px;
+        }
+
+        .nav-menu a {
+            color: #3D3934;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #8B7355;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .auth-btn {
+            background: transparent;
+            color: #3D3934;
+            border: 1px solid #3D3934;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .auth-btn:hover {
+            background: #3D3934;
+            color: white;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .social-icon.facebook {
+            background: #1877F2;
+            color: white;
+        }
+
+        .social-icon.zalo {
+            background: #0068FF;
+            color: white;
+        }
+
+        .social-icon.phone {
+            background: #E53935;
+            color: white;
+        }
+        
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: #E6D9CE;
+        }
+        
+        .page-header h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .category-tab {
+            padding: 12px 30px;
+            background: #4A3829;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .category-tab:hover {
+            background: #5A4839;
+            transform: translateY(-2px);
+        }
+        
+        .category-tab.active {
+            background: #6B5848;
+        }
+        
+        /* News Articles Section */
+        .news-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .news-grid {
+            display: grid;
+            gap: 40px;
+        }
+        
+        /* Featured Article */
+        .featured-article {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .featured-image {
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .featured-content {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .featured-content h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+        
+        .featured-content p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .read-more-btn {
+            padding: 10px 25px;
+            background: transparent;
+            color: #4A3829;
+            border: 2px solid #4A3829;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+            align-self: flex-start;
+        }
+        
+        .read-more-btn:hover {
+            background: #4A3829;
+            color: white;
+        }
+        
+        /* Highlighted Article with Border */
+        .highlighted-article {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            border: 4px dashed #4A9FD8;
+            border-radius: 15px;
+            padding: 30px;
+            background: rgba(74, 159, 216, 0.05);
+        }
+        
+        .highlighted-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .highlighted-content h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .highlighted-content p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .highlighted-image {
+            height: 350px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+        }
+        
+        /* Regular Article */
+        .regular-article {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .article-image {
+            height: 350px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .article-content {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .article-content h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+        
+        .article-content p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        /* Full Width Article */
+        .full-width-article {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .full-width-image {
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .full-width-content {
+            padding: 40px;
+        }
+        
+        .full-width-content h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .full-width-content p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        /* Community Section */
+        .community-section {
+            background: #DDD6CB;
+            padding: 50px 0;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .community-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .community-section p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .subscribe-form {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr auto;
+            gap: 10px;
+        }
+        
+        .subscribe-form input {
+            padding: 12px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 13px;
+            background: white;
+        }
+        
+        .subscribe-form button {
+            padding: 12px 25px;
+            background: #382F24;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .subscribe-form button:hover {
+            background: #4A4037;
+        }
+        
+        .subscribe-note {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #DDD6CB;
+            color: #333;
+            padding: 40px 0 0;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 50px 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .footer-section p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        
+        .footer-social-icon {
+            width: 35px;
+            height: 35px;
+            background: #666;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        
+        .footer-social-icon:hover {
+            background: #333;
+        }
+        
+        .footer-bottom {
+            background: #382F24;
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        @media (max-width: 968px) {
+            .featured-article,
+            .highlighted-article,
+            .regular-article {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .subscribe-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .category-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
+    <div class="top-banner">
+        <span>NẾU BẠN KHÔNG CÓ SỐ ĐIỆN THOẠI VIỆT NAM, BẠN CÓ THỂ ĐẶT BẠN QUA</span>
+        <a href="#">FANPAGE</a>
+    </div>
     <header class="header">
-        <div class="top-banner">
-            NẾU BẠN KHÔNG CÓ SỐ ĐIỆN THOẠI VIỆT NAM, BẠN CÓ THỂ ĐẶT BÀN QUA <a href="#">FANPAGE</a>
-        </div>
-        <nav class="nav-bar">
+        <div class="header-left">
             <div class="logo">
-                <div class="logo-circle">P&P</div>
-                <div class="logo-text">
-                    <h2>PIZZA &<br>PASTA</h2>
-                </div>
+                <div class="logo-circle"><img src="img/logo.jpg" alt=""></div>
             </div>
+            <div class="brand-name">PIZZA &<br>PASTA</div>
             <ul class="nav-menu">
                 <li><a href="chungtoi.html">Về Chúng Tôi</a></li>
-                <li><a href="#menu">Thực Đơn</a></li>
+                <li><a href="poducts.html">Thực Đơn</a></li>
                 <li><a href="sukien.html">Sự Kiện</a></li>
                 <li><a href="baochi.html">Báo Chí</a></li>
                 <li><a href="datban.html">Đặt Bàn</a></li>
-                <li><a href="#contact">Liên Hệ</a></li>
+                <li><a href="contact.html">Liên Hệ</a></li>
             </ul>
-            <div class="nav-right">
-                <div class="auth-links">
-                    <button class="auth-btn">Đăng Nhập</button>
-                    <button class="auth-btn">Đăng Ký</button>
+        </div>
+        <div class="header-right">
+            <div class="auth-buttons">
+                <a href="login.html" class="auth-btn">Đăng Nhập</a>
+                <a href="sign_in.html" class="auth-btn">Đăng Ký</a>
+            </div>
+            <div class="social-icons">
+                <div class="social-icon facebook">
+                    <i class="fab fa-facebook-f"></i>
                 </div>
-                <div class="social-icons">
-                    <a href="#" class="social-icon facebook">f</a>
-                    <a href="#" class="social-icon instagram">📷</a>
-                    <a href="#" class="social-icon phone">📞</a>
+                <div class="social-icon zalo">
+                    <span style="font-weight: bold; font-size: 18px;">Z</span>
+                </div>
+                <div class="social-icon phone">
+                    <i class="fas fa-phone-alt"></i>
                 </div>
             </div>
-        </nav>
+        </div>
     </header>
 
     <!-- Page Header -->
