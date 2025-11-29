@@ -4,45 +4,507 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PIZZA & PASTA - Nhà Hàng Ý</title>
-    <link rel="stylesheet" href="css/chungtoi.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background: #E6D9CE;
+        }
+        
+         /* Top Banner */
+         .top-banner {
+            background-color: #3D3934;
+            color: white;
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 13px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .top-banner a {
+            color: white;
+            text-decoration: underline;
+            margin-left: 10px;
+        }
+
+        /* Header */
+        .header {
+            background-color: #C4B5A8;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: #3D3934;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            overflow: hidden;
+        }
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;  
+        }
+
+        .brand-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #3D3934;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            margin-left: 50px;
+        }
+
+        .nav-menu a {
+            color: #3D3934;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #8B7355;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .auth-btn {
+            background: transparent;
+            color: #3D3934;
+            border: 1px solid #3D3934;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .auth-btn:hover {
+            background: #3D3934;
+            color: white;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .social-icon.facebook {
+            background: #1877F2;
+            color: white;
+        }
+
+        .social-icon.zalo {
+            background: #0068FF;
+            color: white;
+        }
+
+        .social-icon.phone {
+            background: #E53935;
+            color: white;
+        }
+        
+        
+        /* Submenu Section */
+        .submenu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background: #D9D9D9;
+        }
+        
+        .policy-item {
+            font-size: 13px;
+            color: #333;
+        }
+        
+        .hotline {
+            font-size: 14px;
+            color: #E91E63;
+            font-weight: bold;
+        }
+        
+        /* Chef Introduction Section */
+        .chef-intro {
+            background: #58453B;
+            padding: 60px 0;
+        }
+        
+        .chef-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 50px;
+            display: flex;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .chef-content {
+            flex: 1;
+            color: white;
+        }
+        
+        .chef-content h2 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .chef-content h3 {
+            font-size: 18px;
+            margin-bottom: 25px;
+            color: #E6D9CE;
+            font-weight: 500;
+        }
+        
+        .chef-content p {
+            line-height: 1.8;
+            font-size: 14px;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .chef-image {
+            flex: 0 0 450px;
+        }
+        
+        .chef-image img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        
+        /* Welcome Section */
+        .welcome-section {
+            background: #E6D9CE;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .welcome-section h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+        
+        .restaurant-image {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 50px;
+        }
+        
+        .restaurant-image img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+        
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 40px;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        /* Blog Section */
+        .menu-section {
+            background: #E6D9CE;
+            padding: 50px 0;
+        }
+        
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .blog-card {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .blog-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .blog-card.selected {
+            border: 4px solid #4A9FD8;
+        }
+        
+        .blog-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        /* Community Section */
+        .community-section {
+            background: #DDD6CB;
+            padding: 50px 0;
+            text-align: center;
+        }
+        
+        .community-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .community-section p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .subscribe-form {
+            max-width: 700px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr) auto;
+            gap: 10px;
+        }
+        
+        .subscribe-form input {
+            padding: 12px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 13px;
+            background: white;
+        }
+        
+        .subscribe-form button {
+            padding: 12px 25px;
+            background: #382F24;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .subscribe-form button:hover {
+            background: #4A4037;
+        }
+        
+        .subscribe-note {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #DDD6CB;
+            color: #333;
+            padding: 40px 0 0;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 50px 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .footer-section p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        
+        .footer-social-icon {
+            width: 35px;
+            height: 35px;
+            background: #666;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        
+        .footer-social-icon:hover {
+            background: #333;
+        }
+        
+        .footer-bottom {
+            background: #382F24;
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        @media (max-width: 768px) {
+            .nav-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .nav-menu {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            .subscribe-form {
+                grid-template-columns: 1fr;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            .chef-container {
+                flex-direction: column;
+            }
+            .chef-image {
+                flex: 1;
+                width: 100%;
+            }
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            .submenu {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Header -->
+    
+       <!-- Header -->
+       <div class="top-banner">
+        <span>NẾU BẠN KHÔNG CÓ SỐ ĐIỆN THOẠI VIỆT NAM, BẠN CÓ THỂ ĐẶT BẠN QUA</span>
+        <a href="#">FANPAGE</a>
+    </div>
     <header class="header">
-        <div class="top-banner">
-            NẾU BẠN KHÔNG CÓ SỐ ĐIỆN THOẠI VIỆT NAM, BẠN CÓ THỂ ĐẶT BẠN QUA <a href="#">FANPAGE</a>
-        </div>
-        <nav class="nav-bar">
+        <div class="header-left">
             <div class="logo">
-                <div class="logo-circle">P&P</div>
-                <div class="logo-text">
-                    <h2>PIZZA &<br>PASTA</h2>
-                </div>
+                <div class="logo-circle"><img src="img/logo.jpg" alt=""></div>
             </div>
+            <div class="brand-name">PIZZA &<br>PASTA</div>
             <ul class="nav-menu">
                 <li><a href="chungtoi.html">Về Chúng Tôi</a></li>
-                <li><a href="#menu">Thực Đơn</a></li>
+                <li><a href="poducts.html">Thực Đơn</a></li>
                 <li><a href="sukien.html">Sự Kiện</a></li>
                 <li><a href="baochi.html">Báo Chí</a></li>
                 <li><a href="datban.html">Đặt Bàn</a></li>
-                <li><a href="#contact">Liên Hệ</a></li>
+                <li><a href="contact.html">Liên Hệ</a></li>
             </ul>
-            <div class="nav-right">
-                <div class="auth-links">
-                    <button class="auth-btn">Đăng Nhập</button>
-                    <button class="auth-btn">Đăng Ký</button>
+        </div>
+        <div class="header-right">
+            <div class="auth-buttons">
+                <a href="login.html" class="auth-btn">Đăng Nhập</a>
+                <a href="sign_in.html" class="auth-btn">Đăng Ký</a>
+            </div>
+            <div class="social-icons">
+                <div class="social-icon facebook">
+                    <i class="fab fa-facebook-f"></i>
                 </div>
-                <div class="social-icons">
-                    <a href="#" class="social-icon facebook">f</a>
-                    <a href="#" class="social-icon zalo">📷</a>
-                    <a href="#" class="social-icon phone">📞</a>
+                <div class="social-icon zalo">
+                    <span style="font-weight: bold; font-size: 18px;">Z</span>
+                </div>
+                <div class="social-icon phone">
+                    <i class="fas fa-phone-alt"></i>
                 </div>
             </div>
-        </nav>
-        <div class="submenu">
-            <div class="policy-item">Chính sách giao hàng</div>
-            <div class="policy-item">Chính sách đổi trả hoàn tiền</div>
-            <div class="hotline">Đường dây nóng: 19001000</div>
         </div>
     </header>
 

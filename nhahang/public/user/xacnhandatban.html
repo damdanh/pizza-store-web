@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đặt Bàn - Pizza & Pasta</title>
+    <title>Xác Nhận Đặt Bàn</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -18,6 +18,7 @@
             color: #333;
             background: #E6D9CE;
         }
+        
          /* Top Banner */
          .top-banner {
             background-color: #3D3934;
@@ -158,6 +159,7 @@
             background: #E53935;
             color: white;
         }
+        
         /* Page Header */
         .page-header {
             text-align: center;
@@ -203,7 +205,6 @@
         }
         
         
-        /* Booking Section */
         .booking-container {
             max-width: 1200px;
             margin: 60px auto;
@@ -211,105 +212,105 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 60px;
+            align-items: stretch;
         }
         
         .booking-image {
-            background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600');
-            background-size: cover;
-            background-position: center;
+            width: 100%;
             border-radius: 15px;
-            min-height: 500px;
-        }
-        
-        .booking-form-section {
+            overflow: hidden;
+            height: 100%; 
+}
+            .booking-image img {
+                width: 100%;
+                height: 100%; /* Quan trọng: làm cho ảnh chiếm toàn bộ chiều cao */
+                object-fit: cover; /* Quan trọng: đảm bảo ảnh không bị méo và lấp đầy không gian */
+                border-radius: 15px; /* Giữ bo góc cho ảnh */
+            }
+                    
+        .booking-info-section {
             background: white;
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
         
-        .booking-form-section h2 {
+        .booking-info-section h2 {
             font-size: 32px;
-            margin-bottom: 10px;
-            color: #333;
+            margin-bottom: 30px;
         }
         
-        .booking-date {
+        .booking-summary {
+            margin-bottom: 30px;
+        }
+        
+        .booking-summary h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .info-item {
             display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            font-size: 14px;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .info-label {
             color: #666;
+            font-size: 14px;
         }
         
-        .form-section {
+        .info-value {
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .contact-details {
+            background: #F9F9F9;
+            padding: 20px;
+            border-radius: 10px;
             margin-bottom: 30px;
         }
         
-        .form-section h3 {
+        .contact-details h3 {
             font-size: 16px;
             margin-bottom: 15px;
-            color: #333;
         }
         
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
+        .contact-details p {
             font-size: 14px;
             color: #666;
+            line-height: 1.8;
         }
         
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-        
-        .form-row {
+        .button-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
         
-        .location-select {
-            background: #F5F5F5;
+        .back-btn {
             padding: 15px;
+            background: #E4DACF;
+            color: #333;
             border-radius: 5px;
-            margin-bottom: 20px;
+            font-size: 16px;
+            cursor: pointer;
         }
         
         .submit-btn {
-            width: 100%;
             padding: 15px;
-            background: #E4DACF; /* Màu nền đậm */
-            color: white; /* Chữ màu trắng */
+            background: #E4DACF;
+            color: #333;
+            border: none;
             border-radius: 5px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center; 
-            display: block; 
-            text-decoration: none; /* Bỏ gạch chân mặc định của thẻ <a> */
-            margin-top: 30px; /* Thêm khoảng cách phía trên nút */
         }
         
-        .submit-btn:hover {
-            background: #6B5848; /* Màu hover sáng hơn một chút */
-          
-
-        }
-        /* ----------------------------------------------- */
-        
-        /* Community Section */
         .community-section {
             background: #DDD6CB;
             padding: 50px 0;
@@ -321,7 +322,6 @@
             color: #333;
             margin-bottom: 15px;
             font-size: 24px;
-            font-weight: bold;
         }
         
         .subscribe-form {
@@ -336,7 +336,6 @@
             padding: 12px 15px;
             border: none;
             border-radius: 5px;
-            font-size: 13px;
         }
         
         .subscribe-form button {
@@ -346,14 +345,10 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 13px;
-            font-weight: bold;
         }
         
-        /* Footer */
         .footer {
             background: #DDD6CB;
-            color: #333;
             padding: 40px 0 0;
         }
         
@@ -369,14 +364,12 @@
         .footer-section h3 {
             margin-bottom: 15px;
             font-size: 15px;
-            font-weight: bold;
         }
         
         .footer-section p {
             color: #666;
             font-size: 13px;
             line-height: 1.8;
-            margin-bottom: 8px;
         }
         
         .footer-social {
@@ -401,17 +394,12 @@
             background: #382F24;
             text-align: center;
             padding: 15px;
-            font-size: 12px;
             color: rgba(255,255,255,0.7);
         }
         
         @media (max-width: 968px) {
             .booking-container {
                 grid-template-columns: 1fr;
-            }
-            .nav-bar {
-                flex-direction: column;
-                gap: 15px;
             }
             .subscribe-form {
                 grid-template-columns: 1fr;
@@ -423,7 +411,8 @@
     </style>
 </head>
 <body>
-     <div class="top-banner">
+       <!-- Header -->
+       <div class="top-banner">
         <span>NẾU BẠN KHÔNG CÓ SỐ ĐIỆN THOẠI VIỆT NAM, BẠN CÓ THỂ ĐẶT BẠN QUA</span>
         <a href="#">FANPAGE</a>
     </div>
@@ -462,86 +451,93 @@
     </header>
 
     <section class="booking-container">
-        <div class="booking-image"></div>
+        <div class="booking-image"> <img src="img/Screenshot 2025-11-29 at 00.38.02.png" alt=""></div>
         
-        <div class="booking-form-section">
+        <div class="booking-info-section">
             <h2>ĐẶT BÀN</h2>
-            <div class="booking-date">
-                <span>📅 Mon 12, 2025</span>
-                <span>👤 7052</span>
-                <span>📝</span>
-            </div>
             
-            <form id="bookingForm">
-                <div class="form-section">
-                    <h3>Điền thông tin đặt bàn</h3>
-                    <p style="font-size: 13px; color: #999; margin-bottom: 20px;">Nhập</p>
-                    
-                    <div class="form-group">
-                        <label>Số lượng người *</label>
-                        <input type="number" value="2" min="1">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Thời gian</label>
-                        <select>
-                            <option>17:00:00</option>
-                        </select>
-                    </div>
+            <div class="booking-summary">
+                <h3>Xác nhận thông tin chi tiết của bạn</h3>
+                
+                <div class="info-item">
+                    <span class="info-label">Cho bằng: BOM - Kitchen & Wine Bar</span>
+                    <span class="info-value"></span>
                 </div>
                 
-                <div class="form-section">
-                    <h3>Chọ vùng</h3>
-                    <div class="location-select">
-                        <select style="width: 100%; padding: 10px; border: none; background: white; border-radius: 5px;">
-                            <option>Pizza & Pasta - 24 Nguyễn Thị Nghĩa -</option>
-                        </select>
-                    </div>
+                <div class="info-item">
+                    <span class="info-label">Số lượng người: 2</span>
+                    <span class="info-value"></span>
                 </div>
-                </form>
+                
+                <div class="info-item">
+                    <span class="info-label">Ngày: Nov. 14, 2025 10:00 PM</span>
+                    <span class="info-value"></span>
+                </div>
+                
+                <div class="info-item">
+                    <span class="info-label">Số điện thoại: +84235054800</span>
+                    <span class="info-value"></span>
+                </div>
+                
+                <div class="info-item">
+                    <span class="info-label">Tên: Sở Tài Mặc</span>
+                    <span class="info-value"></span>
+                </div>
+                
+                <div class="info-item">
+                    <span class="info-label">Email: tientiet19@gmail.com</span>
+                    <span class="info-value"></span>
+                </div>
+                
+                <div class="info-item" style="border-bottom: none;">
+                    <span class="info-label">Notes:</span>
+                    <span class="info-value"></span>
+                </div>
+            </div>
             
-            <a href="chitietdatban.html" class="submit-btn">Tiếp tục</a>
+            <div class="button-group">
+                <button class="back-btn">Quay lại</button>
+                <button class="submit-btn">Xác nhận</button>
+            </div>
         </div>
     </section>
 
     <section class="community-section">
         <h2>THAM GIA CỘNG ĐỒNG CỦA CHÚNG TÔI</h2>
-        <p style="color: #666; margin-bottom: 30px;">Đăng ký để nhận thông tin mới nhất về Thực Đơn, Ưu Đãi, Tin Tức và Sự Kiện</p>
+        <p style="color: #666; margin-bottom: 30px;">Đăng ký để nhận thông tin mới nhất</p>
         <form class="subscribe-form">
             <input type="text" placeholder="Tên">
             <input type="text" placeholder="Họ">
-            <input type="email" placeholder="Địa chỉ Email">
-            <button type="submit">ĐĂNG KÝ</button>
+            <input type="email" placeholder="Email">
+            <button>ĐĂNG KÝ</button>
         </form>
-        <p style="font-size: 12px; color: #666; margin-top: 15px;">Mọi thông tin được bảo mật. Bạn có thể hủy đăng ký bất cứ lúc nào.</p>
     </section>
 
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
                 <h3>ĐỊA CHỈ</h3>
-                <p>24 Nguyễn Thị Nghĩa, Phường Bến Thành, Quận 1, TP.HCM</p>
+                <p>24 Nguyễn Thị Nghĩa, Q.1, TP.HCM</p>
             </div>
             <div class="footer-section">
                 <h3>GIỜ MỞ CỬA</h3>
-                <p>Thứ Hai – Chủ Nhật<br>10:00 – 23:00</p>
+                <p>Thứ 2 – CN: 10:00 – 23:00</p>
             </div>
             <div class="footer-section">
                 <h3>LIÊN HỆ</h3>
-                <p>contact@pizzapasta.vn<br>+84 162 389 6980</p>
+                <p>contact@pizzapasta.vn</p>
             </div>
             <div class="footer-section">
-                <h3>THEO DÕI CHÚNG TÔI</h3>
+                <h3>THEO DÕI</h3>
                 <div class="footer-social">
-                    <a href="#" class="footer-social-icon"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="footer-social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="footer-social-icon"><i class="fab fa-youtube"></i></a>
-                    <a href="#" class="footer-social-icon"><i class="fas fa-envelope"></i></a>
+                    <a href="#" class="footer-social-icon">f</a>
+                    <a href="#" class="footer-social-icon">in</a>
+                    <a href="#" class="footer-social-icon">▶</a>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© Copyright 2024. All rights reserved</p>
+            <p>© 2024 All rights reserved</p>
         </div>
     </footer>
 </body>
