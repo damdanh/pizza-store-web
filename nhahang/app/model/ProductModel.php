@@ -13,7 +13,7 @@ class ProductModel {
         $pdo = getConnection(); 
         
         // SỬ DỤNG TÊN BẢNG VÀ CỘT CHÍNH XÁC: mon_an, id_mon, ten_mon, gia, hinh_anh
-        $sql = "SELECT id_mon, ten_mon, gia, hinh_anh FROM mon_an ORDER BY id_mon DESC LIMIT :limit";
+        $sql = "SELECT id_mon, ten_mon, gia, hinh_anh FROM mon_an ORDER BY id_mon ASC LIMIT :limit";
         
         $stmt = $pdo->prepare($sql);
         // Bind giá trị giới hạn
