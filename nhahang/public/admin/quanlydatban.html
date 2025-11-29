@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý đặt bàn & Pre-order | Hệ thống Nhà hàng</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJd/rBli8GzWpTrgA/OudH7sF3y/FjS/d/S/fG5tWp2oBfL/w6tXWnQnQpQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../admin/css/quanlydatban.css">
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://via.placeholder.com/40" alt="Logo" class="avatar"> <div>
+                    <div class="system-name">Hệ thống</div>
+                    <div class="sub-text">Quản lý nhà hàng</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="HomeAdmin.html" class="nav-item">
+                    <span class="material-icons-outlined">dashboard</span>
+                    Tổng quan
+                </a>
+                <a href="quanlydatban.html" class="nav-item active"> <span class="material-icons-outlined">calendar_month</span>
+                    Quản lý đặt bàn
+                </a>
+                <a href="menu.html" class="nav-item">
+                    <span class="material-icons-outlined">restaurant_menu</span>
+                    Quản lý menu
+                </a>
+                <a href="chinhanh.html" class="nav-item">
+                    <span class="material-icons-outlined">storefront</span>
+                    Quản lý chi nhánh
+                </a>
+                <a href="admin.html" class="nav-item">
+                    <span class="material-icons-outlined">person</span>
+                    Quản lý admin
+                </a>
+                <a href="doanhthu.html" class="nav-item">
+                    <span class="material-icons-outlined">bar_chart</span>
+                    Thống kê doanh thu
+                </a>
+                <a href="cauhinh.html" class="nav-item">
+                    <span class="material-icons-outlined">settings</span>
+                    Cấu hình hệ thống
+                </a>
+            </nav>
+
+            <div class="sidebar-divider"></div>
+
+            <div class="sidebar-demo">
+                <a href="#" class="nav-item demo-item">
+                    <span class="material-icons-outlined">article</span>
+                    Form khách hàng <span class="sub-text">(Demo)</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="login-info">Đăng nhập với <br> **ThanhTri**</div>
+                <button class="logout-btn">
+                    <span class="material-icons-outlined">logout</span>
+                    Đăng xuất
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Quản lý đặt bàn & Pre-order</h1>
+                <p>Xem và xác nhận đơn đặt bàn</p>
+            </header>
+
+            <section class="filter-section card">
+                <div class="filter-controls">
+                    <input type="text" class="filter-input" placeholder="Tìm kiếm">
+                    
+                    <input type="text" class="filter-input" placeholder="Trạng Thái">
+                    
+                    <input type="text" class="filter-input" placeholder="Chi Nhánh">
+
+                    <button class="refresh-btn">Làm mới</button>
+                </div>
+            </section>
+
+            <section class="content-table-area card">
+                <div class="empty-state">
+                    Không tìm thấy đơn đặt bàn nào
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
