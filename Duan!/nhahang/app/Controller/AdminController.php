@@ -8,7 +8,7 @@ class AdminController {
         $this->db = $db;
         $this->DanhmucModel = new CategoryModel($db);
         $this->SanphamModel = new ProductModel($db);
-        $this->NguoidungModel = new User($db);
+        $this->NguoidungModel = new UserModel($db);
     }
 }
 ?>
