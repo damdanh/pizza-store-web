@@ -36,8 +36,6 @@ class CategoryModel {
             throw new Exception("Lỗi truy vấn database: " . $e->getMessage());
         }
     }
-
-    // Đếm số món ăn trong mỗi danh mục
     public function getCategoriesWithCount() {
         try {
             $sql = "SELECT dm.id_danh_muc_mon, dm.ten_danh_muc, dm.mo_ta, COUNT(m.id_mon) as so_luong_mon
