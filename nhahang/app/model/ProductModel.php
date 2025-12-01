@@ -1,19 +1,86 @@
 <?php
 
 class ProductModel {
-    /**
-     * Lấy danh sách N sản phẩm mới nhất (tạm xem là phổ biến) từ bảng mon_an.
-     * @param int $limit Số lượng sản phẩm muốn lấy.
-     * @return array Danh sách sản phẩm.
-     */
-    public function getPopularProducts($limit = 5) {
-        $pdo = getConnection(); 
-        $sql = "SELECT id_mon, ten_mon, gia, hinh_anh FROM mon_an ORDER BY id_mon ASC LIMIT :limit";
+    private $conn;
+
+    public function __construct() {
+        global $conn;
         
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-        $stmt->execute();
+        // Nếu $conn chưa tồn tại, tạo kết nối mới
+        if (!isset($conn) || $conn === null) {
+            // Include database config nếu chưa có
+            if (!function_exists('getConnection')) {
+                require_once __DIR__ . '/../config/database.php';
+            }
+            // Gọi function getConnection() để lấy kết nối
+            $conn = getConnection();
+        }
         
-        return $stmt->fetchAll();
+        $this->conn = $conn;
+    }
+
+    // Lấy sản phẩm phổ biến (giới hạn số lượng)
+    public function getPopularProducts($limit = 10) {
+        try {
+            $sql = "SELECT id_mon, ten_mon, gia, hinh_anh, mo_ta, trang_thai
+                    FROM mon_an 
+                    WHERE trang_thai = 'Còn hàng' 
+                    ORDER BY id_mon ASC 
+                    LIMIT :limit";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception("Lỗi truy vấn database: " . $e->getMessage());
+        }
+    }
+
+    // Lấy tất cả sản phẩm
+    public function getAllProducts() {
+        try {
+            $sql = "SELECT m.*, dm.ten_danh_muc 
+                    FROM mon_an m
+                    LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon
+                    ORDER BY m.id_mon DESC";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception("Lỗi truy vấn database: " . $e->getMessage());
+        }
+    }
+
+    // Lấy sản phẩm theo ID
+    public function getProductById($id) {
+        try {
+            $sql = "SELECT m.*, dm.ten_danh_muc 
+                    FROM mon_an m
+                    LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon
+                    WHERE m.id_mon = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception("Lỗi truy vấn database: " . $e->getMessage());
+        }
+    }
+
+    // Lấy sản phẩm theo danh mục
+    public function getProductsByCategory($categoryId) {
+        try {
+            $sql = "SELECT m.*, dm.ten_danh_muc 
+                    FROM mon_an m
+                    LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon
+                    WHERE m.id_danh_muc_mon = :categoryId
+                    ORDER BY m.id_mon ASC";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':categoryId', $categoryId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception("Lỗi truy vấn database: " . $e->getMessage());
+        }
     }
 }
