@@ -1,8 +1,8 @@
 <?php
 $pageTitle = "Quản lý đặt bàn & Pre-order | Hệ thống Nhà hàng";
 $activePage = "quanlydatban";
-include 'views/layouts/header.php';
-include 'views/layouts/sidebar.php';
+include 'view/admin/layout/header.php';
+include 'view/admin/layout/sidebar.php';
 ?>
 
 <main class="main-content">
@@ -30,4 +30,4 @@ include 'views/layouts/sidebar.php';
     </section>
 </main>
 
-<?php include 'views/layouts/footer.php'; ?>
+<?php include 'view/admin/layout/footer.php'; ?>
