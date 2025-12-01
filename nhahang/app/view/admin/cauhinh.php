@@ -249,9 +249,6 @@
         }
 </style>
 <?php
-if (!defined('BASE_URL')) {
-    define('BASE_URL', '/WD20302-PRO1014_N5/nhahang/'); 
-}
 $pageTitle = "Cấu hình Hệ thống | Hệ thống Nhà hàng";
 $activePage = "cauhinh";
 include 'views/layouts/header.php';
