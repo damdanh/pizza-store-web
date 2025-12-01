@@ -32,13 +32,15 @@ $categoryImages = [
                         ? $categoryImages[$category['id_danh_muc_mon']] 
                         : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300'; // Hình mặc định
             ?>
-            <div class="category-card">
-                <div class="category-icon" style="background-image: url('<?php echo $categoryImage; ?>')"></div>
-                <h3><?php echo htmlspecialchars($category['ten_danh_muc']); ?></h3>
-                <?php if (!empty($category['mo_ta'])): ?>
-                    <p class="category-desc"><?php echo htmlspecialchars($category['mo_ta']); ?></p>
-                <?php endif; ?>
-            </div>
+            <a href="<?php echo $base_url_path; ?>public/category.php?id=<?php echo $category['id_danh_muc_mon']; ?>" style="text-decoration: none;">
+                <div class="category-card">
+                    <div class="category-icon" style="background-image: url('<?php echo $categoryImage; ?>')"></div>
+                    <h3><?php echo htmlspecialchars($category['ten_danh_muc']); ?></h3>
+                    <?php if (!empty($category['mo_ta'])): ?>
+                        <p class="category-desc"><?php echo htmlspecialchars($category['mo_ta']); ?></p>
+                    <?php endif; ?>
+                </div>
+            </a>
             <?php 
                 endforeach; 
             else:
