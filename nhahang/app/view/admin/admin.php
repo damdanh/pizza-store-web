@@ -275,8 +275,8 @@
 <?php
 $pageTitle = "Quản lý Tài khoản Admin | Hệ thống Nhà hàng";
 $activePage = "admin";
-include 'views/layouts/header.php';
-include 'views/layouts/sidebar.php';
+include 'view/admin/layout/header.php';
+include 'view/admin/layout/sidebar.php';
 ?>
 
 <main class="main-content">
@@ -351,4 +351,4 @@ include 'views/layouts/sidebar.php';
     </section>
 </main>
 
-<?php include 'views/layouts/footer.php'; ?>
+<?php include 'view/admin/layout/footer.php'; ?>
