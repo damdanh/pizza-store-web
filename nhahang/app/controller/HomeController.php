@@ -9,7 +9,6 @@ class HomeController {
             $productModel = new ProductModel();
             $categoryModel = new CategoryModel();
             
-            // Lấy sản phẩm phổ biến
             $popularProducts = $productModel->getPopularProducts(5);
             
             // Lấy danh mục món ăn từ database

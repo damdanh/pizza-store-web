@@ -5,21 +5,16 @@ class ProductModel {
 
     public function __construct() {
         global $conn;
-        
-        // Nếu $conn chưa tồn tại, tạo kết nối mới
         if (!isset($conn) || $conn === null) {
             // Include database config nếu chưa có
             if (!function_exists('getConnection')) {
                 require_once __DIR__ . '/../config/database.php';
             }
-            // Gọi function getConnection() để lấy kết nối
             $conn = getConnection();
         }
         
         $this->conn = $conn;
     }
-
-    // Lấy sản phẩm phổ biến (giới hạn số lượng)
     public function getPopularProducts($limit = 10) {
         try {
             $sql = "SELECT id_mon, ten_mon, gia, hinh_anh, mo_ta, trang_thai
