@@ -1,5 +1,5 @@
 <?php
-include '../app/config/database.php';
+require_once __DIR__ . '/app/config/database.php';
 $conn = getConnection();
 define('ROOT_PATH', __DIR__ . '/../');
 require_once ROOT_PATH . 'app/controller/HomeController.php';
