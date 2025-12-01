@@ -198,7 +198,6 @@
             letter-spacing: 8px;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
         }
-
         /* Contact Section */
         .contact-container {
             max-width: 1400px;
@@ -426,12 +425,13 @@
             line-height: 1.6;
         }
 
-        .footer {
+         /* Footer */
+         .footer {
             background: #DDD6CB;
             color: #333;
             padding: 40px 0 0;
         }
-
+        
         .footer-content {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -440,27 +440,27 @@
             margin: 0 auto;
             padding: 0 50px 30px;
         }
-
+        
         .footer-section h3 {
             margin-bottom: 15px;
             font-size: 15px;
             font-weight: bold;
             color: #333;
         }
-
+        
         .footer-section p {
             color: #666;
             font-size: 13px;
             line-height: 1.8;
             margin-bottom: 8px;
         }
-
+        
         .footer-social {
             display: flex;
             gap: 12px;
             margin-top: 10px;
         }
-
+        
         .footer-social-icon {
             width: 35px;
             height: 35px;
@@ -474,11 +474,11 @@
             font-size: 16px;
             transition: background 0.3s;
         }
-
+        
         .footer-social-icon:hover {
             background: #333;
         }
-
+        
         .footer-bottom {
             background: #382F24;
             text-align: center;
@@ -486,30 +486,36 @@
             font-size: 12px;
             color: rgba(255,255,255,0.7);
         }
-
-        @media (max-width: 768px) {
+        
+        @media (max-width: 968px) {
+            .featured-article,
+            .highlighted-article,
+            .regular-article {
+                grid-template-columns: 1fr;
+            }
+            
             .nav-bar {
                 flex-direction: column;
                 gap: 15px;
             }
-
+            
             .nav-menu {
                 flex-direction: column;
                 gap: 10px;
                 text-align: center;
             }
-
+            
             .subscribe-form {
                 grid-template-columns: 1fr;
             }
-
+            
             .footer-content {
                 grid-template-columns: 1fr;
                 gap: 25px;
             }
-
-            .policies {
+            
+            .category-tabs {
                 flex-direction: column;
-                gap: 10px;
+                align-items: center;
             }
         }

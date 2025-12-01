@@ -3,12 +3,12 @@ include '../app/config/database.php';
 $conn = getConnection();
 define('ROOT_PATH', __DIR__ . '/../');
 require_once ROOT_PATH . 'app/controller/HomeController.php';
+require_once ROOT_PATH . 'app/controller/BookingController.php';
+require_once ROOT_PATH . 'app/controller/AboutController.php';
 $request_uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $last = basename($request_uri);
 if (
-    $request_uri == '' ||
-    $last == 'public' ||
-    $last == 'index.php'
+    $request_uri == '' || $last == 'public' || $last == 'index.php'
 ) {
     $controller = new HomeController();
     $controller->index();
