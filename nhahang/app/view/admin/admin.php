@@ -1,5 +1,6 @@
 
 <?php
+require_once 'cauhinh.php';
 $pageTitle = "Quản lý Tài khoản Admin | Hệ thống Nhà hàng";
 $activePage = "admin";
 include 'views/layouts/header.php';
