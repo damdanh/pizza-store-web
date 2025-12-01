@@ -1,5 +1,4 @@
 <style>
-        /* --- DÁN TOÀN BỘ MÃ CSS CHUNG BẠN ĐÃ CÓ VÀO ĐÂY --- */
 
         /* Reset cơ bản */
         * {
@@ -270,7 +269,6 @@
             /* Cột Thao tác */
             width: 10%;
         }
-    
 </style>
 <?php
 $pageTitle = "Quản lý Tài khoản Admin | Hệ thống Nhà hàng";
