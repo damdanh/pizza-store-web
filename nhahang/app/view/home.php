@@ -24,13 +24,21 @@ $categoryImages = [
 <section class="menu-section">
     <div class="container">
         <h2 class="section-title">THỰC ĐƠN</h2>
+        
+        <?php if (!isset($_SESSION['user_id'])): ?>
+            <p style="text-align: center; color: #ff6b6b; margin-bottom: 20px;">
+                <i class="fas fa-info-circle"></i> 
+                Vui lòng <a href="<?php echo $base_url_path; ?>public/login" style="color: #ff6b6b; text-decoration: underline;">đăng nhập</a> để xem chi tiết thực đơn
+            </p>
+        <?php endif; ?>
+        
         <div class="menu-categories">
             <?php 
             if (!empty($categories)): 
                 foreach ($categories as $category):
                     $categoryImage = isset($categoryImages[$category['id_danh_muc_mon']]) 
                         ? $categoryImages[$category['id_danh_muc_mon']] 
-                        : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300'; // Hình mặc định
+                        : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300';
             ?>
             <a href="<?php echo $base_url_path; ?>public/category.php?id=<?php echo $category['id_danh_muc_mon']; ?>" style="text-decoration: none;">
                 <div class="category-card">

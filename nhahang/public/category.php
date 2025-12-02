@@ -1,4 +1,7 @@
 <?php
+session_start(); 
+require_once __DIR__ . '/../app/config/auth_middleware.php';
+requireLogin();
 
 include '../app/config/database.php';
 $conn = getConnection();
