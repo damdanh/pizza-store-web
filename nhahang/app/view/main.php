@@ -1,9 +1,16 @@
 <?php
 
 $base_url_path = '/WD20302-PRO1014_N5/nhahang/'; 
+$title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online';
+// Xác định trang hiện tại đang ở trang nào để load đúng CSS
+$current_page = 'home'; // mặc định
 
-
-$title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online'; 
+if (isset($content_view)) {
+    $current_page = basename($content_view, '.php');
+} elseif (isset($_GET['page'])) {
+    $current_page = $_GET['page'];
+}
+// Hoặc đơn giản hơn: bạn tự set trong Controller cũng được 
 ?>
 
 <!DOCTYPE html>
@@ -13,36 +20,35 @@ $title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online';
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title><?php echo htmlspecialchars($title); ?></title>
     
+
+    
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/contact.css"> 
+
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/home.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products_detail.css"> 
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <?php if ($current_page === 'chungtoi'): ?>
+        <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/chungtoi.css">
+    <?php endif; ?> 
 </head>
 <body>
     
+<?php include __DIR__ . '/header.php'; ?>
+
+<main>
     <?php 
-
-    include __DIR__ . '/header.php'; 
+    if (isset($content_view) && file_exists($content_view)) {
+        include $content_view;
+    } else {
+        echo '<h1 style="text-align:center; padding:100px;">404 - Trang không tồn tại</h1>';
+    }
     ?>
+</main>
 
-    <main>
-        <?php 
-        
-        if (isset($content_view) && file_exists($content_view)) {
-    
-            include $content_view; 
-        } else {
-          
-            echo '<div style="padding: 50px; text-align: center;"><h1>Lỗi tải trang!</h1><p>Không tìm thấy nội dung chính để hiển thị.</p></div>';
-        }
-        ?>
-    </main>
+<?php include __DIR__ . '/footer.php'; ?>
 
-    <?php 
-  
-    include __DIR__ . '/footer.php'; 
-    ?>
-    
-    </body>
-</html>
+</body>
+</html> 

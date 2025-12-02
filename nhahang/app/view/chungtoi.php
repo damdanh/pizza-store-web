@@ -1,57 +1,26 @@
+<?php
+$base_url_path = '/WD20302-PRO1014_N5/nhahang/'; 
+$title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online'; 
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PIZZA & PASTA - Nhà Hàng Ý</title>
-    <link rel="stylesheet" href="css/chungtoi.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title><?php echo htmlspecialchars($title); ?></title>
+    
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/chungtoi.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
 </head>
 <body>
     
-       <!-- Header -->
-       <div class="top-banner">
-        <span>NẾU BẠN KHÔNG CÓ SỐ ĐIỆN THOẠI VIỆT NAM, BẠN CÓ THỂ ĐẶT BẠN QUA</span>
-        <a href="#">FANPAGE</a>
-    </div>
-    <header class="header">
-        <div class="header-left">
-            <div class="logo">
-                <div class="logo-circle"><img src="img/logo.jpg" alt=""></div>
-            </div>
-            <div class="brand-name">PIZZA &<br>PASTA</div>
-            <ul class="nav-menu">
-                <li><a href="chungtoi.html">Về Chúng Tôi</a></li>
-                <li><a href="poducts.html">Thực Đơn</a></li>
-                <li><a href="sukien.html">Sự Kiện</a></li>
-                <li><a href="baochi.html">Báo Chí</a></li>
-                <li><a href="datban.html">Đặt Bàn</a></li>
-                <li><a href="contact.html">Liên Hệ</a></li>
-            </ul>
-        </div>
-        <div class="header-right">
-            <div class="auth-buttons">
-                <a href="login.html" class="auth-btn">Đăng Nhập</a>
-                <a href="sign_in.html" class="auth-btn">Đăng Ký</a>
-            </div>
-            <div class="social-icons">
-                <div class="social-icon facebook">
-                    <i class="fab fa-facebook-f"></i>
-                </div>
-                <div class="social-icon zalo">
-                    <span style="font-weight: bold; font-size: 18px;">Z</span>
-                </div>
-                <div class="social-icon phone">
-                    <i class="fas fa-phone-alt"></i>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Chef Introduction Section -->
-    <section class="chef-intro">
+    <?php 
+    include __DIR__ . '/header.php'; 
+    ?>
+<!-- Chef Introduction Section -->
+<section class="chef-intro">
         <div class="chef-container">
             <div class="chef-content">
                 <h2>NGUYEN NHU THANH</h2>
@@ -113,38 +82,8 @@
             <p class="subscribe-note">Mọi thông tin được nhập vào trong Hộp thư sẽ được bảo mật theo chính sách của chúng tôi<br>Bạn có thể hủy đăng ký vào bất cứ lúc nào.</p>
         </div>
     </section>
+    <?php include __DIR__ . '/footer.php'; ?>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>ĐỊA CHỈ</h3>
-                <p>24 Nguyễn Thị Nghĩa, Phường Bến Thành, Quận 1,</p>
-                <p>TP.HCM, Việt Nam</p>
-            </div>
-            <div class="footer-section">
-                <h3>GIỜ MỞ CỬA</h3>
-                <p>Thứ Hai – Chủ Nhật</p>
-                <p>10:00 – 23:00</p>
-            </div>
-            <div class="footer-section">
-                <h3>LIÊN HỆ</h3>
-                <p>tuafrenguyonbusauday.vn</p>
-                <p>+841 62 389 6980</p>
-            </div>
-            <div class="footer-section">
-                <h3>THEO DÕI CHÚNG TÔI</h3>
-                <div class="footer-social">
-                    <a href="#" class="footer-social-icon">f</a>
-                    <a href="#" class="footer-social-icon">in</a>
-                    <a href="#" class="footer-social-icon">▶</a>
-                    <a href="#" class="footer-social-icon">📧</a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© Copyright 2024. All rights reserved</p>
-        </div>
-    </footer>
+    
 </body>
 </html>
