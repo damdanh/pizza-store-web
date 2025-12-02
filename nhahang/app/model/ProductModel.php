@@ -31,7 +31,7 @@ class ProductModel {
         }
     }
 
-    // Lấy tất cả sản phẩm
+
     public function getAllProducts() {
         try {
             $sql = "SELECT m.*, dm.ten_danh_muc 
@@ -46,7 +46,7 @@ class ProductModel {
         }
     }
 
-    // Lấy sản phẩm theo ID
+  
     public function getProductById($id) {
         try {
             $sql = "SELECT m.*, dm.ten_danh_muc 
@@ -62,7 +62,7 @@ class ProductModel {
         }
     }
 
-    // Lấy sản phẩm theo danh mục
+   
     public function getProductsByCategory($categoryId) {
         try {
             $sql = "SELECT m.*, dm.ten_danh_muc 

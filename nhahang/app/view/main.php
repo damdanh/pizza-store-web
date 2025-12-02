@@ -1,5 +1,6 @@
 <?php
 
+
 $base_url_path = '/WD20302-PRO1014_N5/nhahang/'; 
 $title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online';
 // Xác định trang hiện tại đang ở trang nào để load đúng CSS
@@ -27,6 +28,8 @@ if (isset($content_view)) {
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/home.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products_detail.css"> 
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/signin.css"> 
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/login.css">
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -50,5 +53,16 @@ if (isset($content_view)) {
 
 <?php include __DIR__ . '/footer.php'; ?>
 
+
 </body>
 </html> 
+
+    <?php 
+  
+    include __DIR__ . '/footer.php'; 
+    ?>
+    <script src="<?php echo $base_url_path; ?>public/cart.js"></script>
+    
+    </body>
+</html>
+
