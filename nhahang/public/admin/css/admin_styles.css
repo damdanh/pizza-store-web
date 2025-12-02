@@ -8,14 +8,14 @@
 
         :root {
             --sidebar-width: 280px;
-            --main-bg: #f9f9f9; 
+            --main-bg: #f9f9f9;
             --white: #ffffff;
-            --text-dark: #333; 
+            --text-dark: #333;
             --text-sub: #777;
             --border-color: #eee;
-            --primary-color: #1a73e8; 
-            --nav-hover: #f0f0f0; 
-            --black-btn: #222; /* Màu nút hành động */
+            --primary-color: #1a73e8;
+            --nav-hover: #f0f0f0;
+            --black-btn: #222;
             --black-btn-hover: #000;
         }
 
@@ -36,8 +36,8 @@
             border-right: 1px solid var(--border-color);
             padding: 20px 0;
             display: flex;
-            flex-direction: column; 
-            position: fixed; 
+            flex-direction: column;
+            position: fixed;
             top: 0;
             left: 0;
             bottom: 0;
@@ -47,7 +47,7 @@
         .sidebar-header {
             display: flex;
             align-items: center;
-            padding: 0 20px 20px; 
+            padding: 0 20px 20px;
             margin-bottom: 10px;
         }
 
@@ -76,11 +76,11 @@
         .nav-item {
             display: flex;
             align-items: center;
-            padding: 12px 20px; 
-            text-decoration: none; 
+            padding: 12px 20px;
+            text-decoration: none;
             color: var(--text-dark);
             font-size: 14px;
-            transition: background-color 0.2s; 
+            transition: background-color 0.2s;
         }
 
         .nav-item:hover {
@@ -90,11 +90,11 @@
         .nav-item.active {
             background-color: var(--nav-hover);
             font-weight: 600;
-            border-right: 3px solid var(--primary-color); 
+            border-right: 3px solid var(--primary-color);
         }
 
         .nav-item span.material-icons-outlined {
-            margin-right: 15px; 
+            margin-right: 15px;
             font-size: 20px;
             color: #444;
         }
@@ -185,7 +185,7 @@
         .action-button-single {
             flex-shrink: 0;
         }
-        
+
         .action-btn {
             padding: 10px 15px;
             background-color: var(--black-btn);
@@ -204,16 +204,66 @@
             background-color: var(--black-btn-hover);
         }
 
-        /* Khu vực Nội dung chính (Trạng thái rỗng) */
-        .empty-state-content {
-            min-height: 250px; /* Chiều cao tối thiểu cho card */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+        /* --- Bảng Dữ liệu --- */
+        .admin-list-section {
+            padding-top: 0;
+            /* Bỏ padding top vì đã có title riêng */
         }
-        
-        .empty-state-content p {
+
+        .list-header {
+            margin-bottom: 15px;
+        }
+
+        .list-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .list-header p {
+            font-size: 14px;
             color: var(--text-sub);
-            font-size: 16px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            /* Bỏ khoảng cách giữa các ô */
+            font-size: 14px;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .data-table td {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-dark);
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+            /* Bỏ border dưới cho hàng cuối */
+        }
+
+        .action-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Điều chỉnh cột Email và Thao tác */
+        .data-table td:nth-child(2) {
+            /* Cột Email */
+            width: 30%;
+        }
+
+        .data-table td:last-child {
+            /* Cột Thao tác */
+            width: 10%;
         }
