@@ -32,7 +32,7 @@
                     <span class="material-icons-outlined">bar_chart</span>
                     Thống kê doanh thu
                 </a>
-                <a href="cauhinh.php" class="nav-item <?= ($activePage == 'cauhinh') ? 'active' : '' ?>">
+                <a href="../app/view/admin/cauhinh.php" class="nav-item <?= ($activePage == 'cauhinh') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">settings</span>
                     Cấu hình hệ thống
                 </a>
