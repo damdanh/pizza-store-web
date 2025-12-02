@@ -1,6 +1,8 @@
+<!-- view/header.php – bản fix đẹp 100% -->
 <?php
-// Biến $base_url_path được truyền từ main.php
-$baseURL = '/'; 
+$isLoggedIn = isset($_SESSION['user_id']);
+$userName   = $_SESSION['user_name'] ?? '';
+$firstLetter = $userName ? strtoupper(mb_substr($userName, 0, 1)) : 'U';
 ?>
 
 <div class="top-banner">
@@ -28,10 +30,29 @@ $baseURL = '/';
     </div>
     
     <div class="header-right">
-        <div class="auth-buttons">
-            <button class="auth-btn">Đăng Nhập</button>
-            <button class="auth-btn">Đăng Ký</button>
-        </div>
+        <?php if ($isLoggedIn): ?>
+            <!-- ĐÃ ĐĂNG NHẬP -->
+            <div class="user-login-area">
+                <div class="user-avatar">
+                    <?= htmlspecialchars($firstLetter) ?>
+                </div>
+                <div class="user-text">
+                    <div class="greeting">Xin chào,</div>
+                    <div class="username"><?= htmlspecialchars($userName) ?></div>
+                </div>
+                <a href="<?php echo $base_url_path; ?>public/logout" class="logout-button">
+                    Đăng xuất
+                </a>
+            </div>
+
+        <?php else: ?>
+            <!-- CHƯA ĐĂNG NHẬP -->
+            <div class="auth-buttons">
+                <a href="<?php echo $base_url_path; ?>public/login" class="auth-btn">Đăng Nhập</a>
+                <a href="<?php echo $base_url_path; ?>public/signin" class="auth-btn signup">Đăng Ký</a>
+            </div>
+        <?php endif; ?>
+
         <div class="social-icons">
             <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
             <a href="#" class="social-icon zalo">Z</a>

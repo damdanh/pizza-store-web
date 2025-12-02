@@ -11,7 +11,7 @@ class HomeController {
             
             $popularProducts = $productModel->getPopularProducts(5);
             
-            // Lấy danh mục món ăn từ database
+      
             $categories = $categoryModel->getAllCategories();
 
             $data = [
@@ -26,7 +26,7 @@ class HomeController {
             include __DIR__ . '/../view/main.php';
             
         } catch (Exception $e) {
-            // Xử lý lỗi
+            
             echo "Lỗi: " . $e->getMessage();
             echo "<br>File: " . $e->getFile();
             echo "<br>Line: " . $e->getLine();

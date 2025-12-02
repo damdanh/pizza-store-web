@@ -28,8 +28,6 @@ $categoryImages = [
             $catImage = isset($categoryImages[$cat['id_danh_muc_mon']]) 
                 ? $categoryImages[$cat['id_danh_muc_mon']] 
                 : '<?php echo $base_url_path; ?>public/user/img/default-category.jpg';
-            
-            // Thêm class 'active' cho danh mục đang được xem
             $activeClass = ($cat['id_danh_muc_mon'] == $category['id_danh_muc_mon']) ? 'active' : '';
         ?>
             <a href="<?php echo $base_url_path; ?>public/category.php?id=<?php echo $cat['id_danh_muc_mon']; ?>" class="category-link <?php echo $activeClass; ?>">
@@ -40,6 +38,7 @@ $categoryImages = [
             </a>
         <?php endforeach; ?>
     </div>
+    
 
 
     <div class="main-grid">
@@ -99,7 +98,8 @@ $categoryImages = [
             <?php endif; ?>
         </div>
 
-        <aside class="cart-sidebar"> 
+
+<aside class="cart-sidebar"> 
             <h2 class="cart-title">GIỎ HÀNG CỦA TÔI</h2>
             
             <div class="cart-empty" id="cart-empty-message">
@@ -109,24 +109,26 @@ $categoryImages = [
                 <p class="cart-empty-text">Giỏ hàng của bạn đang trống</p>
             </div>
             
-            <div class="cart-items-list" id="cart-items-container">
+            <div class="cart-items-list" id="cart-items-container" style="display:none;">
                 </div>
 
-            <div class="cart-summary" id="cart-summary">
+            <div class="cart-summary" id="cart-summary" style="display:none;">
                 <div class="summary-line">
                     <span>Tạm tính:</span>
-                    <span id="subtotal-price">0 vnđ</span>
-                </div>
+                    <span id="subtotal-price">0 vnđ</span> </div>
               
                 <div class="summary-total">
                     <span>Tổng cộng:</span>
-                    <span id="total-price">0 vnđ</span>
-                </div>
+                    <span id="total-price">0 vnđ</span> </div>
             </div>
 
-            <div class="cart-buttons-area" id="cart-actions">
+            <div class="cart-buttons-area" id="cart-actions" style="display:none;">
                 <button class="checkout-btn">ĐẶT HÀNG</button>
             </div>
         </aside>
+<script>
+const BASE_URL = '/WD20302-PRO1014_N5/nhahang/';
+</script>
+<script src="<?php echo $base_url_path; ?>public/user/cart.js"></script>
     </div>
 </div>
