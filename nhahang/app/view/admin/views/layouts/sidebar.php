@@ -8,27 +8,27 @@
             </div>
 
             <nav class="sidebar-nav">
-                <a href="dashboard.php" class="nav-item <?= ($activePage == 'dashboard') ? 'active' : '' ?>">
+                <a href="../app/view/admin/dashboard.php" class="nav-item <?= ($activePage == 'dashboard') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">grid_view</span>
                     Tổng quan
                 </a>
-                <a href="quanlydatban.php" class="nav-item <?= ($activePage == 'quanlydatban') ? 'active' : '' ?>">
+                <a href="../app/view/admin/quanlydatban.php" class="nav-item <?= ($activePage == 'quanlydatban') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">calendar_month</span>
                     Quản lý đặt bàn
                 </a>
-                <a href="menu.php" class="nav-item <?= ($activePage == 'menu') ? 'active' : '' ?>">
+                <a href="../app/view/admin/menu.php" class="nav-item <?= ($activePage == 'menu') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">restaurant_menu</span>
                     Quản lý menu
                 </a>
-                <a href="chinhanh.php" class="nav-item <?= ($activePage == 'chinhanh') ? 'active' : '' ?>">
+                <a href="../app/view/admin/chinhanh.php" class="nav-item <?= ($activePage == 'chinhanh') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">storefront</span>
                     Quản lý chi nhánh
                 </a>
-                <a href="admin.php" class="nav-item <?= ($activePage == 'admin') ? 'active' : '' ?>">
+                <a href="../app/view/admin/admin.php" class="nav-item <?= ($activePage == 'admin') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">person</span>
                     Quản lý admin
                 </a>
-                <a href="doanhthu.php" class="nav-item <?= ($activePage == 'doanhthu') ? 'active' : '' ?>">
+                <a href="../app/view/admin/doanhthu.php" class="nav-item <?= ($activePage == 'doanhthu') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">bar_chart</span>
                     Thống kê doanh thu
                 </a>
