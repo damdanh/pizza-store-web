@@ -4,40 +4,461 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đặt Bàn - Pizza & Pasta</title>
-    <link rel="stylesheet" href="css/datban.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background: #E6D9CE;
+        }
+         /* Top Banner */
+         .top-banner {
+            background-color: #3D3934;
+            color: white;
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 13px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .top-banner a {
+            color: white;
+            text-decoration: underline;
+            margin-left: 10px;
+        }
+
+        /* Header */
+        .header {
+            background-color: #C4B5A8;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: #3D3934;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            overflow: hidden;
+        }
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;  
+        }
+
+        .brand-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #3D3934;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            margin-left: 50px;
+        }
+
+        .nav-menu a {
+            color: #3D3934;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #8B7355;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .auth-btn {
+            background: transparent;
+            color: #3D3934;
+            border: 1px solid #3D3934;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .auth-btn:hover {
+            background: #3D3934;
+            color: white;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .social-icon.facebook {
+            background: #1877F2;
+            color: white;
+        }
+
+        .social-icon.zalo {
+            background: #0068FF;
+            color: white;
+        }
+
+        .social-icon.phone {
+            background: #E53935;
+            color: white;
+        }
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: #E6D9CE;
+        }
+        
+        .page-header h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .category-tab {
+            padding: 12px 30px;
+            background: #4A3829;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .category-tab:hover {
+            background: #5A4839;
+            transform: translateY(-2px);
+        }
+        
+        .category-tab.active {
+            background: #6B5848;
+        }
+        
+        
+        /* Booking Section */
+        .booking-container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+        
+        .booking-image {
+            background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600');
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            min-height: 500px;
+        }
+        
+        .booking-form-section {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .booking-form-section h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .booking-date {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-section h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .location-select {
+            background: #F5F5F5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: #E4DACF; /* Màu nền đậm */
+            color: white; /* Chữ màu trắng */
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center; 
+            display: block; 
+            text-decoration: none; /* Bỏ gạch chân mặc định của thẻ <a> */
+            margin-top: 30px; /* Thêm khoảng cách phía trên nút */
+        }
+        
+        .submit-btn:hover {
+            background: #6B5848; /* Màu hover sáng hơn một chút */
+          
+
+        }
+        /* ----------------------------------------------- */
+        
+        /* Community Section */
+        .community-section {
+            background: #DDD6CB;
+            padding: 50px 0;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .community-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .subscribe-form {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr auto;
+            gap: 10px;
+        }
+        
+        .subscribe-form input {
+            padding: 12px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+        
+        .subscribe-form button {
+            padding: 12px 25px;
+            background: #382F24;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #DDD6CB;
+            color: #333;
+            padding: 40px 0 0;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 50px 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+        
+        .footer-section p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        
+        .footer-social-icon {
+            width: 35px;
+            height: 35px;
+            background: #666;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-bottom {
+            background: #382F24;
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        @media (max-width: 968px) {
+            .booking-container {
+                grid-template-columns: 1fr;
+            }
+            .nav-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .subscribe-form {
+                grid-template-columns: 1fr;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
+     <div class="top-banner">
+        <span>NẾU BẠN KHÔNG CÓ SỐ ĐIỆN THOẠI VIỆT NAM, BẠN CÓ THỂ ĐẶT BẠN QUA</span>
+        <a href="#">FANPAGE</a>
+    </div>
     <header class="header">
-        <div class="top-banner">
-            NẾU BẠN KHÔNG CÓ SỐ ĐIỆN THOẠI VIỆT NAM, BẠN CÓ THỂ ĐẶT BẠN QUA <a href="#">FANPAGE</a>
-        </div>
-        <nav class="nav-bar">
+        <div class="header-left">
             <div class="logo">
-                <div class="logo-circle">P&P</div>
-                <div class="logo-text">
-                    <h2>PIZZA &<br>PASTA</h2>
-                </div>
+                <div class="logo-circle"><img src="img/logo.jpg" alt=""></div>
             </div>
+            <div class="brand-name">PIZZA &<br>PASTA</div>
             <ul class="nav-menu">
                 <li><a href="chungtoi.html">Về Chúng Tôi</a></li>
-                <li><a href="#menu">Thực Đơn</a></li>
+                <li><a href="poducts.html">Thực Đơn</a></li>
                 <li><a href="sukien.html">Sự Kiện</a></li>
                 <li><a href="baochi.html">Báo Chí</a></li>
                 <li><a href="datban.html">Đặt Bàn</a></li>
-                <li><a href="#contact">Liên Hệ</a></li>
+                <li><a href="contact.html">Liên Hệ</a></li>
             </ul>
-            <div class="nav-right">
-                <div class="auth-links">
-                    <button class="auth-btn">Đăng Nhập</button>
-                    <button class="auth-btn">Đăng Ký</button>
+        </div>
+        <div class="header-right">
+            <div class="auth-buttons">
+                <a href="login.html" class="auth-btn">Đăng Nhập</a>
+                <a href="sign_in.html" class="auth-btn">Đăng Ký</a>
+            </div>
+            <div class="social-icons">
+                <div class="social-icon facebook">
+                    <i class="fab fa-facebook-f"></i>
                 </div>
-                <div class="social-icons">
-                    <a href="#" class="social-icon facebook">f</a>
-                    <a href="#" class="social-icon zalo">📷</a>
-                    <a href="#" class="social-icon phone">📞</a>
+                <div class="social-icon zalo">
+                    <span style="font-weight: bold; font-size: 18px;">Z</span>
+                </div>
+                <div class="social-icon phone">
+                    <i class="fas fa-phone-alt"></i>
                 </div>
             </div>
-        </nav>
+        </div>
     </header>
 
     <section class="booking-container">
@@ -51,7 +472,7 @@
                 <span>📝</span>
             </div>
             
-            <form>
+            <form id="bookingForm">
                 <div class="form-section">
                     <h3>Điền thông tin đặt bàn</h3>
                     <p style="font-size: 13px; color: #999; margin-bottom: 20px;">Nhập</p>
@@ -77,10 +498,9 @@
                         </select>
                     </div>
                 </div>
-                <!-- <a href="chitietdatban.html" class="submit-btn">Tiếp tục</a> -->
-
-                <button type="submit" class="submit-btn"></a>Tiếp tục</button> 
-            </form>
+                </form>
+            
+            <a href="chitietdatban.html" class="submit-btn">Tiếp tục</a>
         </div>
     </section>
 
@@ -113,10 +533,10 @@
             <div class="footer-section">
                 <h3>THEO DÕI CHÚNG TÔI</h3>
                 <div class="footer-social">
-                    <a href="#" class="footer-social-icon">f</a>
-                    <a href="#" class="footer-social-icon">in</a>
-                    <a href="#" class="footer-social-icon">▶</a>
-                    <a href="#" class="footer-social-icon">📧</a>
+                    <a href="#" class="footer-social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="footer-social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="footer-social-icon"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="footer-social-icon"><i class="fas fa-envelope"></i></a>
                 </div>
             </div>
         </div>

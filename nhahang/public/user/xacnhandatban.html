@@ -1,4 +1,13 @@
- * {
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác Nhận Đặt Bàn</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -10,86 +19,95 @@
             background: #E6D9CE;
         }
         
-        .header {
-            background: #4A4A4A;
-        }
-        
-        .top-banner {
-            text-align: left;
-            font-size: 11px;
+         /* Top Banner */
+         .top-banner {
+            background-color: #3D3934;
             color: white;
-            letter-spacing: 0.5px;
-            padding: 8px;
-            background: #3D3934;
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 13px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
         }
-        
+
         .top-banner a {
             color: white;
             text-decoration: underline;
+            margin-left: 10px;
         }
-        
-        .nav-bar {
+
+        /* Header */
+        .header {
+            background-color: #C4B5A8;
+            padding: 15px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 50px;
-            background: #E6D9CE;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        
-        .logo {
+
+        .header-left {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
-        
-        .logo-circle {
+
+        .logo {
             width: 50px;
             height: 50px;
-            background: #8B6F47;
+            background: #3D3934;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-size: 20px;
-            font-weight: bold;
+            overflow: hidden;
         }
-        
-        .logo-text h2 {
-            font-size: 14px;
-            color: #333;
-            font-weight: bold;
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;  
         }
-        
+
+        .brand-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #3D3934;
+        }
+
         .nav-menu {
             display: flex;
-            gap: 40px;
+            gap: 30px;
             list-style: none;
+            margin-left: 50px;
         }
-        
+
         .nav-menu a {
-            color: #333;
+            color: #3D3934;
             text-decoration: none;
             font-size: 15px;
             font-weight: 500;
             transition: color 0.3s;
         }
-        
+
         .nav-menu a:hover {
-            color: #8B6F47;
+            color: #8B7355;
         }
-        
-        .nav-right {
+
+        .header-right {
             display: flex;
             align-items: center;
-            gap: 25px;
-        }
-        
-        .auth-links {
-            display: flex;
             gap: 20px;
         }
-        
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
         .auth-btn {
             background: transparent;
             color: #3D3934;
@@ -99,18 +117,19 @@
             cursor: pointer;
             font-size: 14px;
             transition: all 0.3s;
+            text-decoration: none;
         }
-        
+
         .auth-btn:hover {
             background: #3D3934;
             color: white;
         }
-        
+
         .social-icons {
             display: flex;
             gap: 10px;
         }
-        
+
         .social-icon {
             width: 35px;
             height: 35px;
@@ -118,28 +137,27 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            text-decoration: none;
-            font-size: 18px;
+            cursor: pointer;
             transition: transform 0.3s;
         }
-        
+
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+
         .social-icon.facebook {
             background: #1877F2;
             color: white;
         }
-        
-        .social-icon.instagram {
-            background: #E4405F;
+
+        .social-icon.zalo {
+            background: #0068FF;
             color: white;
         }
-        
+
         .social-icon.phone {
-            background: #E91E63;
+            background: #E53935;
             color: white;
-        }
-        
-        .social-icon:hover {
-            transform: scale(1.1);
         }
         
         /* Page Header */
@@ -194,16 +212,22 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 60px;
+            align-items: stretch;
         }
         
         .booking-image {
-            background-image: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600');
-            background-size: cover;
-            background-position: center;
+            width: 100%;
             border-radius: 15px;
-            min-height: 500px;
-        }
-        
+            overflow: hidden;
+            height: 100%; 
+}
+            .booking-image img {
+                width: 100%;
+                height: 100%; /* Quan trọng: làm cho ảnh chiếm toàn bộ chiều cao */
+                object-fit: cover; /* Quan trọng: đảm bảo ảnh không bị méo và lấp đầy không gian */
+                border-radius: 15px; /* Giữ bo góc cho ảnh */
+            }
+                    
         .booking-info-section {
             background: white;
             padding: 40px;
@@ -384,3 +408,137 @@
                 grid-template-columns: 1fr;
             }
         }
+    </style>
+</head>
+<body>
+       <!-- Header -->
+       <div class="top-banner">
+        <span>NẾU BẠN KHÔNG CÓ SỐ ĐIỆN THOẠI VIỆT NAM, BẠN CÓ THỂ ĐẶT BẠN QUA</span>
+        <a href="#">FANPAGE</a>
+    </div>
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <div class="logo-circle"><img src="img/logo.jpg" alt=""></div>
+            </div>
+            <div class="brand-name">PIZZA &<br>PASTA</div>
+            <ul class="nav-menu">
+                <li><a href="chungtoi.html">Về Chúng Tôi</a></li>
+                <li><a href="poducts.html">Thực Đơn</a></li>
+                <li><a href="sukien.html">Sự Kiện</a></li>
+                <li><a href="baochi.html">Báo Chí</a></li>
+                <li><a href="datban.html">Đặt Bàn</a></li>
+                <li><a href="contact.html">Liên Hệ</a></li>
+            </ul>
+        </div>
+        <div class="header-right">
+            <div class="auth-buttons">
+                <a href="login.html" class="auth-btn">Đăng Nhập</a>
+                <a href="sign_in.html" class="auth-btn">Đăng Ký</a>
+            </div>
+            <div class="social-icons">
+                <div class="social-icon facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </div>
+                <div class="social-icon zalo">
+                    <span style="font-weight: bold; font-size: 18px;">Z</span>
+                </div>
+                <div class="social-icon phone">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="booking-container">
+        <div class="booking-image"> <img src="img/Screenshot 2025-11-29 at 00.38.02.png" alt=""></div>
+        
+        <div class="booking-info-section">
+            <h2>ĐẶT BÀN</h2>
+            
+            <div class="booking-summary">
+                <h3>Xác nhận thông tin chi tiết của bạn</h3>
+                
+                <div class="info-item">
+                    <span class="info-label">Cho bằng: BOM - Kitchen & Wine Bar</span>
+                    <span class="info-value"></span>
+                </div>
+                
+                <div class="info-item">
+                    <span class="info-label">Số lượng người: 2</span>
+                    <span class="info-value"></span>
+                </div>
+                
+                <div class="info-item">
+                    <span class="info-label">Ngày: Nov. 14, 2025 10:00 PM</span>
+                    <span class="info-value"></span>
+                </div>
+                
+                <div class="info-item">
+                    <span class="info-label">Số điện thoại: +84235054800</span>
+                    <span class="info-value"></span>
+                </div>
+                
+                <div class="info-item">
+                    <span class="info-label">Tên: Sở Tài Mặc</span>
+                    <span class="info-value"></span>
+                </div>
+                
+                <div class="info-item">
+                    <span class="info-label">Email: tientiet19@gmail.com</span>
+                    <span class="info-value"></span>
+                </div>
+                
+                <div class="info-item" style="border-bottom: none;">
+                    <span class="info-label">Notes:</span>
+                    <span class="info-value"></span>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button class="back-btn">Quay lại</button>
+                <button class="submit-btn">Xác nhận</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="community-section">
+        <h2>THAM GIA CỘNG ĐỒNG CỦA CHÚNG TÔI</h2>
+        <p style="color: #666; margin-bottom: 30px;">Đăng ký để nhận thông tin mới nhất</p>
+        <form class="subscribe-form">
+            <input type="text" placeholder="Tên">
+            <input type="text" placeholder="Họ">
+            <input type="email" placeholder="Email">
+            <button>ĐĂNG KÝ</button>
+        </form>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>ĐỊA CHỈ</h3>
+                <p>24 Nguyễn Thị Nghĩa, Q.1, TP.HCM</p>
+            </div>
+            <div class="footer-section">
+                <h3>GIỜ MỞ CỬA</h3>
+                <p>Thứ 2 – CN: 10:00 – 23:00</p>
+            </div>
+            <div class="footer-section">
+                <h3>LIÊN HỆ</h3>
+                <p>contact@pizzapasta.vn</p>
+            </div>
+            <div class="footer-section">
+                <h3>THEO DÕI</h3>
+                <div class="footer-social">
+                    <a href="#" class="footer-social-icon">f</a>
+                    <a href="#" class="footer-social-icon">in</a>
+                    <a href="#" class="footer-social-icon">▶</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 All rights reserved</p>
+        </div>
+    </footer>
+</body>
+</html>
