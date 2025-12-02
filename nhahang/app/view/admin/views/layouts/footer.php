@@ -1,3 +1,2 @@
-    </div> <!-- End container -->
-</body>
+</div> </body>
 </html>
