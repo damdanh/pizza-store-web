@@ -11,10 +11,11 @@ class BookingController {
     
     // Hàm hiển thị trang Đặt Bàn (datban.php)
     public function showBookingForm() {
-        // Có thể load dữ liệu cần thiết (ví dụ: danh sách chi nhánh, giờ mở cửa) từ Model ở đây
-        
-        // Load view
-        require_once $this->viewPath . 'datban.php';
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->processConfirmation();
+        } else {
+            require_once $this->viewPath . 'datban.php';
+        }
     }
 
     // Hàm xử lý logic Xác nhận Đặt Bàn (dachonmon.php)
@@ -37,7 +38,7 @@ class BookingController {
             
             // Load view xác nhận
             // $bookingInfo được truyền vào view để hiển thị thông tin
-            require_once $this->viewPath . 'dachonmon.php';
+            require_once $this->viewPath . 'mondachon.php';
         } else {
             // Nếu không phải POST, chuyển hướng về trang đặt bàn
             header('Location: ' . $GLOBALS['base_url_path'] . 'datban');

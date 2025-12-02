@@ -3,4 +3,5 @@
 define('BASE_URL', '/WD20302-PRO1014_N5/nhahang/');
 define('VIEW_URL', BASE_URL . 'app/view/');
 define('PUBLIC_URL', BASE_URL . 'public/');
+define('ROOT_PATH', __DIR__ . '/../../');   // từ app/config lên gốc dự án
 ?>

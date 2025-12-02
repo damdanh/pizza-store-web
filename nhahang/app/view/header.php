@@ -15,12 +15,11 @@
 
         <ul class="nav-menu">
                 <li><a href="<?= VIEW_URL ?>chungtoi.php">Về Chúng Tôi</a></li>
-                <li><a href="<?= VIEW_URL ?>thucdon.php">Thực Đơn</a></li>
+                <li><a href="<?= VIEW_URL ?>public/index.php">Thực Đơn</a></li>
                 <li><a href="<?= VIEW_URL ?>sukien.php">Sự Kiện</a></li>
                 <li><a href="<?= VIEW_URL ?>baochi.php">Báo Chí</a></li>
                 <li><a href="<?= VIEW_URL ?>datban.php">Đặt Bàn</a></li>
                 <li><a href="<?= VIEW_URL ?>contact.php">Liên Hệ</a></li>
-        </ul>
     </div>
     
     <div class="header-right">

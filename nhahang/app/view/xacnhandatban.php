@@ -81,6 +81,7 @@ $title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online';
             <button>ĐĂNG KÝ</button>
         </form>
     </section>
+    
 <?php include __DIR__ . '/footer.php'; ?>
     </body>
 </html> 
