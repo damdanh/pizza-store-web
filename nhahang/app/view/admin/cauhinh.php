@@ -1,3 +1,163 @@
+<style>
+  * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --sidebar-width: 280px;
+            --main-bg: #f9f9f9; 
+            --white: #ffffff;
+            --text-dark: #333; 
+            --text-sub: #777;
+            --border-color: #eee;
+            --primary-color: #1a73e8; 
+            --nav-hover: #f0f0f0; 
+            --form-bg: #f5f5f5; /* Màu nền xám nhạt cho input/textarea */
+            --step-active-color: #ff9800; /* Màu cam cho bước hoạt động */
+            --step-inactive-color: #ccc; /* Màu xám cho bước chưa hoạt động */
+            --button-primary-bg: #888; /* Màu xám cho nút chính (Tiếp tục) */
+            --button-primary-hover: #777;
+        }
+
+        body {
+            background-color: var(--main-bg);
+            color: var(--text-dark);
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- 1. Sidebar Styling (Giữ nguyên) --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--white);
+            border-right: 1px solid var(--border-color);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column; 
+            position: fixed; 
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 100;
+        }
+        
+        /* ... Các CSS Header, Nav, Footer của Sidebar (giữ nguyên) ... */
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            padding: 0 20px 20px; 
+            margin-bottom: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+
+        .system-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .sub-text {
+            color: var(--text-sub);
+            font-size: 12px;
+        }
+
+        .sidebar-nav {
+            flex-grow: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px; 
+            text-decoration: none; 
+            color: var(--text-dark);
+            font-size: 14px;
+            transition: background-color 0.2s; 
+        }
+
+        .nav-item:hover {
+            background-color: var(--nav-hover);
+        }
+
+        .nav-item.active {
+            background-color: var(--nav-hover);
+            font-weight: 600;
+            border-right: 3px solid var(--primary-color); 
+        }
+
+        .nav-item span.material-icons-outlined {
+            margin-right: 15px; 
+            font-size: 20px;
+            color: #444;
+        }
+
+        .sidebar-divider {
+            border-top: 1px solid var(--border-color);
+            margin: 10px 0;
+        }
+
+        .sidebar-demo {
+            padding-bottom: 10px;
+        }
+        
+
+.config-card-title {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px; /* Giảm margin bottom vì subtext nằm ngay dưới */
+}
+
+/* Các trường Form */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+    display: block;
+}
+
+.form-input-text {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--text-dark);
+    background-color: #f7f7f7; /* Màu nền input */
+    transition: border-color 0.2s;
+}
+
+.form-input-text:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+}
+
+/* --- Alert Box Styling --- */
+
+.alert-box a {
+    text-decoration: none;
+    font-weight: 500;
+}
+</style>
 <?php
 include 'views/layouts/header.php';
 include 'views/layouts/sidebar.php';
