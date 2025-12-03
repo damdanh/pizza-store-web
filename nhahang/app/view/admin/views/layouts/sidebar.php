@@ -8,31 +8,31 @@
             </div>
 
             <nav class="sidebar-nav">
-                <a href="../app/view/admin/dashboard.php" class="nav-item <?= ($activePage == 'dashboard') ? 'active' : '' ?>">
+                <a href="dashboard.php?page=dashboard" class="nav-item <?= ($activePage == 'dashboard') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">grid_view</span>
                     Tổng quan
                 </a>
-                <a href="../app/view/admin/quanlydatban.php" class="nav-item <?= ($activePage == 'quanlydatban') ? 'active' : '' ?>">
+                <a href="quanlydatban.php?page=quanlydatban" class="nav-item <?= ($activePage == 'quanlydatban') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">calendar_month</span>
                     Quản lý đặt bàn
                 </a>
-                <a href="../app/view/admin/menu.php" class="nav-item <?= ($activePage == 'menu') ? 'active' : '' ?>">
+                <a href="menu.php?page=menu" class="nav-item <?= ($activePage == 'menu') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">restaurant_menu</span>
                     Quản lý menu
                 </a>
-                <a href="../app/view/admin/chinhanh.php" class="nav-item <?= ($activePage == 'chinhanh') ? 'active' : '' ?>">
+                <a href="chinhanh.php?page=chinhanh" class="nav-item <?= ($activePage == 'chinhanh') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">storefront</span>
                     Quản lý chi nhánh
                 </a>
-                <a href="../app/view/admin/admin.php" class="nav-item <?= ($activePage == 'admin') ? 'active' : '' ?>">
+                <a href="admin.php?page=admin" class="nav-item <?= ($activePage == 'admin') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">person</span>
                     Quản lý admin
                 </a>
-                <a href="../app/view/admin/doanhthu.php" class="nav-item <?= ($activePage == 'doanhthu') ? 'active' : '' ?>">
+                <a href="doanhthu.php?page=doanhthu" class="nav-item <?= ($activePage == 'doanhthu') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">bar_chart</span>
                     Thống kê doanh thu
                 </a>
-                <a href="admin.php?page=cauhinh" class="nav-item <?= ($activePage == 'cauhinh') ? 'active' : '' ?>">
+                <a href="cauhinh.php?page=cauhinh" class="nav-item <?= ($activePage == 'cauhinh') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">settings</span>
                     Cấu hình hệ thống
                 </a>

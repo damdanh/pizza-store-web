@@ -1,4 +1,7 @@
-
+<?php
+include 'views/layouts/header.php';
+include 'views/layouts/sidebar.php';
+?>
 <main class="main-content">
     <header class="page-header">
         <h1>Cấu hình hệ thống</h1>
@@ -66,3 +69,4 @@
         </div>
     </section>  
 </main>
+<?php include 'views/layouts/footer.php'; ?>
