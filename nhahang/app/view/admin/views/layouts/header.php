@@ -11,7 +11,7 @@
       integrity="sha512-iN2J3F2pA+dFf5m4rJm5yNf1O05+n0eC9A/6pD5+hF9PzF5/i5i2Q1/N+N+J+A==" 
       crossorigin="anonymous" 
       referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="<?= BASE_URL ?>/public/admin/css/admin_styles.css"><body>
+    <link rel="stylesheet" href="../public/admin/css/admin_styles.css"><body>
 <body>
     <div class="container">
 

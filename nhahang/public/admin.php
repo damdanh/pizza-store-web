@@ -1,18 +1,15 @@
 <?php
-define('BASE_URL', 'http://localhost/nhahang');
-$ROOT = dirname(__DIR__); 
+include "../app/controller/AdminController.php";
+    $controller = new AdminController();
+include "../app/view/admin/views/layouts/header.php";
+include "../app/view/admin/views/layouts/sidebar.php";
 
-$pageTitle = "Quản lý Admin"; 
-$activePage = "admin"; 
+if (!isset($_GET['page'])){
+       header('location:admin.php?page=home');
+    }else{
+        $page = $_GET['page'];
+        $controller->$page();
+    }
 
-// SỬ DỤNG ĐƯỜNG DẪN TUYỆT ĐỐI BẰNG CÁCH NỐI CHUỖI
-require_once $ROOT . '/app/view/admin/views/layouts/header.php'; 
-require_once $ROOT . '/app/view/admin/views/layouts/sidebar.php';
-?>
-
-<main class="main-content">
-    </main>
-
-<?php 
-require_once $ROOT . '/app/view/admin/views/layouts/footer.php'; 
+include "../app/view/admin/views/layouts/footer.php";
 ?>
