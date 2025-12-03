@@ -1,16 +1,20 @@
 <?php
-// require 'App/Model/category.php';
-// require 'App/Model/product.php';
-// require 'App/Model/user.php';
-// require 'App/Model/order.php';
+require 'nhahang/app/Model/CategoryModel.php';
+require 'nhahang/app/Model/ProductModel.php';
+require 'nhahang/app/Model/UserModel.php';
   class AdminController {
-  //    public $danhmuc;
-  // public $sanpham;
-  // public $user;
-  // public $order;
+  public $danhmuc;
+  public $sanpham;
+  public $user;
+  public $db;
+  public function __construct($db_object){
+    $this->danhmuc = new CategoryModel();
+    $this->sanpham = new ProductModel();
+    $this->user = new UserModel($this->db);
+  }
     public function home(){
     //   $dssp = $this->sanpham->getall_sp();  
-    // $dsuser = $this->user->getall_user();
+    // $dsuser = $this->user->getAllUsers();
     include '../app/view/admin/admin.php';
   }
     public function cauhinh(){
