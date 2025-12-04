@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include '../app/config/database.php';
 $conn = getConnection();
 define('ROOT_PATH', __DIR__ . '/../');
@@ -8,6 +8,7 @@ require_once __DIR__ . '/../app/controller/AboutController.php';
 require_once __DIR__ . '/../app/controller/ContactController.php';
 require_once __DIR__ . '/../app/controller/BookingController.php';
 require_once __DIR__ . '/../app/controller/EventController.php';
+require_once __DIR__ . '/../app/controller/UserController.php';
 $request_uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $last = basename($request_uri);
 if (
@@ -16,13 +17,10 @@ if (
     $controller = new HomeController();
     $controller->index();
 
-session_start();
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require_once '../app/controller/HomeController.php';
-require_once '../app/controller/UserController.php';
-$request = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $parts   = explode('/', $request);
 $publicIndex = array_search('public', $parts);
 $page = '';

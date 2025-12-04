@@ -31,12 +31,12 @@ $firstLetter = $userName ? strtoupper(mb_substr($userName, 0, 1)) : 'U';
                 <li><a href="<?= VIEW_URL ?>contact.php">Liên Hệ</a></li>
     </div>
     
-    <div class="header-right">
+    <!-- <div class="header-right">
 
         <div class="auth-buttons">
         <a href="<?= VIEW_URL ?>login.php" class="auth-btn">Đăng Nhập</a>
         <a href="<?= VIEW_URL ?>register.php" class="auth-btn">Đăng Ký</a>
-        </div>
+        </div> -->
 
         <?php if ($isLoggedIn): ?>
             <!-- ĐÃ ĐĂNG NHẬP -->
@@ -57,7 +57,7 @@ $firstLetter = $userName ? strtoupper(mb_substr($userName, 0, 1)) : 'U';
             <!-- CHƯA ĐĂNG NHẬP -->
             <div class="auth-buttons">
                 <a href="<?php echo $base_url_path; ?>public/login" class="auth-btn">Đăng Nhập</a>
-                <a href="<?php echo $base_url_path; ?>public/signin" class="auth-btn signup">Đăng Ký</a>
+                <a href="<?php echo $base_url_path; ?>public/signin" class="auth-btn">Đăng Ký</a>
             </div>
         <?php endif; ?>
 
