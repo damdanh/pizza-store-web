@@ -30,6 +30,21 @@ if ($publicIndex !== false && isset($parts[$publicIndex + 1])) {
 $publicPages = ['', 'home', 'login', 'register', 'signin'];
 if (!isset($_SESSION['user_id']) && !in_array($page, $publicPages)) {
     header("Location: /WD20302-PRO1014_N5/nhahang/public/login");
+    exit();
+
+include '../app/config/database.php';
+$conn = getConnection();
+define('ROOT_PATH', __DIR__ . '/../');
+require_once ROOT_PATH . 'app/controller/HomeController.php';
+require_once ROOT_PATH . 'app/controller/BookingController.php';
+require_once ROOT_PATH . 'app/controller/AboutController.php';
+$request_uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+$last = basename($request_uri);
+if (
+    $request_uri == '' || $last == 'public' || $last == 'index.php'
+) {
+    $controller = new HomeController();
+    $controller->index();
 
     exit;
 }

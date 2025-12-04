@@ -56,7 +56,6 @@ if (isset($content_view)) {
 
 </body>
 </html> 
-
     <?php 
   
     include __DIR__ . '/footer.php'; 
@@ -66,3 +65,5 @@ if (isset($content_view)) {
     </body>
 </html>
 
+</body>
+</html> 
