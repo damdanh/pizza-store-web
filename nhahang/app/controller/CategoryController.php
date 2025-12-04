@@ -1,4 +1,5 @@
 <?php
+
 include_once __DIR__ . '/../model/ProductModel.php';
 include_once __DIR__ . '/../model/CategoryModel.php';
 
@@ -20,8 +21,6 @@ class CategoryController {
                 header("Location: /WD20302-PRO1014_N5/nhahang/public/");
                 exit;
             }
-            
-            // Lấy sản phẩm theo danh mục
             $products = $productModel->getProductsByCategory($categoryId);
 
             $data = [
