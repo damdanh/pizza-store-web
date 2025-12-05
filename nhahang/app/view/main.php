@@ -26,13 +26,12 @@ if (isset($content_view)) {
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/home.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products_detail.css"> 
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/baochi.css.>
 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/xacnhandatban.css"> 
-    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/home.css"> 
+    
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products_detail.css"> 
-    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/signin.css"> 
-    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/login.css">
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/datban.css">
 
 

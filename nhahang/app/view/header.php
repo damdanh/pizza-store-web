@@ -2,8 +2,6 @@
 
 <?php require_once __DIR__ . '/../config/constants.php'; ?>
 
-
-<!-- view/header.php – bản fix đẹp 100% -->
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -85,7 +83,7 @@ $firstLetter = $userName ? strtoupper(mb_substr($userName, 0, 1)) : 'U';
     </div>
 
 </div>
-<!-- ================== POPUP HỒ SƠ KHÁCH HÀNG ================== -->
+
 <div class="profile-popup" id="profilePopup">
     <div class="popup-content">
 
