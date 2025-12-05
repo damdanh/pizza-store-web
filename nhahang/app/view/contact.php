@@ -18,10 +18,14 @@ $title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online';
 </head>
 <body>
     
+
      <?php 
 
     include __DIR__ . '/header.php'; 
     ?> 
+
+
+
 <div class="banner">
     <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&h=400&fit=crop" alt="Contact Banner">
     <div class="banner-text">LIÊN HỆ</div>
@@ -107,8 +111,7 @@ gmail.com
         </div>
     </div>
 </div>
-<?php 
-include __DIR__ . '/footer.php'; ?>
+
 
     
 </body>

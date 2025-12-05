@@ -17,10 +17,7 @@ $title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online';
 </head>
 <body>
     
-    <?php 
-
-    include __DIR__ . '/header.php'; 
-    ?>
+   
   <!-- Page Header -->
   <section class="page-header">
         <h1>Tư liệu truyền thông</h1>
@@ -95,9 +92,6 @@ $title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online';
         </form>
         <p class="subscribe-note">Mọi thông tin cần tương thành trong Hộp thư sẽ có thông qua đó cho các biên nhân<br>Bạn có thể hủy đăng ký vào bất cứ lúc nào.</p>
     </div>
-</section>
-    <?php include __DIR__ . '/footer.php'; ?>
-
-    
+</section>    
 </body>
 </html>

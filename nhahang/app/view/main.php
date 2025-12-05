@@ -22,9 +22,19 @@ if (isset($content_view)) {
     <title><?php echo htmlspecialchars($title); ?></title>
 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/contact.css"> 
+
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/home.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products_detail.css"> 
+
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/xacnhandatban.css"> 
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/home.css"> 
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products.css"> 
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products_detail.css"> 
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/signin.css"> 
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/login.css">
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/datban.css">
+
 
     <?php if (in_array($current_page, ['login', 'register', 'signin', 'forgot_password_email', 'verify_email', 'reset_password'])): ?>
         <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/signin.css"> 
@@ -61,6 +71,8 @@ include __DIR__ . '/header.php';
 <?php include __DIR__ . '/footer.php'; ?>
 
 <script src="<?php echo $base_url_path; ?>public/cart.js"></script>
+
+
 
 </body>
 </html>

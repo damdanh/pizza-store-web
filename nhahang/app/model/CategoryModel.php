@@ -6,7 +6,7 @@ class CategoryModel {
         global $conn;
         if (!isset($conn) || $conn === null) {
             require_once __DIR__ . '/../config/database.php';
-            $conn = $GLOBALS['conn'];
+            $conn = getConnection();
         }
         
         if (!isset($conn) || $conn === null) {

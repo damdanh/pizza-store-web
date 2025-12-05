@@ -1,4 +1,8 @@
 
+
+<?php require_once __DIR__ . '/../config/constants.php'; ?>
+
+
 <!-- view/header.php – bản fix đẹp 100% -->
 <?php
 if (session_status() == PHP_SESSION_NONE) {
@@ -9,7 +13,6 @@ $userName   = $_SESSION['user_name'] ?? '';
 $firstLetter = $userName ? strtoupper(mb_substr($userName, 0, 1)) : 'U';
 ?>
 
-<?php require_once __DIR__ . '/../config/constants.php'; ?>
 
 <div class="top-banner">
     <span>NẾU BẠN KHÔNG CÓ SỐ ĐIỆN THOẠI VIỆT NAM, BẠN CÓ THỂ ĐẶT BẠN QUA</span>
@@ -26,6 +29,7 @@ $firstLetter = $userName ? strtoupper(mb_substr($userName, 0, 1)) : 'U';
         </a>
 
         <ul class="nav-menu">
+
                 <li><a href="<?php echo $base_url_path; ?>public/">Trang chủ</a></li>
                 <li><a href="<?= VIEW_URL ?>chungtoi.php">Về Chúng Tôi</a></li>
                 <li><a href="<?php echo $base_url_path; ?>public/category.php?id=1">Thực Đơn</a></li>
@@ -35,9 +39,10 @@ $firstLetter = $userName ? strtoupper(mb_substr($userName, 0, 1)) : 'U';
                 <li><a href="<?= VIEW_URL ?>contact.php">Liên Hệ</a></li>
               
         </ul>
+
+
     </div>
-    
-    <div class="header-right">
+ 
 
         <?php if ($isLoggedIn): ?>
             <!-- ĐÃ ĐĂNG NHẬP -->
@@ -59,12 +64,10 @@ $firstLetter = $userName ? strtoupper(mb_substr($userName, 0, 1)) : 'U';
             <!-- CHƯA ĐĂNG NHẬP -->
             <div class="auth-buttons">
                 <a href="<?php echo $base_url_path; ?>public/login" class="auth-btn">Đăng Nhập</a>
-                <a href="<?php echo $base_url_path; ?>public/signin" class="auth-btn signup">Đăng Ký</a>
+                <a href="<?php echo $base_url_path; ?>public/signin" class="auth-btn">Đăng Ký</a>
             </div>
         <?php endif; ?>
 
-
-   
 
         <div class="social-icons">
             <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
