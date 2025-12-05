@@ -11,7 +11,6 @@ if (isset($content_view)) {
 } elseif (isset($_GET['page'])) {
     $current_page = $_GET['page'];
 }
-// Hoặc đơn giản hơn: bạn tự set trong Controller cũng được 
 ?>
 
 <!DOCTYPE html>
@@ -24,12 +23,14 @@ if (isset($content_view)) {
 
     
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/contact.css"> 
-
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/xacnhandatban.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/home.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products_detail.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/signin.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/login.css">
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/datban.css">
+
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -50,9 +51,6 @@ if (isset($content_view)) {
     }
     ?>
 </main>
-
-<?php include __DIR__ . '/footer.php'; ?>
-
 
 </body>
 </html> 
