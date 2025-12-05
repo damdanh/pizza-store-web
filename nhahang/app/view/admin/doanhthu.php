@@ -260,7 +260,7 @@ include 'views/layouts/sidebar.php';
     <section class="revenue-stats">
         <div class="card stat-card">
             <div>
-                <div class="stat-value">500,000,000 VNĐ</div>
+                <div class="stat-value">0 VNĐ</div>
                 <div class="stat-label">Tổng Doanh thu</div>
             </div>
             <span class="material-icons-outlined" style="color: #34A853;">paid</span>
@@ -268,7 +268,7 @@ include 'views/layouts/sidebar.php';
         
         <div class="card stat-card">
             <div>   
-                <div class="stat-value">150,000,000 VNĐ</div>
+                <div class="stat-value">0 VNĐ</div>
                 <div class="stat-label">Lợi nhuận ròng</div>
             </div>
             <span class="material-icons-outlined" style="color: #4285F4;">trending_up</span>
@@ -276,7 +276,7 @@ include 'views/layouts/sidebar.php';
         
         <div class="card stat-card">
             <div>
-                <div class="stat-value">5,000</div>
+                <div class="stat-value">0</div>
                 <div class="stat-label">Tổng đơn hàng</div>
             </div>
             <span class="material-icons-outlined" style="color: #EA4335;">shopping_cart</span>

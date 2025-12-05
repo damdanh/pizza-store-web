@@ -8,19 +8,19 @@
             </div>
 
             <nav class="sidebar-nav">
-                <a href="dashboard.php?page=dashboard" class="nav-item <?= ($activePage == 'dashboard') ? 'active' : '' ?>">
+                <a href="admin.php?page=dashboard" class="nav-item <?= ($activePage == 'dashboard') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">grid_view</span>
                     Tổng quan
                 </a>
-                <a href="quanlydatban.php?page=quanlydatban" class="nav-item <?= ($activePage == 'quanlydatban') ? 'active' : '' ?>">
+                <a href="admin.php?page=quanlydatban" class="nav-item <?= ($activePage == 'quanlydatban') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">calendar_month</span>
                     Quản lý đặt bàn
                 </a>
-                <a href="menu.php?page=menu" class="nav-item <?= ($activePage == 'menu') ? 'active' : '' ?>">
+                <a href="admin.php?page=menu" class="nav-item <?= ($activePage == 'menu') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">restaurant_menu</span>
                     Quản lý menu
                 </a>
-                <a href="chinhanh.php?page=chinhanh" class="nav-item <?= ($activePage == 'chinhanh') ? 'active' : '' ?>">
+                <a href="admin.php?page=chinhanh" class="nav-item <?= ($activePage == 'chinhanh') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">storefront</span>
                     Quản lý chi nhánh
                 </a>
@@ -28,11 +28,11 @@
                     <span class="material-icons-outlined">person</span>
                     Quản lý admin
                 </a>
-                <a href="doanhthu.php?page=doanhthu" class="nav-item <?= ($activePage == 'doanhthu') ? 'active' : '' ?>">
+                <a href="admin.php?page=doanhthu" class="nav-item <?= ($activePage == 'doanhthu') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">bar_chart</span>
                     Thống kê doanh thu
                 </a>
-                <a href="cauhinh.php?page=cauhinh" class="nav-item <?= ($activePage == 'cauhinh') ? 'active' : '' ?>">
+                <a href="admin.php?page=cauhinh" class="nav-item <?= ($activePage == 'cauhinh') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">settings</span>
                     Cấu hình hệ thống
                 </a>
@@ -41,7 +41,7 @@
             <div class="sidebar-divider"></div>
 
             <div class="sidebar-demo">
-                <a href="formDemo.php" class="nav-item demo-item <?= ($activePage == 'formDemo') ? 'active' : '' ?>">
+                <a href="admin.php?page=formDemo" class="nav-item demo-item <?= ($activePage == 'formDemo') ? 'active' : '' ?>">
                     <span class="material-icons-outlined">article</span>
                     Form khách hàng <span class="sub-text">(Demo)</span>
                 </a>

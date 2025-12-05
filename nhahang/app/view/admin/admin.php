@@ -186,6 +186,7 @@
 
         /* Nút hành động đơn */
         .action-button-single {
+            margin: 5px;
             flex-shrink: 0;
         }
 
