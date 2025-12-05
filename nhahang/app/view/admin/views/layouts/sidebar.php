@@ -48,10 +48,11 @@
             </div>
 
             <div class="sidebar-footer">
-                <div class="login-info">Đăng nhập với <br> <strong><?= $_SESSION['username'] ?? 'Admin' ?></strong></div>
-                <button class="logout-btn" onclick="location.href='logout.php'">
-                    <span class="material-icons-outlined">logout</span>
-                    Đăng xuất
-                </button>
-            </div>
+    <div class="login-info">Đăng nhập với <br> <strong><?= $_SESSION['admin']['ten'] ?? 'Admin' ?></strong></div>
+    
+    <button class="logout-btn" onclick="location.href='admin.php?action=logout'">
+        <span class="material-icons-outlined">logout</span>
+        Đăng xuất
+    </button>
+</div>
         </aside>
