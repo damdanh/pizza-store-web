@@ -1,0 +1,371 @@
+<style>
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --sidebar-width: 280px;
+            --main-bg: #f9f9f9; 
+            --white: #ffffff;
+            --text-dark: #333; 
+            --text-sub: #777;
+            --border-color: #eee;
+            --primary-color: #1a73e8; 
+            --nav-hover: #f0f0f0; 
+            --form-bg: #f5f5f5; /* Màu nền xám nhạt cho input/textarea */
+            --step-active-color: #ff9800; /* Màu cam cho bước hoạt động */
+            --step-inactive-color: #ccc; /* Màu xám cho bước chưa hoạt động */
+            --button-primary-bg: #888; /* Màu xám cho nút chính (Tiếp tục) */
+            --button-primary-hover: #777;
+        }
+
+        body {
+            background-color: var(--main-bg);
+            color: var(--text-dark);
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- 1. Sidebar Styling (Giữ nguyên) --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--white);
+            border-right: 1px solid var(--border-color);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column; 
+            position: fixed; 
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 100;
+        }
+        
+        /* ... Các CSS Header, Nav, Footer của Sidebar (giữ nguyên) ... */
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            padding: 0 20px 20px; 
+            margin-bottom: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+
+        .system-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .sub-text {
+            color: var(--text-sub);
+            font-size: 12px;
+        }
+
+        .sidebar-nav {
+            flex-grow: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px; 
+            text-decoration: none; 
+            color: var(--text-dark);
+            font-size: 14px;
+            transition: background-color 0.2s; 
+        }
+
+        .nav-item:hover {
+            background-color: var(--nav-hover);
+        }
+
+        .nav-item.active {
+            background-color: var(--nav-hover);
+            font-weight: 600;
+            border-right: 3px solid var(--primary-color); 
+        }
+
+        .nav-item span.material-icons-outlined {
+            margin-right: 15px; 
+            font-size: 20px;
+            color: #444;
+        }
+
+        .sidebar-divider {
+            border-top: 1px solid var(--border-color);
+            margin: 10px 0;
+        }
+
+        .sidebar-demo {
+            padding-bottom: 10px;
+        }
+        
+        /* Đánh dấu mục Form khách hàng (Demo) */
+        .demo-item.active {
+             background-color: var(--nav-hover);
+             font-weight: 600;
+        }
+
+
+        .sidebar-footer {
+            padding: 10px 20px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .login-info {
+            font-size: 12px;
+            color: var(--text-sub);
+            margin-bottom: 10px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            background-color: var(--white);
+            color: var(--text-dark);
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .logout-btn:hover {
+            background-color: var(--nav-hover);
+            border-color: #ccc;
+        }
+
+        .logout-btn span.material-icons-outlined {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        /* --- 2. Main Content Styling --- */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+            flex-grow: 1;
+        }
+
+        .card {
+            background-color: var(--white);
+            padding: 30px; /* Padding lớn hơn cho form */
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            max-width: 800px; /* Giới hạn chiều rộng của form */
+            margin: 0 auto;
+        }
+
+        /* Tiêu đề trang */
+        .page-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .page-header p {
+            color: var(--text-sub);
+            font-size: 16px;
+        }
+
+        /* --- Multi-Step Indicator --- */
+        .step-indicator {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 25px;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            margin-left: 10px;
+            color: var(--white);
+            background-color: var(--step-inactive-color);
+        }
+
+        .step-number.active {
+            background-color: var(--step-active-color);
+        }
+
+        /* --- Form Fields Layout --- */
+        .form-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .form-group-label span {
+            color: red; /* Dấu sao bắt buộc */
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+            color: var(--text-dark);
+            background-color: var(--form-bg); /* Màu nền input */
+            outline: none;
+            resize: none; /* Không cho phép đổi kích thước textarea */
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+        }
+
+        /* Placeholder style (để giống với hình ảnh) */
+        ::placeholder {
+            color: #aaa;
+            opacity: 1;
+        }
+        
+        /* --- Button --- */
+        .form-actions {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .btn-continue {
+            padding: 15px 40px;
+            background-color: var(--button-primary-bg);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-continue:hover {
+            background-color: var(--button-primary-hover);
+        }
+
+</style>
+<?php
+$pageTitle = "Đặt bàn trực tuyến | Hệ thống Nhà hàng";
+$activePage = "formDemo";
+include 'views/layouts/header.php';
+include 'views/layouts/sidebar.php';
+?>
+
+<main class="main-content">
+    <header class="page-header">
+        <h1>Đặt bàn trực tuyến</h1>
+        <p>Đặt bàn nhanh chóng và trực tuyến</p>
+    </header>
+    
+    <section class="card">
+        <div class="step-indicator">
+            <div class="step-number active">1</div>
+            <div class="step-number">2</div>
+            <div class="step-number">3</div>
+        </div>
+        
+        <form>
+            <div class="form-title">Thông tin đặt bàn</div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-group-label" for="ten">Họ và tên <span>*</span></label>
+                    <input type="text" id="ten" class="form-input" value="Nguyễn Văn A">
+                </div>
+                <div class="form-group">
+                    <label class="form-group-label" for="sdt">Số điện thoại <span>*</span></label>
+                    <input type="tel" id="sdt" class="form-input" value="0123456789">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-group-label" for="email">Email <span>*</span></label> 
+                    <input type="email" id="email" class="form-input" value="email@example.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-group-label" for="chinhanh">Chi nhánh <span>*</span></label>
+                    <select id="chinhanh" class="form-select">
+                        <option disabled selected>Chọn chi nhánh</option>
+                        <option>Chi nhánh 1</option>
+                        <option>Chi nhánh 2</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-group-label" for="ngay">Ngày <span>*</span></label>
+                    <input type="text" id="ngay" class="form-input" placeholder="dd/mm/yy">
+                </div>
+                <div class="form-group">
+                    <label class="form-group-label" for="gio">Giờ <span>*</span></label>
+                    <input type="text" id="gio" class="form-input" placeholder="--:-- --">
+                </div>
+                <div class="form-group">
+                    <label class="form-group-label" for="songuoi">Số người <span>*</span></label>
+                    <input type="number" id="songuoi" class="form-input" value="2">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-group-label" for="ghichu">Ghi chú</label>
+                <textarea id="ghichu" class="form-textarea" placeholder="Yêu cầu đặc biệt...."></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-continue">
+                    Tiếp tục - chọn món (Tùy chọn)
+                </button>
+            </div>
+        </form>
+    </section>
+</main>
+
+<?php include 'views/layouts/footer.php'; ?>

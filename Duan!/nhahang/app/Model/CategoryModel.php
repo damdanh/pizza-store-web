@@ -13,7 +13,6 @@ class CategoryModel {
         $sql = "SELECT * FROM " . $this->table;
         return $this->db->get_all($sql);
     }
-
     public function getCategoryById($id)
     {
         $sql = "SELECT * FROM " . $this->table . " WHERE id_danh_muc_mon = :id";
