@@ -232,7 +232,9 @@ body {
     text-align: center;
     font-size: 14px;
     font-weight: 500;
-    color: #0066CC;
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
 }
 
 /* Product Section */

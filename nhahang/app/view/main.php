@@ -1,17 +1,15 @@
 <?php
 
-
 $base_url_path = '/WD20302-PRO1014_N5/nhahang/'; 
 $title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online';
-// Xác định trang hiện tại đang ở trang nào để load đúng CSS
-$current_page = 'home'; // mặc định
+
+$current_page = 'home';
 
 if (isset($content_view)) {
     $current_page = basename($content_view, '.php');
 } elseif (isset($_GET['page'])) {
     $current_page = $_GET['page'];
 }
-// Hoặc đơn giản hơn: bạn tự set trong Controller cũng được 
 ?>
 
 <!DOCTYPE html>
@@ -20,25 +18,23 @@ if (isset($content_view)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title><?php echo htmlspecialchars($title); ?></title>
-    
 
-    
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/contact.css"> 
-
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/home.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products_detail.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/signin.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/login.css">
+   
 
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <?php if ($current_page === 'chungtoi'): ?>
         <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/chungtoi.css">
     <?php endif; ?> 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    
+
 <?php include __DIR__ . '/header.php'; ?>
 
 <main>
@@ -53,15 +49,7 @@ if (isset($content_view)) {
 
 <?php include __DIR__ . '/footer.php'; ?>
 
-
-    <?php 
-  
-    include __DIR__ . '/footer.php'; 
-    ?>
-    <script src="<?php echo $base_url_path; ?>public/cart.js"></script>
-    
-    </body>
-</html>
+<script src="<?php echo $base_url_path; ?>public/cart.js"></script>
 
 </body>
-</html> 
+</html>
