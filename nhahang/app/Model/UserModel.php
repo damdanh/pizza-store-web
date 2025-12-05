@@ -48,6 +48,7 @@ class UserModel {
         return $stmt->fetch(PDO::FETCH_ASSOC) ? true : false; // Sử dụng PDO chuẩn
     }
 
+
     // Lưu token để cho phép cập nhật mật khẩu (Dùng cột tai_khoan_dang_nhap)
     public function saveResetToken(int $user_id, string $token) {
         $sql = "UPDATE " . $this->table . " SET tai_khoan_dang_nhap = :token WHERE id_khach_hang = :user_id";
@@ -82,3 +83,8 @@ class UserModel {
     // Các hàm cũ của bạn (Giữ nguyên hoặc sửa nếu chúng cũng dùng get_row/action)
     // Giả định các hàm cũ của bạn đã được sửa trong lần cập nhật trước đó
 }
+
+}
+?>
+
+ 
