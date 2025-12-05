@@ -275,6 +275,9 @@
         }
     
 </style>
+<?php session_start(); 
+
+?>
 <main class="main-content">
     <header class="page-header">
         <div class="page-title-group">

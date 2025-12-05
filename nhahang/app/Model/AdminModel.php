@@ -125,6 +125,19 @@ class AdminModel {
         }
     }
 
+    public function getAdminByEmail($email) {
+    try {
+        // Truy vấn tất cả các cột cần thiết cho việc kiểm tra
+        $sql = "SELECT id_admin, ten, email, mat_khau, vai_tro, trang_thai_hoat_dong FROM " . $this->table . " WHERE email = :email";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        throw new Exception("Lỗi CSDL khi tìm Admin: " . $e->getMessage());
+    }
+}
+
     /**
      * Xóa admin
      */

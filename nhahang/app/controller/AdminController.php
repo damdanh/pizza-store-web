@@ -102,7 +102,7 @@ class AdminController {
             'ten_mon' => $name,
             'gia' => $price,
             'hinh_anh' => $img,
-            'trang_thai_hoat_dong' => $trang_thai_hoat_dong,
+            'trang_thai_hoat_dong' => $trang_thai,
             'id_danh_muc_mon' => $cat_id,
             'mo_ta' => $mota
         ];
@@ -156,7 +156,6 @@ class AdminController {
 }
 
     public function admin() {
-        // LƯU Ý: Phải gọi session_start() ở đầu admin.php để dùng $_SESSION
         $action = $_GET['action'] ?? 'list';
         $message = '';
 
@@ -322,5 +321,70 @@ class AdminController {
         // Tải view danh sách admin
         include_once "../app/view/admin/admin.php";
     }
+
+    
+
+/* ================== XỬ LÝ ĐĂNG NHẬP (NHẬN POST) ================== */
+public function login_process() {
+    
+    if (isset($_SESSION['admin'])) {
+        header("Location: admin.php?page=dashboard");
+        exit;
+    }
+    
+    // Lấy dữ liệu POST
+    $email = trim($_POST['email'] ?? '');
+    $mat_khau = $_POST['mat_khau'] ?? '';
+    
+    if (empty($email) || empty($mat_khau)) {
+        $error_msg = "Vui lòng nhập đầy đủ Email và Mật khẩu.";
+        header("Location: admin.php?action=login&error=" . urlencode($error_msg));
+        exit;
+    }
+
+    try {
+        // 1. Lấy thông tin admin từ Model
+        $admin_info = $this->admin->getAdminByEmail($email);
+
+        if ($admin_info) {
+            // 2. Kiểm tra mật khẩu (Quan trọng: Dùng password_verify)
+            if (password_verify($mat_khau, $admin_info['mat_khau'])) {
+                
+                // 3. Kiểm tra trạng thái hoạt động (trang_thai_hoat_dong = 1)
+                if ($admin_info['trang_thai_hoat_dong'] != 1) {
+                     $error_msg = "Tài khoản của bạn đã bị vô hiệu hóa.";
+                     header("Location: admin.php?action=login&error=" . urlencode($error_msg));
+                     exit;
+                }
+                
+                // 4. ĐĂNG NHẬP THÀNH CÔNG: Thiết lập Session
+                $_SESSION['admin'] = [
+                    'id' => $admin_info['id_admin'],
+                    'ten' => $admin_info['ten'],
+                    'email' => $admin_info['email'],
+                    'vai_tro' => $admin_info['vai_tro']
+                ];
+
+                // 5. CHUYỂN HƯỚNG về trang Dashboard
+                header("Location: admin.php?page=dashboard");
+                exit;
+
+            } else {
+                $error_msg = "Email hoặc Mật khẩu không đúng.";
+            }
+        } else {
+            $error_msg = "Email hoặc Mật khẩu không đúng.";
+        }
+
+    } catch (\Exception $e) {
+        $error_msg = "Lỗi hệ thống: " . $e->getMessage();
+    }
+
+    // Đăng nhập thất bại: Chuyển hướng lại về trang Login với thông báo lỗi
+    header("Location: admin.php?action=login&error=" . urlencode($error_msg));
+    exit;
+}
+
+
 }
 ?>

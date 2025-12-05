@@ -390,56 +390,66 @@
         </div>
 
         <div class="login-card">
-            <h2 class="welcome-title">Welcome Admin</h2>
+    <h2 class="welcome-title">Welcome Admin</h2>
 
-            <?php if (isset($_SESSION['error'])): ?>
-                <div class="error-message">
-                    <?php
-                    echo htmlspecialchars($_SESSION['error']);
-                    unset($_SESSION['error']);
-                    ?>
-                </div>
-            <?php endif; ?>
-
-            <form action="index.php?controller=admin&action=login" method="POST">
-                <div class="form-group">
-                    <label class="form-label" for="username">User Name</label>
-                    <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        class="form-input"
-                        placeholder="hannah.green@test.com"
-                        value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>"
-                        required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        class="form-input"
-                        placeholder="Password123@"
-                        required>
-                </div>
-
-                <div class="checkbox-group">
-                    <input
-                        type="checkbox"
-                        id="remember"
-                        name="remember"
-                        class="checkbox-input">
-                    <label for="remember" class="checkbox-label">Remember me on this computer</label>
-                </div>
-
-                <button type="button" class="login-button" onclick="window.location.href='dashboard.php'">Log In</button>
-                <div class="forgot-password">
-                    <a href="index.php?controller=admin&action=forgotPassword">Forgot Password?</a>
-                </div>
-            </form>
+    <?php 
+    // Giả định Controller đặt thông báo lỗi vào $_SESSION['error_msg'] hoặc lấy từ query string
+    $error_message = $_SESSION['error_msg'] ?? ($_GET['error'] ?? '');
+    
+    if (!empty($error_message)): 
+        // Lấy lỗi từ Session/GET và đảm bảo an toàn
+        $display_error = htmlspecialchars($error_message);
+        
+        // Xóa biến session ngay sau khi lấy để tránh hiển thị lại
+        if (isset($_SESSION['error_msg'])) {
+            unset($_SESSION['error_msg']);
+        }
+    ?>
+        <div class="error-message">
+            <?= $display_error ?>
         </div>
+    <?php endif; ?>
+
+    <form action="admin.php?action=login_process" method="POST">
+        <div class="form-group">
+            <label class="form-label" for="email">Email Admin</label>
+            <input
+                type="text"
+                id="email"
+                name="email" 
+                class="form-input"
+                placeholder="vd: admin@pizza4ps.vn"
+                value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"
+                required>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="mat_khau">Mật khẩu</label>
+            <input
+                type="password"
+                id="mat_khau"
+                name="mat_khau"
+                class="form-input"
+                placeholder="Nhập mật khẩu của bạn"
+                required>
+        </div>
+
+        <div class="checkbox-group">
+            <input
+                type="checkbox"
+                id="remember"
+                name="remember"
+                class="checkbox-input">
+            <label for="remember" class="checkbox-label">Ghi nhớ đăng nhập</label>
+        </div>
+
+        <button type="submit" class="login-button">ĐĂNG NHẬP</button>
+        
+        <div class="forgot-password">
+            <a href="admin.php?action=forgot_password">Quên Mật khẩu?</a>
+        </div>
+    </form>
+</div>
     </div>
 
     <script>
