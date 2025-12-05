@@ -1,259 +1,463 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập Admin</title>
+    <title>Admin Login - Pizza 4P's</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #a89f94 0%, #8b8379 100%);
             min-height: 100vh;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             padding: 20px;
         }
-        
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            width: 100%;
-            max-width: 400px;
-            animation: slideUp 0.5s ease;
-        }
-        
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .logo-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
+
+        .header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            padding: 20px 30px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            color: white;
-            font-size: 32px;
-            font-weight: bold;
+            gap: 20px;
+            z-index: 100;
         }
-        
-        h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
-        
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 500;
-            font-size: 14px;
-        }
-        
-        .input-wrapper {
-            position: relative;
-        }
-        
-        .input-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-        }
-        
-        input[type="email"],
-        input[type="password"],
-        input[type="text"] {
-            width: 100%;
-            padding: 12px 15px 12px 45px;
-            border: 2px solid #e1e1e1;
-            border-radius: 10px;
-            font-size: 14px;
-            transition: all 0.3s;
-            outline: none;
-        }
-        
-        input:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        .password-toggle {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
+
+        .header-icon {
+            width: 24px;
+            height: 24px;
             cursor: pointer;
-            color: #999;
-            user-select: none;
+            filter: brightness(0) invert(1);
+            opacity: 0.8;
+            transition: opacity 0.3s;
         }
-        
-        .btn {
+
+        .header-icon:hover {
+            opacity: 1;
+        }
+
+        .container {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+            max-width: 1200px;
             width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .promo-banner {
+            background: linear-gradient(135deg, #2c4a7c 0%, #1a2942 100%);
+            padding: 50px 40px;
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 520px;
+        }
+
+        .promo-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+
+            0%,
+            100% {
+                transform: translate(-25%, -25%);
+            }
+
+            50% {
+                transform: translate(25%, 25%);
+            }
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #4a9eff;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        .promo-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .promo-title {
             color: white;
+            font-size: 48px;
+            font-weight: 300;
+            line-height: 1.2;
+            margin-bottom: 30px;
+            font-family: 'Georgia', serif;
+        }
+
+        .promo-title .highlight {
+            font-weight: 600;
+        }
+
+        .fish-container {
+            display: flex;
+            gap: 20px;
+            margin: 30px 0;
+            justify-content: center;
+        }
+
+        .fish {
+            width: 80px;
+            height: 60px;
+            position: relative;
+            animation: swim 3s ease-in-out infinite;
+        }
+
+        .fish:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .fish:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes swim {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(5deg);
+            }
+        }
+
+        .send-button {
+            background: white;
+            color: #1a2942;
             border: none;
-            border-radius: 10px;
+            padding: 15px 40px;
+            border-radius: 30px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
         }
-        
-        .btn:hover {
+
+        .send-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
         }
-        
-        .btn:active {
+
+        .brand-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 32px;
+            font-weight: 700;
+            margin-top: 30px;
+            letter-spacing: 2px;
+        }
+
+        .login-card {
+            background: white;
+            padding: 50px 45px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .welcome-title {
+            font-size: 36px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            color: #2c3e50;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4a9eff;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .checkbox-input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #2c4a7c;
+        }
+
+        .checkbox-label {
+            color: #5a6c7d;
+            font-size: 14px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 16px;
+            background: #3d3530;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .login-button:hover {
+            background: #2a2420;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(61, 53, 48, 0.3);
+        }
+
+        .login-button:active {
             transform: translateY(0);
         }
-        
-        .forgot-link {
-            text-align: center;
-            margin-top: 20px;
+
+        .forgot-password {
+            text-align: right;
+            margin-top: 15px;
         }
-        
-        .forgot-link a {
-            color: #667eea;
+
+        .forgot-password a {
+            color: #ff6b6b;
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
+            transition: color 0.3s;
         }
-        
-        .forgot-link a:hover {
+
+        .forgot-password a:hover {
+            color: #ff5252;
             text-decoration: underline;
         }
-        
-        .alert {
-            padding: 12px 15px;
-            border-radius: 10px;
+
+        .error-message {
+            background: #fff3f3;
+            border-left: 4px solid #ff6b6b;
+            color: #d63031;
+            padding: 12px 16px;
+            border-radius: 6px;
             margin-bottom: 20px;
             font-size: 14px;
         }
-        
-        .alert-error {
-            background: #fee;
-            color: #c33;
-            border: 1px solid #fcc;
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .promo-banner {
+                max-width: 100%;
+            }
         }
-        
-        .alert-success {
-            background: #efe;
-            color: #3c3;
-            border: 1px solid #cfc;
-        }
-        
-        .demo-info {
-            background: #f0f4ff;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            font-size: 13px;
-            color: #555;
-            border-left: 4px solid #667eea;
-        }
-        
-        .demo-info strong {
-            display: block;
-            margin-bottom: 5px;
-            color: #667eea;
+
+        @media (max-width: 576px) {
+            .promo-title {
+                font-size: 36px;
+            }
+
+            .login-card {
+                padding: 35px 25px;
+            }
+
+            .welcome-title {
+                font-size: 28px;
+            }
         }
     </style>
 </head>
+
 <body>
+    <div class="header">
+        <svg class="header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <svg class="header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+    </div>
+
     <div class="container">
-        <div class="logo">
-            <div class="logo-icon">A</div>
-            <h2>Đăng nhập Admin</h2>
-            <p class="subtitle">Vui lòng nhập thông tin để tiếp tục</p>
-        </div>
-        
-        <?php if ($error): ?>
-            <div class="alert alert-error"><?php echo $error; ?></div>
-        <?php endif; ?>
-        
-        <?php if (isset($_GET['reset']) && $_GET['reset'] == 'success'): ?>
-            <div class="alert alert-success">Mật khẩu đã được đặt lại thành công!</div>
-        <?php endif; ?>
-        
-        <form method="POST" action="">
-            <div class="form-group">
-                <label for="email">Email</label>
-                <div class="input-wrapper">
-                    <span class="input-icon">📧</span>
-                    <input type="email" id="email" name="email" placeholder="admin@example.com" required>
-                </div>
+        <div class="promo-banner">
+            <div class="stars">
+                <span class="star" style="top: 10%; left: 15%; animation-delay: 0s;"></span>
+                <span class="star" style="top: 25%; left: 70%; animation-delay: 0.3s;"></span>
+                <span class="star" style="top: 40%; left: 30%; animation-delay: 0.6s;"></span>
+                <span class="star" style="top: 60%; left: 80%; animation-delay: 0.9s;"></span>
+                <span class="star" style="top: 75%; left: 20%; animation-delay: 1.2s;"></span>
+                <span class="star" style="top: 15%; left: 85%; animation-delay: 1.5s;"></span>
+                <span class="star" style="top: 50%; left: 50%; animation-delay: 1.8s;"></span>
+                <span class="star" style="top: 80%; left: 60%; animation-delay: 2.1s;"></span>
             </div>
-            
-            <div class="form-group">
-                <label for="password">Mật khẩu</label>
-                <div class="input-wrapper">
-                    <span class="input-icon">🔒</span>
-                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
-                    <span class="password-toggle" onclick="togglePassword()">👁️</span>
+
+            <div class="promo-content">
+                <h1 class="promo-title">
+                    Give your loved<br>
+                    ones more 🐠<br>
+                    <span class="highlight">Gift Voucher</span><br>
+                    than just a gift
+                </h1>
+
+                <div class="fish-container">
+                    <div class="fish">🐠</div>
+                    <div class="fish">🐡</div>
+                    <div class="fish">🐟</div>
                 </div>
+
+                <button class="send-button">SEND NOW</button>
+
+                <div class="brand-text">PIZZA 4P'S</div>
             </div>
-            
-            <button type="submit" class="btn">Đăng nhập</button>
-        </form>
-        
-        <div class="forgot-link">
-            <a href="forgot_password.php">Quên mật khẩu?</a>
         </div>
+
+        <div class="login-card">
+            <h2 class="welcome-title">Welcome Admin</h2>
+
+            <?php if (isset($_SESSION['error'])): ?>
+                <div class="error-message">
+                    <?php
+                    echo htmlspecialchars($_SESSION['error']);
+                    unset($_SESSION['error']);
+                    ?>
+                </div>
+            <?php endif; ?>
+
+            <form action="index.php?controller=admin&action=login" method="POST">
+                <div class="form-group">
+                    <label class="form-label" for="username">User Name</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        class="form-input"
+                        placeholder="hannah.green@test.com"
+                        value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-input"
+                        placeholder="Password123@"
+                        required>
+                </div>
+
+                <div class="checkbox-group">
+                    <input
+                        type="checkbox"
+                        id="remember"
+                        name="remember"
+                        class="checkbox-input">
+                    <label for="remember" class="checkbox-label">Remember me on this computer</label>
+                </div>
+
+                <button type="button" class="login-button" onclick="window.location.href='dashboard.php'">Log In</button>
+                <div class="forgot-password">
+                    <a href="index.php?controller=admin&action=forgotPassword">Forgot Password?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
-        function togglePassword() {
-            const input = document.getElementById('password');
-            const toggle = document.querySelector('.password-toggle');
-            
-            if (input.type === 'password') {
-                input.type = 'text';
-                toggle.textContent = '🙈';
-            } else {
-                input.type = 'password';
-                toggle.textContent = '👁️';
-            }
+        // Auto dismiss error message after 5 seconds
+        const errorMsg = document.querySelector('.error-message');
+        if (errorMsg) {
+            setTimeout(() => {
+                errorMsg.style.opacity = '0';
+                errorMsg.style.transition = 'opacity 0.5s';
+                setTimeout(() => errorMsg.remove(), 500);
+            }, 5000);
         }
+
+        // Add floating animation to fish
+        document.querySelectorAll('.fish').forEach((fish, index) => {
+            fish.style.animationDelay = `${index * 0.5}s`;
+        });
     </script>
 </body>
+
 </html>
