@@ -17,6 +17,7 @@ $title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online';
 </head>
 <body>
     
+    
        <!-- Hero Vietnam Section -->
        <section class="hero-vietnam">
         <div class="hero-content">
@@ -113,7 +114,7 @@ $title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online';
             <p class="subscribe-note">Mọi thông tin được bảo mật theo chính sách của chúng tôi<br>Bạn có thể hủy đăng ký bất cứ lúc nào.</p>
         </div>
     </section>
-
+ 
     </body>
 </html> 
     

@@ -21,39 +21,51 @@ if (isset($content_view)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title><?php echo htmlspecialchars($title); ?></title>
 
+    <!-- CSS chung -->
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/contact.css"> 
-
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/home.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products_detail.css"> 
-    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/baochi.css.>
 
-    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/xacnhandatban.css"> 
-    
-    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products.css"> 
-    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products_detail.css"> 
-    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/datban.css">
-
-
+    <!-- CSS cho trang đăng nhập/đăng ký -->
     <?php if (in_array($current_page, ['login', 'register', 'signin', 'forgot_password_email', 'verify_email', 'reset_password'])): ?>
         <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/signin.css"> 
         <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/login.css">
     <?php endif; ?>
    
+    <!-- CSS cho trang Chúng tôi -->
     <?php if ($current_page === 'chungtoi'): ?>
         <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/chungtoi.css">
     <?php endif; ?> 
     
+    <!-- CSS cho trang Profile -->
     <?php if ($current_page === 'profile'): ?>
         <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/profile.css">
     <?php endif; ?> 
+
+    <!-- CSS cho trang Báo chí -->
+    <?php if ($current_page === 'baochi'): ?>
+        <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/baochi.css">
+    <?php endif; ?>
+
+    <!-- CSS cho trang Sự kiện -->
+    <?php if ($current_page === 'sukien'): ?>
+        <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/sukien.css">
+    <?php endif; ?>
+
+    <!-- CSS cho trang Đặt bàn -->
+    <?php if (in_array($current_page, ['datban', 'chitietdatban', 'xacnhandatban'])): ?>
+        <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/datban.css">
+        <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/chitietdatban.css">
+        <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/xacnhandatban.css">
+    <?php endif; ?>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
 <?php 
-// Giả định header.php và footer.php nằm cùng cấp với main.php (trong view/)
+// Include header
 include __DIR__ . '/header.php'; 
 ?>
 
@@ -67,11 +79,12 @@ include __DIR__ . '/header.php';
     ?>
 </main>
 
-<?php include __DIR__ . '/footer.php'; ?>
+<?php 
+// Include footer
+include __DIR__ . '/footer.php'; 
+?>
 
 <script src="<?php echo $base_url_path; ?>public/cart.js"></script>
-
-
 
 </body>
 </html>

@@ -15,6 +15,8 @@ $title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
 </head>
 <body>
+    
+  
 <!-- Chef Introduction Section -->
 <section class="chef-intro">
         <div class="chef-container">
@@ -78,5 +80,8 @@ $title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online';
             <p class="subscribe-note">Mọi thông tin được nhập vào trong Hộp thư sẽ được bảo mật theo chính sách của chúng tôi<br>Bạn có thể hủy đăng ký vào bất cứ lúc nào.</p>
         </div>
     </section>
+   
+
+    
 </body>
 </html>
