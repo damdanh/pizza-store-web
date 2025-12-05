@@ -271,15 +271,15 @@ include 'views/layouts/sidebar.php';
         <div class="card kpi-card">
             <div class="kpi-title">Món ăn</div>
             <span class="kpi-icon orange"><span class="material-icons-outlined">restaurant</span></span>
-            <div class="kpi-data">0</div>
-            <div class="kpi-sub-text">0 chờ xác nhận</div>
+            <div class="kpi-data"><?= isset($totalProducts) ? htmlspecialchars($totalProducts) : '0' ?></div>
+            <div class="kpi-sub-text"></div>
         </div>
 
         <div class="card kpi-card">
             <div class="kpi-title">Chi nhánh</div>
             <span class="kpi-icon green"><span class="material-icons-outlined">storefront</span></span>
-            <div class="kpi-data">0</div>
-            <div class="kpi-sub-text">0 chờ xác nhận</div>
+            <div class="kpi-data"><?= isset($totalBranches) ? htmlspecialchars($totalBranches) : '0' ?></div>
+            <div class="kpi-sub-text"></div>
         </div>
 
         <div class="card kpi-card">

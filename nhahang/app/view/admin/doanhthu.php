@@ -260,11 +260,9 @@ include 'views/layouts/sidebar.php';
     <section class="revenue-stats">
         <div class="card stat-card">
             <div>
-<<<<<<< HEAD
+
                 <div class="stat-value">500,000,000 VNĐ</div>
-=======
                 <div class="stat-value">0 VNĐ</div>
->>>>>>> M_Danh
                 <div class="stat-label">Tổng Doanh thu</div>
             </div>
             <span class="material-icons-outlined" style="color: #34A853;">paid</span>
@@ -272,11 +270,8 @@ include 'views/layouts/sidebar.php';
         
         <div class="card stat-card">
             <div>   
-<<<<<<< HEAD
                 <div class="stat-value">500,000,000 VNĐ</div>
-=======
                 <div class="stat-value">0 VNĐ</div>
->>>>>>> M_Danh
                 <div class="stat-label">Lợi nhuận ròng</div>
             </div>
             <span class="material-icons-outlined" style="color: #4285F4;">trending_up</span>
@@ -292,8 +287,79 @@ include 'views/layouts/sidebar.php';
     </section>
     
     <section class="card chart-area">
-        <p>[Biểu đồ Doanh thu theo thời gian sẽ được hiển thị tại đây]</p>
+        <canvas id="revenueChart" width="100%" style="max-width:1000px"></canvas>
     </section>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Dữ liệu giả định (mẫu) — bạn có thể thay bằng dữ liệu thực từ PHP/DB
+        const labels = [
+            '2025-11-21','2025-11-22','2025-11-23','2025-11-24','2025-11-25','2025-11-26','2025-11-27'
+        ];
+
+        const revenueData = [12000000, 15000000, 10000000, 18000000, 22000000, 20000000, 25000000]; // VNĐ
+        const profitData =  [4000000,  5000000,  3000000,  6000000,  7000000,  6500000,  9000000]; // VNĐ
+
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        const revenueChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Doanh thu (VNĐ)',
+                        data: revenueData,
+                        borderColor: '#4285F4',
+                        backgroundColor: 'rgba(66,133,244,0.08)',
+                        tension: 0.3,
+                        fill: true,
+                        pointRadius: 4
+                    },
+                    {
+                        label: 'Lợi nhuận (VNĐ)',
+                        data: profitData,
+                        borderColor: '#34A853',
+                        backgroundColor: 'rgba(52,168,83,0.08)',
+                        tension: 0.3,
+                        fill: true,
+                        pointRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        display: true,
+                        title: { display: true, text: 'Ngày' }
+                    },
+                    y: {
+                        display: true,
+                        title: { display: true, text: 'VNĐ' },
+                        ticks: {
+                            callback: function(value) {
+                                // Format as currency (VNĐ) compact
+                                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let v = context.parsed.y || 0;
+                                return context.dataset.label + ': ' + v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
+                            }
+                        }
+                    },
+                    legend: { position: 'top' }
+                }
+            }
+        });
+    </script>
 </main>
 
 <?php include 'views/layouts/footer.php'; ?>

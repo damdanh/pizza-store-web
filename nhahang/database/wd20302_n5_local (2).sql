@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 29, 2025 at 05:28 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th12 05, 2025 lúc 07:12 PM
+-- Phiên bản máy phục vụ: 10.4.32-MariaDB
+-- Phiên bản PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `wd20302_n5_local`
+-- Cơ sở dữ liệu: `wd20302_n5_local (2)`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin`
+-- Cấu trúc bảng cho bảng `admin`
 --
 
 CREATE TABLE `admin` (
@@ -39,7 +39,7 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `admin`
+-- Đang đổ dữ liệu cho bảng `admin`
 --
 
 INSERT INTO `admin` (`id_admin`, `ten`, `email`, `mat_khau`, `vai_tro`, `trang_thai_hoat_dong`, `created_at`, `updated_at`) VALUES
@@ -48,7 +48,7 @@ INSERT INTO `admin` (`id_admin`, `ten`, `email`, `mat_khau`, `vai_tro`, `trang_t
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bai_viet`
+-- Cấu trúc bảng cho bảng `bai_viet`
 --
 
 CREATE TABLE `bai_viet` (
@@ -65,7 +65,7 @@ CREATE TABLE `bai_viet` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ban`
+-- Cấu trúc bảng cho bảng `ban`
 --
 
 CREATE TABLE `ban` (
@@ -82,7 +82,34 @@ CREATE TABLE `ban` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `chi_tiet_dat_ban`
+-- Cấu trúc bảng cho bảng `chinhanh`
+--
+
+CREATE TABLE `chinhanh` (
+  `id` int(11) NOT NULL,
+  `ten_chi_nhanh` varchar(100) NOT NULL,
+  `dia_chi` varchar(255) NOT NULL,
+  `gio_mo_cua` time NOT NULL,
+  `gio_dong_cua` time NOT NULL,
+  `so_luong_ban` int(11) NOT NULL,
+  `suc_chua` int(11) NOT NULL,
+  `khung_gio` varchar(50) DEFAULT NULL,
+  `ban_con_trong` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `chinhanh`
+--
+
+INSERT INTO `chinhanh` (`id`, `ten_chi_nhanh`, `dia_chi`, `gio_mo_cua`, `gio_dong_cua`, `so_luong_ban`, `suc_chua`, `khung_gio`, `ban_con_trong`) VALUES
+(1, 'N5 Pasta – Saigon Centre', 'Saigon Centre, Quận 1, TP.HCM', '08:00:00', '22:00:00', 20, 80, '08:00-22:00', 5),
+(2, 'N5 Pasta – Bến Thành', 'Gần chợ Bến Thành, Quận 1, TP.HCM', '09:00:00', '21:30:00', 15, 60, '09:00-21:30', 3),
+(3, 'N5 Pasta – GigaMall', 'GigaMall, Thủ Đức, TP.HCM', '08:00:00', '22:00:00', 18, 72, '08:00-22:00', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `chi_tiet_dat_ban`
 --
 
 CREATE TABLE `chi_tiet_dat_ban` (
@@ -96,7 +123,7 @@ CREATE TABLE `chi_tiet_dat_ban` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `chi_tiet_khuyen_mai`
+-- Cấu trúc bảng cho bảng `chi_tiet_khuyen_mai`
 --
 
 CREATE TABLE `chi_tiet_khuyen_mai` (
@@ -107,7 +134,7 @@ CREATE TABLE `chi_tiet_khuyen_mai` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `danh_muc_mon`
+-- Cấu trúc bảng cho bảng `danh_muc_mon`
 --
 
 CREATE TABLE `danh_muc_mon` (
@@ -117,7 +144,7 @@ CREATE TABLE `danh_muc_mon` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `danh_muc_mon`
+-- Đang đổ dữ liệu cho bảng `danh_muc_mon`
 --
 
 INSERT INTO `danh_muc_mon` (`id_danh_muc_mon`, `ten_danh_muc`, `mo_ta`) VALUES
@@ -131,7 +158,7 @@ INSERT INTO `danh_muc_mon` (`id_danh_muc_mon`, `ten_danh_muc`, `mo_ta`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dat_ban`
+-- Cấu trúc bảng cho bảng `dat_ban`
 --
 
 CREATE TABLE `dat_ban` (
@@ -150,7 +177,7 @@ CREATE TABLE `dat_ban` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `khach_hang`
+-- Cấu trúc bảng cho bảng `khach_hang`
 --
 
 CREATE TABLE `khach_hang` (
@@ -173,7 +200,7 @@ CREATE TABLE `khach_hang` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `khuyen_mai`
+-- Cấu trúc bảng cho bảng `khuyen_mai`
 --
 
 CREATE TABLE `khuyen_mai` (
@@ -192,7 +219,7 @@ CREATE TABLE `khuyen_mai` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `khu_vuc`
+-- Cấu trúc bảng cho bảng `khu_vuc`
 --
 
 CREATE TABLE `khu_vuc` (
@@ -202,7 +229,7 @@ CREATE TABLE `khu_vuc` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `khu_vuc`
+-- Đang đổ dữ liệu cho bảng `khu_vuc`
 --
 
 INSERT INTO `khu_vuc` (`id_khu_vuc`, `ten_khu_vuc`, `mo_ta`) VALUES
@@ -213,7 +240,7 @@ INSERT INTO `khu_vuc` (`id_khu_vuc`, `ten_khu_vuc`, `mo_ta`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mon_an`
+-- Cấu trúc bảng cho bảng `mon_an`
 --
 
 CREATE TABLE `mon_an` (
@@ -229,7 +256,7 @@ CREATE TABLE `mon_an` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `mon_an`
+-- Đang đổ dữ liệu cho bảng `mon_an`
 --
 
 INSERT INTO `mon_an` (`id_mon`, `id_danh_muc_mon`, `ten_mon`, `gia`, `mo_ta`, `hinh_anh`, `trang_thai`, `created_at`, `updated_at`) VALUES
@@ -295,7 +322,7 @@ INSERT INTO `mon_an` (`id_mon`, `id_danh_muc_mon`, `ten_mon`, `gia`, `mo_ta`, `h
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tai_khoan_reset`
+-- Cấu trúc bảng cho bảng `tai_khoan_reset`
 --
 
 CREATE TABLE `tai_khoan_reset` (
@@ -308,25 +335,25 @@ CREATE TABLE `tai_khoan_reset` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Indexes for dumped tables
+-- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Indexes for table `admin`
+-- Chỉ mục cho bảng `admin`
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id_admin`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- Indexes for table `bai_viet`
+-- Chỉ mục cho bảng `bai_viet`
 --
 ALTER TABLE `bai_viet`
   ADD PRIMARY KEY (`id_bai_viet`),
   ADD KEY `id_admin` (`id_admin`);
 
 --
--- Indexes for table `ban`
+-- Chỉ mục cho bảng `ban`
 --
 ALTER TABLE `ban`
   ADD PRIMARY KEY (`id_ban`),
@@ -334,28 +361,34 @@ ALTER TABLE `ban`
   ADD KEY `id_khu_vuc` (`id_khu_vuc`);
 
 --
--- Indexes for table `chi_tiet_dat_ban`
+-- Chỉ mục cho bảng `chinhanh`
+--
+ALTER TABLE `chinhanh`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `chi_tiet_dat_ban`
 --
 ALTER TABLE `chi_tiet_dat_ban`
   ADD PRIMARY KEY (`id_dat_ban`,`id_mon`),
   ADD KEY `id_mon` (`id_mon`);
 
 --
--- Indexes for table `chi_tiet_khuyen_mai`
+-- Chỉ mục cho bảng `chi_tiet_khuyen_mai`
 --
 ALTER TABLE `chi_tiet_khuyen_mai`
   ADD PRIMARY KEY (`id_khuyen_mai`,`id_mon`),
   ADD KEY `id_mon` (`id_mon`);
 
 --
--- Indexes for table `danh_muc_mon`
+-- Chỉ mục cho bảng `danh_muc_mon`
 --
 ALTER TABLE `danh_muc_mon`
   ADD PRIMARY KEY (`id_danh_muc_mon`),
   ADD UNIQUE KEY `ten_danh_muc` (`ten_danh_muc`);
 
 --
--- Indexes for table `dat_ban`
+-- Chỉ mục cho bảng `dat_ban`
 --
 ALTER TABLE `dat_ban`
   ADD PRIMARY KEY (`id_dat_ban`),
@@ -363,7 +396,7 @@ ALTER TABLE `dat_ban`
   ADD KEY `id_ban` (`id_ban`);
 
 --
--- Indexes for table `khach_hang`
+-- Chỉ mục cho bảng `khach_hang`
 --
 ALTER TABLE `khach_hang`
   ADD PRIMARY KEY (`id_khach_hang`),
@@ -371,27 +404,27 @@ ALTER TABLE `khach_hang`
   ADD UNIQUE KEY `tai_khoan_dang_nhap` (`tai_khoan_dang_nhap`);
 
 --
--- Indexes for table `khuyen_mai`
+-- Chỉ mục cho bảng `khuyen_mai`
 --
 ALTER TABLE `khuyen_mai`
   ADD PRIMARY KEY (`id_khuyen_mai`),
   ADD UNIQUE KEY `ten_ctk` (`ten_ctk`);
 
 --
--- Indexes for table `khu_vuc`
+-- Chỉ mục cho bảng `khu_vuc`
 --
 ALTER TABLE `khu_vuc`
   ADD PRIMARY KEY (`id_khu_vuc`);
 
 --
--- Indexes for table `mon_an`
+-- Chỉ mục cho bảng `mon_an`
 --
 ALTER TABLE `mon_an`
   ADD PRIMARY KEY (`id_mon`),
   ADD KEY `id_danh_muc_mon` (`id_danh_muc_mon`);
 
 --
--- Indexes for table `tai_khoan_reset`
+-- Chỉ mục cho bảng `tai_khoan_reset`
 --
 ALTER TABLE `tai_khoan_reset`
   ADD PRIMARY KEY (`id_reset`),
@@ -399,108 +432,114 @@ ALTER TABLE `tai_khoan_reset`
   ADD KEY `idx_token` (`token`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT cho các bảng đã đổ
 --
 
 --
--- AUTO_INCREMENT for table `admin`
+-- AUTO_INCREMENT cho bảng `admin`
 --
 ALTER TABLE `admin`
   MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `bai_viet`
+-- AUTO_INCREMENT cho bảng `bai_viet`
 --
 ALTER TABLE `bai_viet`
   MODIFY `id_bai_viet` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ban`
+-- AUTO_INCREMENT cho bảng `ban`
 --
 ALTER TABLE `ban`
   MODIFY `id_ban` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `danh_muc_mon`
+-- AUTO_INCREMENT cho bảng `chinhanh`
+--
+ALTER TABLE `chinhanh`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT cho bảng `danh_muc_mon`
 --
 ALTER TABLE `danh_muc_mon`
   MODIFY `id_danh_muc_mon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `dat_ban`
+-- AUTO_INCREMENT cho bảng `dat_ban`
 --
 ALTER TABLE `dat_ban`
   MODIFY `id_dat_ban` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `khach_hang`
+-- AUTO_INCREMENT cho bảng `khach_hang`
 --
 ALTER TABLE `khach_hang`
   MODIFY `id_khach_hang` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `khuyen_mai`
+-- AUTO_INCREMENT cho bảng `khuyen_mai`
 --
 ALTER TABLE `khuyen_mai`
   MODIFY `id_khuyen_mai` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `khu_vuc`
+-- AUTO_INCREMENT cho bảng `khu_vuc`
 --
 ALTER TABLE `khu_vuc`
   MODIFY `id_khu_vuc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `mon_an`
+-- AUTO_INCREMENT cho bảng `mon_an`
 --
 ALTER TABLE `mon_an`
   MODIFY `id_mon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
--- AUTO_INCREMENT for table `tai_khoan_reset`
+-- AUTO_INCREMENT cho bảng `tai_khoan_reset`
 --
 ALTER TABLE `tai_khoan_reset`
   MODIFY `id_reset` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Constraints for dumped tables
+-- Các ràng buộc cho các bảng đã đổ
 --
 
 --
--- Constraints for table `bai_viet`
+-- Các ràng buộc cho bảng `bai_viet`
 --
 ALTER TABLE `bai_viet`
   ADD CONSTRAINT `bai_viet_ibfk_1` FOREIGN KEY (`id_admin`) REFERENCES `admin` (`id_admin`) ON DELETE SET NULL;
 
 --
--- Constraints for table `ban`
+-- Các ràng buộc cho bảng `ban`
 --
 ALTER TABLE `ban`
   ADD CONSTRAINT `ban_ibfk_1` FOREIGN KEY (`id_khu_vuc`) REFERENCES `khu_vuc` (`id_khu_vuc`) ON DELETE SET NULL;
 
 --
--- Constraints for table `chi_tiet_dat_ban`
+-- Các ràng buộc cho bảng `chi_tiet_dat_ban`
 --
 ALTER TABLE `chi_tiet_dat_ban`
   ADD CONSTRAINT `chi_tiet_dat_ban_ibfk_1` FOREIGN KEY (`id_dat_ban`) REFERENCES `dat_ban` (`id_dat_ban`) ON DELETE CASCADE,
   ADD CONSTRAINT `chi_tiet_dat_ban_ibfk_2` FOREIGN KEY (`id_mon`) REFERENCES `mon_an` (`id_mon`);
 
 --
--- Constraints for table `chi_tiet_khuyen_mai`
+-- Các ràng buộc cho bảng `chi_tiet_khuyen_mai`
 --
 ALTER TABLE `chi_tiet_khuyen_mai`
   ADD CONSTRAINT `chi_tiet_khuyen_mai_ibfk_1` FOREIGN KEY (`id_khuyen_mai`) REFERENCES `khuyen_mai` (`id_khuyen_mai`) ON DELETE CASCADE,
   ADD CONSTRAINT `chi_tiet_khuyen_mai_ibfk_2` FOREIGN KEY (`id_mon`) REFERENCES `mon_an` (`id_mon`);
 
 --
--- Constraints for table `dat_ban`
+-- Các ràng buộc cho bảng `dat_ban`
 --
 ALTER TABLE `dat_ban`
   ADD CONSTRAINT `dat_ban_ibfk_1` FOREIGN KEY (`id_khach_hang`) REFERENCES `khach_hang` (`id_khach_hang`) ON DELETE CASCADE,
   ADD CONSTRAINT `dat_ban_ibfk_2` FOREIGN KEY (`id_ban`) REFERENCES `ban` (`id_ban`) ON DELETE SET NULL;
 
 --
--- Constraints for table `mon_an`
+-- Các ràng buộc cho bảng `mon_an`
 --
 ALTER TABLE `mon_an`
   ADD CONSTRAINT `mon_an_ibfk_1` FOREIGN KEY (`id_danh_muc_mon`) REFERENCES `danh_muc_mon` (`id_danh_muc_mon`) ON DELETE CASCADE;
