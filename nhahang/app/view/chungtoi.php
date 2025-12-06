@@ -15,36 +15,32 @@ $title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
 </head>
 <body>
-    
-    <?php 
-    include __DIR__ . '/header.php'; 
-    ?>
 <!-- Chef Introduction Section -->
 <section class="chef-intro">
         <div class="chef-container">
             <div class="chef-content">
-                <h2>NGUYEN NHU THANH</h2>
-                <h3>Executive Chef</h3>
-                <p>Khái điểm ẩm thực được đánh giá là một trong những giá trị văn hóa của người Việt Nam. Khi ngành ẩm thực phát triển mạnh mẽ những năm gần đây, ẩm thực Ý từng bước thu hút sự chú ý không nhỏ của thực khách, tạo ra sự đột phá trong ngành F&B Việt Nam. Với tư cách là một đầu bếp chuyên nghiệp về ẩm thực Ý, anh hy vọng sẽ mang đến cho thực khách những trải nghiệm tuyệt vời nhất về ẩm thực Ý đích thực, cùng với sự sáng tạo và đam mê trong từng món ăn mà Michelin Selected xướng tên với loạt nhà hàng 2024 và 2025.</p>
+                <h2>CHEF VINCENZO</h2>
+                <h3>Bếp Trưởng Điều Hành & Chuyên gia Ẩm thực Ý</h3>
+                <p>Ẩm thực Ý là bản hòa tấu của hương vị, nơi mỗi chiếc Pizza hay đĩa Pasta đều mang trong mình câu chuyện và niềm đam mê. Tại **PIZZA & PASTA**, Chef Vincenzo cam kết mang đến trải nghiệm **ẩm thực Ý đích thực** với nguồn nguyên liệu tươi ngon nhất và công thức truyền thống được gìn giữ. Chúng tôi không chỉ phục vụ món ăn, chúng tôi phục vụ văn hóa và tình yêu ẩm thực từ trái tim nước Ý, sẵn sàng làm hài lòng cả những thực khách khó tính nhất.</p>
             </div>
             <div class="chef-image">
-                <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600" alt="Chef Nguyen Nhu Thanh">
+                <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600" alt="Chef Vincenzo - Bếp Trưởng">
             </div>
         </div>
     </section>
 
     <!-- Welcome Section -->
     <section class="welcome-section">
-        <h2>Chúng tôi mang đến cho bạn</h2>
+        <h2>Nơi hương vị Ý gặp gỡ đam mê ẩm thực</h2>
         <div class="restaurant-image">
-            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200" alt="Restaurant Interior">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200" alt="Không gian nhà hàng Pizza & Pasta">
         </div>
     </section>
 
     <!-- Blog Section -->
     <section class="menu-section">
         <div class="container">
-            <h2 class="section-title">BLOG</h2>
+            <h2 class="section-title">GÓC ẨM THỰC Ý</h2>
             <div class="blog-grid">
                 <div class="blog-card">
                     <div class="blog-image" style="background-image: url('https://images.unsplash.com/photo-1592861956120-e524fc739696?w=400')"></div>
@@ -82,8 +78,5 @@ $title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online';
             <p class="subscribe-note">Mọi thông tin được nhập vào trong Hộp thư sẽ được bảo mật theo chính sách của chúng tôi<br>Bạn có thể hủy đăng ký vào bất cứ lúc nào.</p>
         </div>
     </section>
-    <?php include __DIR__ . '/footer.php'; ?>
-
-    
 </body>
 </html>

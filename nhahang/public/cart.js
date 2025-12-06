@@ -104,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+
     function updateQuantity(productId, action) {
         fetch('/WD20302-PRO1014_N5/nhahang/public/update_cart.php', {
             method: 'POST',
@@ -179,3 +180,14 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error('Lỗi tải giỏ hàng:', error));
     
 });
+// Thêm vào cuối cart.js
+const datHangBtn = document.getElementById('dat-hang-btn');
+if (datHangBtn) {
+    datHangBtn.addEventListener('click', () => {
+        if (Object.keys(cartItems).length === 0) {
+            alert('Giỏ hàng rỗng!');
+            return;
+        }
+        window.location.href = '/WD20302-PRO1014_N5/nhahang/public/booking_info.php'; // Chuyển đến form
+    });
+}

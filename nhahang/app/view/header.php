@@ -10,7 +10,6 @@ $userName   = $_SESSION['user_name'] ?? '';
 $firstLetter = $userName ? strtoupper(mb_substr($userName, 0, 1)) : 'U';
 ?>
 
-<?php require_once __DIR__ . '/../config/constants.php'; ?>
 
 <div class="top-banner">
     <span>NẾU BẠN KHÔNG CÓ SỐ ĐIỆN THOẠI VIỆT NAM, BẠN CÓ THỂ ĐẶT BẠN QUA</span>
@@ -27,20 +26,14 @@ $firstLetter = $userName ? strtoupper(mb_substr($userName, 0, 1)) : 'U';
         </a>
 
         <ul class="nav-menu">
-                <li><a href="<?= VIEW_URL ?>chungtoi.php">Về Chúng Tôi</a></li>
-                <li><a href="<?= VIEW_URL ?>public/index.php">Thực Đơn</a></li>
-                <li><a href="<?= VIEW_URL ?>sukien.php">Sự Kiện</a></li>
-                <li><a href="<?= VIEW_URL ?>baochi.php">Báo Chí</a></li>
-                <li><a href="<?= VIEW_URL ?>datban.php">Đặt Bàn</a></li>
-                <li><a href="<?= VIEW_URL ?>contact.php">Liên Hệ</a></li>
+                <li><a href="<?= $base_url_path ?>public/chung-toi">Về Chúng Tôi</a></li>
+                <li><a href="<?= $base_url_path ?>public/home">Thực Đơn</a></li>
+                <li><a href="<?= $base_url_path ?>public/su-kien">Sự Kiện</a></li>
+                <li><a href="<?= $base_url_path ?>public/bao-chi">Báo Chí</a></li>
+                <li><a href="<?= $base_url_path ?>public/dat-ban">Đặt Bàn</a></li>
+                <li><a href="<?= $base_url_path ?>public/lien-he">Liên Hệ</a></li>
     </div>
     
-    <!-- <div class="header-right">
-
-        <div class="auth-buttons">
-        <a href="<?= VIEW_URL ?>login.php" class="auth-btn">Đăng Nhập</a>
-        <a href="<?= VIEW_URL ?>register.php" class="auth-btn">Đăng Ký</a>
-        </div> -->
 
         <?php if ($isLoggedIn): ?>
             <!-- ĐÃ ĐĂNG NHẬP -->
@@ -64,14 +57,6 @@ $firstLetter = $userName ? strtoupper(mb_substr($userName, 0, 1)) : 'U';
                 <a href="<?php echo $base_url_path; ?>public/signin" class="auth-btn">Đăng Ký</a>
             </div>
         <?php endif; ?>
-
-
-
-        <div class="auth-buttons">
-        <a href="<?= VIEW_URL ?>login.php" class="auth-btn">Đăng Nhập</a>
-        <a href="<?= VIEW_URL ?>register.php" class="auth-btn">Đăng Ký</a>
-        </div>
-
 
         <div class="social-icons">
             <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
