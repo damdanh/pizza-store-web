@@ -6,8 +6,18 @@ $total = 0;
 <section class="booking-container">
     <div class="booking-image"></div>
 
+
     <div class="booking-form-section">
         <h2>ĐẶT BÀN</h2>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
+</head>
+<body>
+    
+   
+       <section class="booking-container">
+        <div class="booking-image"></div>
+
         
         <form action="/WD20302-PRO1014_N5/nhahang/public/process_booking.php" method="POST">
 
@@ -138,5 +148,15 @@ $total = 0;
                 <?= empty($cart) ? 'Đặt bàn (không gọi món)' : 'Xác nhận đặt bàn' ?>
             </button>
         </form>
+
     </div>
 </section>
+
+        <p style="font-size: 12px; color: #666; margin-top: 15px;">Mọi thông tin được bảo mật. Bạn có thể hủy đăng ký bất cứ lúc nào.</p>
+    </section>
+
+
+    
+</body>
+</html>
+

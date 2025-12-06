@@ -42,6 +42,7 @@
                 <span class="info-label">Chi nhánh:</span>
                 <span><?= htmlspecialchars($bookingInfo['branch']) ?></span>
             </div>
+
             <div class="info-item">
             <span class="info-label">Ghi chú:</span>
             <span><?= htmlspecialchars($bookingInfo['notes'] ?: 'Không có') ?></span>

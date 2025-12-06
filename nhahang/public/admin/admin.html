@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Tài khoản Admin | Hệ thống Nhà hàng</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJd/rBli8GzWpTrgA/OudH7sF3y/FjS/d/S/fG5tWnQnQpQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../admin/css/admin.css">
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://via.placeholder.com/40" alt="Logo" class="avatar">
+                <div>
+                    <div class="system-name">Hệ thống</div>
+                    <div class="sub-text">Quản lý nhà hàng</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="HomeAdmin.html" class="nav-item">
+                    <span class="material-icons-outlined">grid_view</span>
+                    Tổng quan
+                </a>
+                <a href="quanlydatban.html" class="nav-item">
+                    <span class="material-icons-outlined">calendar_month</span>
+                    Quản lý đặt bàn
+                </a>
+                <a href="quanlymenu.html" class="nav-item">
+                    <span class="material-icons-outlined">restaurant_menu</span>
+                    Quản lý menu
+                </a>
+                <a href="chinhanh.html" class="nav-item">
+                    <span class="material-icons-outlined">storefront</span>
+                    Quản lý chi nhánh
+                </a>
+                <a href="admin.html" class="nav-item active">
+                    <span class="material-icons-outlined">person</span>
+                    Quản lý admin
+                </a>
+                <a href="doanhthu.html" class="nav-item">
+                    <span class="material-icons-outlined">bar_chart</span>
+                    Thống kê doanh thu
+                </a>
+                <a href="cauhinh.html" class="nav-item">
+                    <span class="material-icons-outlined">settings</span>
+                    Cấu hình hệ thống
+                </a>
+            </nav>
+
+            <div class="sidebar-divider"></div>
+
+            <div class="sidebar-demo">
+                <a href="#" class="nav-item demo-item">
+                    <span class="material-icons-outlined">article</span>
+                    Form khách hàng <span class="sub-text">(Demo)</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="login-info">Đăng nhập với <br> **Dam Danh**</div>
+                <button class="logout-btn">
+                    <span class="material-icons-outlined">logout</span>
+                    Đăng xuất
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <div class="page-title-group">
+                    <h1>Quản lý tài khoản Admin</h1>
+                    <p>Thêm, sửa, ẩn các tài khoản quản trị</p>
+                </div>
+
+                <div class="action-button-single">
+                    <button class="action-btn">
+                        Thêm Admin
+                    </button>
+                </div>
+            </header>
+
+            <section class="card admin-list-section">
+                <div class="list-header">
+                    <h2>Danh sách Admin</h2>
+                    <p>Tổng cộng 1 tài khoản</p>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Tên</th>
+                            <th>Email</th>
+                            <th>Vai trò</th>
+                            <th>Ngày tạo</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Danh</td>
+                            <td><a href="mailto:danhdam200@gmail.com">danhdam200@gmail.com</a></td>
+                            <td>admin</td>
+                            <td>19/11/2025</td>
+                            <td>
+                                <a href="#" class="action-link">Sửa</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Trị</td>
+                            <td><a href="mailto:thanhtri@gmail.com">thanhtri@gmail.com</a></td>
+                            <td>admin</td>
+                            <td>19/11/2025</td>
+                            <td>
+                                <a href="#" class="action-link">Sửa</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Đạt</td>
+                            <td><a href="mailto:tiendat@gmail.com">tiendat@gmail.com</a></td>
+                            <td>admin</td>
+                            <td>19/11/2025</td>
+                            <td>
+                                <a href="#" class="action-link">Sửa</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Lộc</td>
+                            <td><a href="mailto:tanloc@gmail.com">tanloc    @gmail.com</a></td>
+                            <td>admin</td>
+                            <td>19/11/2025</td>
+                            <td>
+                                <a href="#" class="action-link">Sửa</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>

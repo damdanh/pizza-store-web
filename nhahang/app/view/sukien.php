@@ -1,4 +1,29 @@
+
 <section class="hero-vietnam">
+
+<?php
+
+$base_url_path = '/WD20302-PRO1014_N5/nhahang/'; 
+
+$title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online'; 
+?>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title><?php echo htmlspecialchars($title); ?></title>
+
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/sukien.css"> 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
+</head>
+<body>
+    
+    
+       <!-- Hero Vietnam Section -->
+       <section class="hero-vietnam">
+
         <div class="hero-content">
             <h1>TALES & TASTES<br>OF<br>ITALY</h1>
             <p>Khám phá "Câu chuyện và Hương vị của Ý" - nơi từng lát Pizza, từng sợi Pasta đều chứa đựng tinh hoa ẩm thực Địa Trung Hải. Chúng tôi tự hào mang đến di sản văn hóa ẩm thực Ý độc đáo, tươi mới và đầy đam mê.</p>
@@ -86,4 +111,12 @@
             </form>
             <p class="subscribe-note">Mọi thông tin được bảo mật theo chính sách của chúng tôi<br>Bạn có thể hủy đăng ký bất cứ lúc nào.</p>
         </div>
+
     </section>
+
+    </section>
+ 
+    </body>
+</html> 
+    
+

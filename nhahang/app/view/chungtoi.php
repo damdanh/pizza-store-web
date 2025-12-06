@@ -15,6 +15,7 @@ $title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
 </head>
 <body>
+
 <!-- Chef Introduction Section -->
 <section class="chef-intro">
         <div class="chef-container">

@@ -1,5 +1,14 @@
+
 <section class="page-header">
         <h1>Báo chí nói gì về chúng tôi</h1>
+
+
+    
+  
+  <!-- Page Header -->
+  <section class="page-header">
+        <h1>Tư liệu truyền thông</h1>
+
         <div class="category-tabs">
             <a href="#" class="category-tab active">
                 KHÔNG GIAN ⬇
@@ -55,6 +64,7 @@
         </div>
     </section>
     <section class="community-section">
+
         <div class="container">
             <h2>ĐỪNG BỎ LỠ MÓN MỚI VÀ ƯU ĐÃI!</h2>
             <p>Đăng ký nhận Bản tin để cập nhật nhanh nhất các Thực Đơn Đặc Biệt, Chương Trình Khuyến Mãi và Những Câu Chuyện Ẩm Thực từ căn bếp của chúng tôi.</p>
@@ -67,3 +77,19 @@
             <p class="subscribe-note">Mọi thông tin được bảo mật theo chính sách của chúng tôi<br>Bạn có thể hủy đăng ký bất cứ lúc nào.</p>
         </div>
     </section>
+
+    <div class="container">
+        <h2>THAM GIA CỘNG ĐỒNG CỦA CHÚNG TÔI</h2>
+        <p>Đăng ký để nhận thông tin khuyến mại mới nhất của các Thực Đơn, Ưu Đãi, Tin Tức và các Câu Nhật ký mới nhất của chúng tôi</p>
+        <form class="subscribe-form">
+            <input type="text" placeholder="Tên">
+            <input type="text" placeholder="Họ">
+            <input type="email" placeholder="Địa chỉ Email của bạn">
+            <button type="submit">ĐĂNG KÝ</button>
+        </form>
+        <p class="subscribe-note">Mọi thông tin cần tương thành trong Hộp thư sẽ có thông qua đó cho các biên nhân<br>Bạn có thể hủy đăng ký vào bất cứ lúc nào.</p>
+    </div>
+</section>
+
+    
+
