@@ -1,24 +1,5 @@
 
-<?php
 
-$base_url_path = '/WD20302-PRO1014_N5/nhahang/'; 
-
-$title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online'; 
-?>
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title><?php echo htmlspecialchars($title); ?></title>
-
-    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/contact.css"> 
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
-</head>
-<body>
-    
-   
 <div class="banner">
     <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&h=400&fit=crop" alt="Contact Banner">
     <div class="banner-text">LIÊN HỆ</div>
@@ -105,7 +86,3 @@ gmail.com
     </div>
 </div>
 
-
-    
-</body>
-</html>

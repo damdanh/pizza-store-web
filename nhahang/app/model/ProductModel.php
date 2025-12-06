@@ -79,6 +79,9 @@ class ProductModel {
         }
     }
 
+}
+
+
     public function createProduct($data) {
         try {
             $sql = "INSERT INTO mon_an (ten_mon, gia, hinh_anh, mo_ta, trang_thai, id_danh_muc_mon) 
@@ -147,6 +150,5 @@ class ProductModel {
             throw new Exception("Lỗi xóa sản phẩm khỏi database: " . $e->getMessage());
         }
     }
-}
 
-    
+
