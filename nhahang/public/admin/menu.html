@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý Tài khoản Admin | Hệ thống Nhà hàng</title>
+    <title>Quản lý Menu | Hệ thống Nhà hàng</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJd/rBli8GzWpTrgA/OudH7sF3y/FjS/d/S/fG5tWnQnQpQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-<<<<<<< HEAD
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJd/rBli8GzWpTrgA/OudH7sF3y/FjS/d/S/fG5tWnQnQpQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         /* --- DÁN TOÀN BỘ MÃ CSS CHUNG BẠN ĐÃ CÓ VÀO ĐÂY --- */
 
@@ -23,14 +19,14 @@
 
         :root {
             --sidebar-width: 280px;
-            --main-bg: #f9f9f9;
+            --main-bg: #f9f9f9; 
             --white: #ffffff;
-            --text-dark: #333;
+            --text-dark: #333; 
             --text-sub: #777;
             --border-color: #eee;
-            --primary-color: #1a73e8;
-            --nav-hover: #f0f0f0;
-            --black-btn: #222;
+            --primary-color: #1a73e8; 
+            --nav-hover: #f0f0f0; 
+            --black-btn: #222; /* Thêm màu đen cho nút Thêm mới */
             --black-btn-hover: #000;
         }
 
@@ -51,8 +47,8 @@
             border-right: 1px solid var(--border-color);
             padding: 20px 0;
             display: flex;
-            flex-direction: column;
-            position: fixed;
+            flex-direction: column; 
+            position: fixed; 
             top: 0;
             left: 0;
             bottom: 0;
@@ -62,7 +58,7 @@
         .sidebar-header {
             display: flex;
             align-items: center;
-            padding: 0 20px 20px;
+            padding: 0 20px 20px; 
             margin-bottom: 10px;
         }
 
@@ -91,11 +87,11 @@
         .nav-item {
             display: flex;
             align-items: center;
-            padding: 12px 20px;
-            text-decoration: none;
+            padding: 12px 20px; 
+            text-decoration: none; 
             color: var(--text-dark);
             font-size: 14px;
-            transition: background-color 0.2s;
+            transition: background-color 0.2s; 
         }
 
         .nav-item:hover {
@@ -105,11 +101,11 @@
         .nav-item.active {
             background-color: var(--nav-hover);
             font-weight: 600;
-            border-right: 3px solid var(--primary-color);
+            border-right: 3px solid var(--primary-color); 
         }
 
         .nav-item span.material-icons-outlined {
-            margin-right: 15px;
+            margin-right: 15px; 
             font-size: 20px;
             color: #444;
         }
@@ -178,7 +174,7 @@
             margin-bottom: 30px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: flex-start; /* Giữ tiêu đề căn trên */
         }
 
         .page-title-group {
@@ -196,8 +192,10 @@
             font-size: 16px;
         }
 
-        /* Nút hành động đơn */
-        .action-button-single {
+        /* Nhóm nút hành động */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
             flex-shrink: 0;
         }
 
@@ -219,14 +217,14 @@
             background-color: var(--black-btn-hover);
         }
 
-        /* --- Bảng Dữ liệu --- */
-        .admin-list-section {
-            padding-top: 0;
-            /* Bỏ padding top vì đã có title riêng */
+        .action-btn span.material-icons-outlined {
+            margin-right: 5px;
+            font-size: 20px;
         }
 
-        .list-header {
-            margin-bottom: 15px;
+        /* Khu vực Danh sách */
+        .menu-list-section {
+            padding: 20px;
         }
 
         .list-header h2 {
@@ -239,55 +237,8 @@
             font-size: 14px;
             color: var(--text-sub);
         }
-
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            /* Bỏ khoảng cách giữa các ô */
-            font-size: 14px;
-        }
-
-        .data-table th {
-            text-align: left;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border-color);
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        .data-table td {
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-dark);
-        }
-
-        .data-table tr:last-child td {
-            border-bottom: none;
-            /* Bỏ border dưới cho hàng cuối */
-        }
-
-        .action-link {
-            color: var(--primary-color);
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        /* Điều chỉnh cột Email và Thao tác */
-        .data-table td:nth-child(2) {
-            /* Cột Email */
-            width: 30%;
-        }
-
-        .data-table td:last-child {
-            /* Cột Thao tác */
-            width: 10%;
-        }
     </style>
 </head>
-=======
-    <link rel="stylesheet" href="../admin/css/admin.css">
->>>>>>> M_Danh
-
 <body>
     <div class="container">
         <aside class="sidebar">
@@ -308,11 +259,7 @@
                     <span class="material-icons-outlined">calendar_month</span>
                     Quản lý đặt bàn
                 </a>
-<<<<<<< HEAD
-                <a href="menu.html" class="nav-item">
-=======
-                <a href="quanlymenu.html" class="nav-item">
->>>>>>> M_Danh
+                <a href="menu.html" class="nav-item active">
                     <span class="material-icons-outlined">restaurant_menu</span>
                     Quản lý menu
                 </a>
@@ -320,7 +267,7 @@
                     <span class="material-icons-outlined">storefront</span>
                     Quản lý chi nhánh
                 </a>
-                <a href="admin.html" class="nav-item active">
+                <a href="admin.html" class="nav-item">
                     <span class="material-icons-outlined">person</span>
                     Quản lý admin
                 </a>
@@ -355,75 +302,30 @@
         <main class="main-content">
             <header class="page-header">
                 <div class="page-title-group">
-                    <h1>Quản lý tài khoản Admin</h1>
-                    <p>Thêm, sửa, ẩn các tài khoản quản trị</p>
+                    <h1>Quản lý Menu</h1>
+                    <p>Thêm, sửa, ẩn món ăn và nhóm món</p>
                 </div>
-
-                <div class="action-button-single">
+                
+                <div class="action-buttons">
                     <button class="action-btn">
-                        Thêm Admin
+                        <span class="material-icons-outlined">add</span>
+                        Thêm nhóm món
+                    </button>
+                    <button class="action-btn">
+                        <span class="material-icons-outlined">add</span>
+                        Thêm món ăn
                     </button>
                 </div>
             </header>
 
-            <section class="card admin-list-section">
+            <section class="menu-list-section card">
                 <div class="list-header">
-                    <h2>Danh sách Admin</h2>
-                    <p>Tổng cộng 1 tài khoản</p>
+                    <h2>Danh sách món ăn</h2>
+                    <p>Tổng cộng 3 món</p>
                 </div>
-
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Tên</th>
-                            <th>Email</th>
-                            <th>Vai trò</th>
-                            <th>Ngày tạo</th>
-                            <th>Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Danh</td>
-                            <td><a href="mailto:danhdam200@gmail.com">danhdam200@gmail.com</a></td>
-                            <td>admin</td>
-                            <td>19/11/2025</td>
-                            <td>
-                                <a href="#" class="action-link">Sửa</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Trị</td>
-                            <td><a href="mailto:thanhtri@gmail.com">thanhtri@gmail.com</a></td>
-                            <td>admin</td>
-                            <td>19/11/2025</td>
-                            <td>
-                                <a href="#" class="action-link">Sửa</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Đạt</td>
-                            <td><a href="mailto:tiendat@gmail.com">tiendat@gmail.com</a></td>
-                            <td>admin</td>
-                            <td>19/11/2025</td>
-                            <td>
-                                <a href="#" class="action-link">Sửa</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Lộc</td>
-                            <td><a href="mailto:tanloc@gmail.com">tanloc    @gmail.com</a></td>
-                            <td>admin</td>
-                            <td>19/11/2025</td>
-                            <td>
-                                <a href="#" class="action-link">Sửa</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+                
+                </section>
         </main>
     </div>
 </body>
-
 </html>
