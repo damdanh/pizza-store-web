@@ -177,4 +177,4 @@ switch ($page) {
         echo "<p style='text-align:center;'><a href='/WD20302-PRO1014_N5/nhahang/public/'>Quay về trang chủ</a></p>";
         break;
 }
-}
+// Dấu đóng ngoặc nhọn thừa đã được loại bỏ
