@@ -9,7 +9,6 @@ $userName   = $_SESSION['user_name'] ?? '';
 $firstLetter = $userName ? strtoupper(mb_substr($userName, 0, 1)) : 'U';
 ?>
 
-<?php require_once __DIR__ . '/../config/constants.php'; ?>
 
 <div class="top-banner">
     <span>NẾU BẠN KHÔNG CÓ SỐ ĐIỆN THOẠI VIỆT NAM, BẠN CÓ THỂ ĐẶT BẠN QUA</span>
@@ -63,9 +62,6 @@ $firstLetter = $userName ? strtoupper(mb_substr($userName, 0, 1)) : 'U';
                 <a href="<?php echo $base_url_path; ?>public/signin" class="auth-btn signup">Đăng Ký</a>
             </div>
         <?php endif; ?>
-
-
-   
 
         <div class="social-icons">
             <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>

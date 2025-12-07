@@ -43,6 +43,27 @@
                 <span><?= htmlspecialchars($bookingInfo['branch']) ?></span>
             </div>
 
+            <div class="info-item">
+            <span class="info-label">Ghi chú:</span>
+            <span><?= htmlspecialchars($bookingInfo['notes'] ?: 'Không có') ?></span>
+        </div>
+
+        <h3 style="margin-top:20px;">🍕 Món đã đặt:</h3>
+
+        <?php if (empty($items)): ?>
+            <p>Không chọn món nào.</p>
+        <?php else: ?>
+            <ul style="margin-left:15px;">
+                <?php foreach ($items as $it): ?>
+                    <li>
+                        <strong><?= htmlspecialchars($item['ten_mon']) ?></strong> —
+                        SL: <?= $it['so_luong'] ?> —
+                        Giá: <?= number_format($it['gia']) ?>đ
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+
             <div class="button-group">
                 <button class="back-btn" onclick="history.back()">Quay lại</button>
                 <button class="submit-btn">Xác nhận</button>
