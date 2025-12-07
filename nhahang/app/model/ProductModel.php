@@ -8,6 +8,7 @@ class ProductModel {
         if (!isset($conn) || $conn === null) {
             // Include database config nếu chưa có
             if (!function_exists('getConnection')) {
+                // Tốt hơn nên sử dụng đường dẫn tuyệt đối để tránh lỗi
                 require_once __DIR__ . '/../config/database.php';
             }
             $conn = getConnection();
@@ -15,22 +16,31 @@ class ProductModel {
         
         $this->conn = $conn;
     }
+
+    // --- Phương thức Đọc (READ) ---
     public function getPopularProducts($limit = 10) {
         try {
+            // Sửa lỗi: PDO::PARAM_INT phải được dùng cho LIMIT. 
+            // Tuy nhiên, LIMIT cần được truyền trực tiếp vì PDO không hỗ trợ bindParam cho LIMIT clause.
+            // Để an toàn, chúng ta ép kiểu (cast) về integer.
+            $limit = (int) $limit; 
+            
             $sql = "SELECT id_mon, ten_mon, gia, hinh_anh, mo_ta, trang_thai
                     FROM mon_an 
                     WHERE trang_thai = 'Còn hàng' 
                     ORDER BY id_mon ASC 
-                    LIMIT :limit";
+                    LIMIT $limit"; // KHÔNG DÙNG bindParam cho LIMIT
+            
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+            // $stmt->bindParam(':limit', $limit, PDO::PARAM_INT); // Bỏ dòng này
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
+            // Ghi log lỗi thay vì chỉ ném Exception
+            // error_log("Lỗi PDO trong getPopularProducts: " . $e->getMessage()); 
             throw new Exception("Lỗi truy vấn database: " . $e->getMessage());
         }
     }
-
 
     public function getAllProducts() {
         try {
@@ -46,7 +56,6 @@ class ProductModel {
         }
     }
 
-  
     public function getProductById($id) {
         try {
             $sql = "SELECT m.*, dm.ten_danh_muc 
@@ -62,7 +71,6 @@ class ProductModel {
         }
     }
 
-   
     public function getProductsByCategory($categoryId) {
         try {
             $sql = "SELECT m.*, dm.ten_danh_muc 
@@ -79,9 +87,7 @@ class ProductModel {
         }
     }
 
-}
-
-
+    // --- Phương thức Thêm (CREATE) ---
     public function createProduct($data) {
         try {
             $sql = "INSERT INTO mon_an (ten_mon, gia, hinh_anh, mo_ta, trang_thai, id_danh_muc_mon) 
@@ -89,6 +95,7 @@ class ProductModel {
             $stmt = $this->conn->prepare($sql);
             
             // Liên kết các tham số
+            // Lưu ý: Giá trị tiền tệ (gia) thường nên được bind là string hoặc float/decimal
             $stmt->bindParam(':ten_mon', $data['ten_mon']);
             $stmt->bindParam(':gia', $data['gia']);
             $stmt->bindParam(':hinh_anh', $data['hinh_anh']);
@@ -105,6 +112,7 @@ class ProductModel {
         }
     }
 
+    // --- Phương thức Cập nhật (UPDATE) ---
     public function updateProduct($id, $data) {
         try {
             $sql = "UPDATE mon_an 
@@ -135,6 +143,7 @@ class ProductModel {
         }
     }
 
+    // --- Phương thức Xóa (DELETE) ---
     public function deleteProduct($id) {
         try {
             $sql = "DELETE FROM mon_an WHERE id_mon = :id";
@@ -150,5 +159,4 @@ class ProductModel {
             throw new Exception("Lỗi xóa sản phẩm khỏi database: " . $e->getMessage());
         }
     }
-
-
+} // <--- Dấu đóng lớp đã được di chuyển xuống đây.

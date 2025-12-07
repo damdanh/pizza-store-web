@@ -14,7 +14,7 @@
             </div>
         <?php endif; ?>
         
-        <form action="/WD20302-PRO1014_N5/nhahang/public/login" method="POST">
+        <form action="admin.php?action=login_process" method="POST">
             
             <div class="form-group">
                 <label class="form-label">Địa chỉ Email</label>

@@ -70,133 +70,133 @@ class AdminController {
     }
 
     public function menu(){
-    $dsdm = $this->danhmuc->getAllCategories();
-    $dssp = $this->sanpham->getAllProducts();
-    
-    // Khởi tạo các biến nếu cần, ví dụ: $sp_edit, $dm
-
-    /* ================== Xử lý LƯU NHÓM MÓN ================== */
-    if (isset($_POST['save_category'])) {
-        $ten_danh_muc = trim($_POST['category_name']);
-        $mo_ta = trim($_POST['category_description'] ?? '');
-
-        try {
-            // Logic cập nhật (nếu có id) hoặc thêm mới
-            // Hiện tại chỉ xử lý thêm mới:
-            $this->danhmuc->createCategory($ten_danh_muc, $mo_ta);
-            header("Location: admin.php?page=menu");
-            exit;
-        } catch (\Exception $e) {
-            // Thêm logic xử lý lỗi tại đây nếu cần
-            echo "<script>alert('Lỗi thêm nhóm món: " . $e->getMessage() . "');</script>";
-        }
-    }
-
-    /* ================== 3. LƯU SẢN PHẨM (THÊM/SỬA) ================== */
-    // Kiểm tra tên nút submit trong form themmonan.php là 'save_product'
-    if (isset($_POST['save_product'])) {
-        $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : null;
-        $name = $_POST['ten_mon'];
-        $price = $_POST['gia'];
-        // Form sử dụng name="trang_thai"
-        $trang_thai = $_POST['trang_thai'] ?? 'Còn hàng';
-        $cat_id = $_POST['category'];
-        $mota = isset($_POST['mo_ta']) ? $_POST['mo_ta'] : '';
-
-        // Xử lý ảnh
-        $img = "";
-        $upload_dir = "nhahang/app/public/img/";
-        if (!empty($_FILES['img']['name'])) {
-            $img = time() . "_" . basename($_FILES['img']['name']);
-            // Kiểm tra và tạo thư mục nếu chưa có
-            if (!is_dir($upload_dir)) {
-                mkdir($upload_dir, 0777, true);
-            }
-            move_uploaded_file($_FILES['img']['tmp_name'], $upload_dir . $img);
-        } else {
-            // Giữ lại ảnh cũ khi sửa nếu không upload ảnh mới
-            $img = $_POST['old_img'] ?? ''; 
-        }
-
-        $data = [
-            'ten_mon' => $name,
-            'gia' => $price,
-            'hinh_anh' => $img,
-            'trang_thai' => $trang_thai,
-            'id_danh_muc_mon' => $cat_id,
-            'mo_ta' => $mota
-        ];
-
-        // is_hidden checkbox
-        $data['is_hidden'] = isset($_POST['is_hidden']) ? 1 : 0;
-
-        try {
-            if ($product_id) {
-                // Cập nhật sản phẩm
-                $this->sanpham->updateProduct($product_id, $data);
-            } else {
-                // Thêm sản phẩm mới
-                $this->sanpham->createProduct($data);
-            }
-            header("Location: admin.php?page=menu");
-            exit;
-        } catch (\Exception $e) {
-             echo "<script>alert('Lỗi lưu sản phẩm: " . $e->getMessage() . "');</script>";
-        }
-    }
-
-    /* ================== 1. ẨN / HIỆN SẢN PHẨM (SOFT DELETE) ================== */
-    if (isset($_GET['action']) && isset($_GET['id'])) {
-        $action = $_GET['action'];
-        $id = $_GET['id'];
-        if ($action === 'delete' || $action === 'hide') {
-            // Giữ tương thích: 'delete' giờ sẽ ẩn
-            $this->sanpham->hideProduct($id);
-            header("Location: admin.php?page=menu");
-            exit;
-        }
-
-        if ($action === 'unhide') {
-            $this->sanpham->unhideProduct($id);
-            // Nếu đang xem danh sách món ẩn, giữ lại filter
-            $redirect = 'admin.php?page=menu';
-            if (isset($_GET['show']) && $_GET['show'] === 'hidden') $redirect .= '&show=hidden';
-            header("Location: " . $redirect);
-            exit;
-        }
-    }
-
-    /* ================== 2. SỬA SẢN PHẨM (HIỂN THỊ FORM) ================== */
-    if (isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
-        // Khi edit, cho phép load cả món ẩn để admin có thể chỉnh
-        $sp_edit = $this->sanpham->getProductById($_GET['id'], true);
         $dsdm = $this->danhmuc->getAllCategories();
-        include "../app/view/admin/themmonan.php";
-        return;
-    }
-
-    /* ================== 4. THÊM NHÓM MÓN (HIỂN THỊ FORM) ================== */
-    if (isset($_GET['action']) && $_GET['action'] == 'add_category') {
-        $category_edit = null;
-        include_once "../app/view/admin/themnhommon.php";
-        return;
-    }
-
-    /* ================== 4. THÊM SẢN PHẨM (HIỂN THỊ FORM) ================== */
-    if (isset($_GET['action']) && $_GET['action'] == 'add') {
-        $dsdm = $this->danhmuc->getAllCategories();
-        $sp_edit = null; 
-        include_once  "../app/view/admin/themmonan.php";
-        return;
-    }
-    // Nếu yêu cầu hiển thị món ẩn (filter), lấy danh sách món ẩn
-    if (isset($_GET['show']) && $_GET['show'] === 'hidden') {
-        $dssp = $this->sanpham->getHiddenProducts();
-    } else {
         $dssp = $this->sanpham->getAllProducts();
+        
+        // Khởi tạo các biến nếu cần, ví dụ: $sp_edit, $dm
+
+        /* ================== Xử lý LƯU NHÓM MÓN ================== */
+        if (isset($_POST['save_category'])) {
+            $ten_danh_muc = trim($_POST['category_name']);
+            $mo_ta = trim($_POST['category_description'] ?? '');
+
+            try {
+                // Logic cập nhật (nếu có id) hoặc thêm mới
+                // Hiện tại chỉ xử lý thêm mới:
+                $this->danhmuc->createCategory($ten_danh_muc, $mo_ta);
+                header("Location: admin.php?page=menu");
+                exit;
+            } catch (\Exception $e) {
+                // Thêm logic xử lý lỗi tại đây nếu cần
+                echo "<script>alert('Lỗi thêm nhóm món: " . $e->getMessage() . "');</script>";
+            }
+        }
+
+        /* ================== 3. LƯU SẢN PHẨM (THÊM/SỬA) ================== */
+        // Kiểm tra tên nút submit trong form themmonan.php là 'save_product'
+        if (isset($_POST['save_product'])) {
+            $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : null;
+            $name = $_POST['ten_mon'];
+            $price = $_POST['gia'];
+            // Form sử dụng name="trang_thai"
+            $trang_thai = $_POST['trang_thai'] ?? 'Còn hàng';
+            $cat_id = $_POST['category'];
+            $mota = isset($_POST['mo_ta']) ? $_POST['mo_ta'] : '';
+
+            // Xử lý ảnh
+            $img = "";
+            $upload_dir = "nhahang/app/public/img/";
+            if (!empty($_FILES['img']['name'])) {
+                $img = time() . "_" . basename($_FILES['img']['name']);
+                // Kiểm tra và tạo thư mục nếu chưa có
+                if (!is_dir($upload_dir)) {
+                    mkdir($upload_dir, 0777, true);
+                }
+                move_uploaded_file($_FILES['img']['tmp_name'], $upload_dir . $img);
+            } else {
+                // Giữ lại ảnh cũ khi sửa nếu không upload ảnh mới
+                $img = $_POST['old_img'] ?? ''; 
+            }
+
+            $data = [
+                'ten_mon' => $name,
+                'gia' => $price,
+                'hinh_anh' => $img,
+                'trang_thai' => $trang_thai,
+                'id_danh_muc_mon' => $cat_id,
+                'mo_ta' => $mota
+            ];
+
+            // is_hidden checkbox
+            $data['is_hidden'] = isset($_POST['is_hidden']) ? 1 : 0;
+
+            try {
+                if ($product_id) {
+                    // Cập nhật sản phẩm
+                    $this->sanpham->updateProduct($product_id, $data);
+                } else {
+                    // Thêm sản phẩm mới
+                    $this->sanpham->createProduct($data);
+                }
+                header("Location: admin.php?page=menu");
+                exit;
+            } catch (\Exception $e) {
+                 echo "<script>alert('Lỗi lưu sản phẩm: " . $e->getMessage() . "');</script>";
+            }
+        }
+
+        /* ================== 1. ẨN / HIỆN SẢN PHẨM (SOFT DELETE) ================== */
+        if (isset($_GET['action']) && isset($_GET['id'])) {
+            $action = $_GET['action'];
+            $id = $_GET['id'];
+            if ($action === 'delete' || $action === 'hide') {
+                // Giữ tương thích: 'delete' giờ sẽ ẩn
+                $this->sanpham->hideProduct($id);
+                header("Location: admin.php?page=menu");
+                exit;
+            }
+
+            if ($action === 'unhide') {
+                $this->sanpham->unhideProduct($id);
+                // Nếu đang xem danh sách món ẩn, giữ lại filter
+                $redirect = 'admin.php?page=menu';
+                if (isset($_GET['show']) && $_GET['show'] === 'hidden') $redirect .= '&show=hidden';
+                header("Location: " . $redirect);
+                exit;
+            }
+        }
+
+        /* ================== 2. SỬA SẢN PHẨM (HIỂN THỊ FORM) ================== */
+        if (isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
+            // Khi edit, cho phép load cả món ẩn để admin có thể chỉnh
+            $sp_edit = $this->sanpham->getProductById($_GET['id'], true);
+            $dsdm = $this->danhmuc->getAllCategories();
+            include "../app/view/admin/themmonan.php";
+            return;
+        }
+
+        /* ================== 4. THÊM NHÓM MÓN (HIỂN THỊ FORM) ================== */
+        if (isset($_GET['action']) && $_GET['action'] == 'add_category') {
+            $category_edit = null;
+            include_once "../app/view/admin/themnhommon.php";
+            return;
+        }
+
+        /* ================== 4. THÊM SẢN PHẨM (HIỂN THỊ FORM) ================== */
+        if (isset($_GET['action']) && $_GET['action'] == 'add') {
+            $dsdm = $this->danhmuc->getAllCategories();
+            $sp_edit = null; 
+            include_once  "../app/view/admin/themmonan.php";
+            return;
+        }
+        // Nếu yêu cầu hiển thị món ẩn (filter), lấy danh sách món ẩn
+        if (isset($_GET['show']) && $_GET['show'] === 'hidden') {
+            $dssp = $this->sanpham->getHiddenProducts();
+        } else {
+            $dssp = $this->sanpham->getAllProducts();
+        }
+        include '../app/view/admin/menu.php';
     }
-    include '../app/view/admin/menu.php';
-}
 
     public function admin() {
         $action = $_GET['action'] ?? 'list';
@@ -396,7 +396,7 @@ public function login_process() {
     
     // Lấy dữ liệu POST
     $email = trim($_POST['email'] ?? '');
-    $mat_khau = $_POST['mat_khau'] ?? '';
+    $mat_khau = $_POST['password'] ?? '';
     
     if (empty($email) || empty($mat_khau)) {
         $error_msg = "Vui lòng nhập đầy đủ Email và Mật khẩu.";
@@ -447,6 +447,15 @@ public function login_process() {
     exit;
 }
 
-
+public function logout() {
+    // Xóa tất cả các biến session
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    session_unset();
+    // Hủy session
+    session_destroy();
 }
+
+} // <--- Dấu đóng lớp AdminController cuối cùng
 ?>

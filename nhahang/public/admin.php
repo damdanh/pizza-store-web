@@ -1,6 +1,6 @@
 <?php
 ob_start();
-session_start();
+// session_start();
 
 include "../app/controller/AdminController.php";
 $controller = new AdminController();
