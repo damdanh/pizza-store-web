@@ -474,6 +474,14 @@
                 </div>
             </div>
 
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+                    <label style="font-weight:600;">Ẩn khi tạo:</label>
+                    <label style="display:inline-flex; align-items:center; gap:8px; font-weight:500; color:#555;">
+                        <input type="checkbox" name="is_hidden" value="1" <?php echo (!empty($sp_edit['is_hidden'])) ? 'checked' : ''; ?>>
+                        <span>Đánh dấu để ẩn món (không hiện trên trang người dùng)</span>
+                    </label>
+                </div>
+
             <div class="form-group" style="margin-bottom: 20px;">
                 <label for="mo_ta">Mô tả chi tiết:</label>
                 <textarea id="mo_ta" name="mo_ta" rows="5" placeholder="Mô tả các thành phần và hương vị của món ăn" required><?php echo $sp_edit['mo_ta'] ?? ''; ?></textarea>

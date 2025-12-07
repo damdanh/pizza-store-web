@@ -338,6 +338,17 @@ $dishes_list = $dssp ?? [];
                 <span class="material-icons-outlined" style="margin-right: 5px;">add</span>
                 Thêm món ăn
             </a>
+            <?php if (isset($_GET['show']) && $_GET['show'] === 'hidden'): ?>
+                <a href="admin.php?page=menu" class="action-btn" style="background:#6c757d;">
+                    <span class="material-icons-outlined" style="margin-right: 5px;">visibility_off</span>
+                    Quay lại danh sách
+                </a>
+            <?php else: ?>
+                <a href="admin.php?page=menu&show=hidden" class="action-btn" style="background:#17a2b8;">
+                    <span class="material-icons-outlined" style="margin-right: 5px;">visibility</span>
+                    Hiển thị món ẩn
+                </a>
+            <?php endif; ?>
         </div>
     </header>
 
@@ -363,14 +374,20 @@ $dishes_list = $dssp ?? [];
                 <tbody>
                     <?php if (!empty($dishes_list)): ?>
                         <?php foreach ($dishes_list as $dish): ?>
-                        <tr>
+                        <?php $rowStyle = !empty($dish['is_hidden']) ? 'background:#f8f9fa; color:#6c757d;' : ''; ?>
+                        <tr style="<?= $rowStyle ?>">
                             <td><?php echo $dish['id_mon']; ?></td>
                             <!-- <td>
                                 <img src="/nhahang/app/public/img/<?php echo htmlspecialchars($dish['hinh_anh']); ?>" 
                                      alt="<?php echo htmlspecialchars($dish['ten_mon']); ?>" 
                                      style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
                             </td> -->
-                            <td><?php echo htmlspecialchars($dish['ten_mon']); ?></td>
+                            <td>
+                                <?php echo htmlspecialchars($dish['ten_mon']); ?>
+                                <?php if (!empty($dish['is_hidden'])): ?>
+                                    <span style="display:inline-block; margin-left:8px; font-size:12px; padding:3px 8px; background:#6c757d; color:#fff; border-radius:12px; vertical-align:middle;">Ẩn</span>
+                                <?php endif; ?>
+                            </td>
                             <td><?php echo htmlspecialchars($dish['ten_danh_muc']); ?></td>
                             <td>
                                 <strong><?php echo number_format($dish['gia'], 0, ',', '.'); ?> VNĐ</strong>
@@ -388,10 +405,17 @@ $dishes_list = $dssp ?? [];
                                 <a href="admin.php?page=menu&action=edit&id=<?php echo $dish['id_mon']; ?>" class="action-icon" title="Sửa">
                                     <span class="material-icons-outlined">edit</span>
                                 </a>
-                                <a href="admin.php?page=menu&action=delete&id=<?php echo $dish['id_mon']; ?>" class="action-icon" title="Xóa"
-                                   onclick="return confirm('Xác nhận xóa món ăn <?php echo htmlspecialchars($dish['ten_mon']); ?>?');" style="color: #dc3545;">
-                                    <span class="material-icons-outlined">delete</span>
-                                </a>
+                                <?php if (!empty($dish['is_hidden'])): ?>
+                                    <a href="admin.php?page=menu&action=unhide&id=<?php echo $dish['id_mon']; ?>" class="action-icon" title="Hiện lại" 
+                                       onclick="return confirm('Hiện lại món ăn <?php echo htmlspecialchars($dish['ten_mon']); ?>?');" style="color: #28a745;">
+                                        <span class="material-icons-outlined">visibility</span>
+                                    </a>
+                                <?php else: ?>
+                                    <a href="admin.php?page=menu&action=hide&id=<?php echo $dish['id_mon']; ?>" class="action-icon" title="Ẩn"
+                                       onclick="return confirm('Ẩn món ăn <?php echo htmlspecialchars($dish['ten_mon']); ?>?');" style="color: #dc3545;">
+                                        <span class="material-icons-outlined">visibility_off</span>
+                                    </a>
+                                <?php endif; ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>

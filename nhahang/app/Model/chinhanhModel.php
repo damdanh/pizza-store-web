@@ -1,4 +1,5 @@
 <?php
+// tạo muc Model cho chi nhánh
 class ChinhanhModel {
     private $conn;
 

@@ -36,47 +36,26 @@ try {
         die("Vui lòng nhập đầy đủ thông tin!");
     }
 
-    $bookingId = $bookingModel->createBooking([
-        'name'   => $name,
-        'phone'  => $phone,
-        'email'  => $email,
-        'people' => $people,
-        'date'   => $date,
-        'time'   => $time,
-        'branch' => $branch,
-        'notes'  => $notes
-    ]);
+    // ĐÃ SỬA DÒNG NÀY – CHỈ CÒN 8 CỘT TƯƠNG ỨNG 8 DẤU ?
+    // Chèn vào bảng `dat_ban` (sử dụng `id_khach_hang` nếu user đã đăng nhập)
+    $user_id = $_SESSION['user_id'] ?? null;
 
-    $total = 0;
+    // Hợp nhất ngày + giờ thành một DATETIME phù hợp cho cột `ngay_dat_ban`
+    $datetime = date('Y-m-d H:i:s', strtotime($date . ' ' . $time));
 
-    foreach ($cart as $item) {
+    $sql = "INSERT INTO dat_ban (id_khach_hang, id_ban, ngay_dat_ban, so_luong_nguoi, ghi_chu, phu_phi, tong_gia, trang_thai_dat_ban) 
+            VALUES (:id_khach_hang, NULL, :ngay_dat_ban, :so_luong, :ghi_chu, 0.00, 0.00, 'Chờ xác nhận')";
 
-        if (empty($item['id_mon'])) {
-            continue;
-        }
+    $stmt = $pdo->prepare($sql);
+    $params = [
+        'id_khach_hang' => $user_id,
+        'ngay_dat_ban'  => $datetime,
+        'so_luong'      => $people,
+        'ghi_chu'       => $notes
+    ];
+    $stmt->execute($params);
 
-        $bookingModel->addBookingItem(
-            $bookingId,
-            (int)$item['id_mon'],
-            (int)$item['so_luong'],
-            (float)$item['gia']
-        );
-
-        $total += $item['gia'] * $item['so_luong'];
-    }
-
-    if ($name === '' || $phone === '') {
-        die("Vui lòng nhập đầy đủ thông tin bắt buộc.");
-    }
-
-    $stmt = $pdo->prepare("
-        INSERT INTO bookings (name, phone, email, people, booking_date, booking_time, branch, notes, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
-    ");
-
-    $stmt->execute([$name, $phone, $email, $people, $date, $time, $branch, $notes]);
-
-
+    // Lưu vào session để hiển thị xác nhận cho user
     $_SESSION['booking'] = [
         'id'      => $bookingId,
         'name'    => $name,

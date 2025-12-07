@@ -1,6 +1,6 @@
  <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="https://via.placeholder.com/40" alt="Logo" class="avatar">
+                <img src="img/logoN5.png" alt="logoN5" class="avatar">
                 <div>
                     <div class="system-name">Hệ thống</div>
                     <div class="sub-text">Quản lý nhà hàng</div>

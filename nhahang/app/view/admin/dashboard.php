@@ -259,21 +259,20 @@ include 'views/layouts/sidebar.php';
         <h1>Dashboard</h1>
         <p>Tổng quan về quản lý nhà hàng</p>
     </header>
-
+    
     <section class="kpi-cards">
-        <div class="card kpi-card">
-            <div class="kpi-title">Tổng đặt bàn</div>
-            <span class="kpi-icon blue"><span class="material-icons-outlined">event</span></span>
-            <div class="kpi-data">0</div>
-            <div class="kpi-sub-text">0 chờ xác nhận</div>
-        </div>
-
         <div class="card kpi-card">
             <div class="kpi-title">Món ăn</div>
             <span class="kpi-icon orange"><span class="material-icons-outlined">restaurant</span></span>
             <div class="kpi-data"><?= isset($totalProducts) ? htmlspecialchars($totalProducts) : '0' ?></div>
             <div class="kpi-sub-text"></div>
         </div>
+        
+        <div class="card kpi-card">
+            <div class="kpi-title">Tổng đặt bàn</div>
+            <span class="kpi-icon blue"><span class="material-icons-outlined">event</span></span>
+            <div class="kpi-data">0</div>
+         </div>
 
         <div class="card kpi-card">
             <div class="kpi-title">Chi nhánh</div>
@@ -285,8 +284,7 @@ include 'views/layouts/sidebar.php';
         <div class="card kpi-card">
             <div class="kpi-title">Doanh thu hôm nay</div>
             <span class="kpi-icon purple"><span class="material-icons-outlined">attach_money</span></span>
-            <div class="kpi-data">0</div>
-            <div class="kpi-sub-text">0 chờ xác nhận</div>
+            <div class="kpi-data">5,000,000</div>
         </div>
     </section>
 
