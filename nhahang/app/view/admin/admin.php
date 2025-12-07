@@ -1,5 +1,5 @@
-
-
+<?php session_start(); 
+?>
 <style>
         /* --- DÁN TOÀN BỘ MÃ CSS CHUNG BẠN ĐÃ CÓ VÀO ĐÂY --- */
 
@@ -275,9 +275,7 @@
         }
     
 </style>
-<?php session_start(); 
 
-?>
 <main class="main-content">
     <header class="page-header">
         <div class="page-title-group">
@@ -324,12 +322,22 @@
                     <td><?= htmlspecialchars(date('d/m/Y', strtotime($admin['ngay_tao'] ?? ''))) ?></td> 
                     <td>
                         <a href="admin.php?page=admin&action=edit&id=<?= $admin['id_admin'] ?>" class="action-link">Sửa</a>
-                        |
-                        <a href="admin.php?page=admin&action=delete&id=<?= $admin['id_admin'] ?>" 
-                           class="action-link"
-                           onclick="return confirm('Bạn có chắc chắn muốn xóa tài khoản <?= htmlspecialchars($admin['ten']) ?> không?')">
-                           Xóa
-                        </a>
+                        <?php if (isset($admin['trang_thai_hoat_dong'])): ?>
+                            |
+                            <?php if ((int)$admin['trang_thai_hoat_dong'] === 1): ?>
+                                <a href="admin.php?page=admin&action=toggle_status&id=<?= $admin['id_admin'] ?>&status=0" 
+                                   class="action-link"
+                                   onclick="return confirm('Bạn có muốn ẩn tài khoản <?= htmlspecialchars($admin['ten']) ?> không?')">
+                                   Ẩn
+                                </a>
+                            <?php else: ?>
+                                <a href="admin.php?page=admin&action=toggle_status&id=<?= $admin['id_admin'] ?>&status=1" 
+                                   class="action-link"
+                                   onclick="return confirm('Bạn có muốn kích hoạt tài khoản <?= htmlspecialchars($admin['ten']) ?> không?')">
+                                   Kích hoạt
+                                </a>
+                            <?php endif; ?>
+                        <?php endif; ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>
