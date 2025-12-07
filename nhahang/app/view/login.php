@@ -30,8 +30,8 @@
                 <label class="form-label">Mật khẩu</label>
                 <input 
                     type="password" 
-                    class="form-input" 
                     name="password" 
+                    class="form-input" 
                     placeholder="Nhập mật khẩu" 
                     required>
             </div>
