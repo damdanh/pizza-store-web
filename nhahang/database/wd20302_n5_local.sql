@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th12 05, 2025 lúc 07:12 PM
--- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.2.12
+-- Host: 127.0.0.1
+-- Generation Time: Dec 05, 2025 at 05:14 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `wd20302_n5_local (2)`
+-- Database: `wd20302_n5_local`
 --
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `admin`
+-- Table structure for table `admin`
 --
 
 CREATE TABLE `admin` (
@@ -39,7 +39,7 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `admin`
+-- Dumping data for table `admin`
 --
 
 INSERT INTO `admin` (`id_admin`, `ten`, `email`, `mat_khau`, `vai_tro`, `trang_thai_hoat_dong`, `created_at`, `updated_at`) VALUES
@@ -48,7 +48,7 @@ INSERT INTO `admin` (`id_admin`, `ten`, `email`, `mat_khau`, `vai_tro`, `trang_t
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `bai_viet`
+-- Table structure for table `bai_viet`
 --
 
 CREATE TABLE `bai_viet` (
@@ -65,7 +65,7 @@ CREATE TABLE `bai_viet` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `ban`
+-- Table structure for table `ban`
 --
 
 CREATE TABLE `ban` (
@@ -82,34 +82,35 @@ CREATE TABLE `ban` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chinhanh`
+-- Table structure for table `bookings`
 --
 
-CREATE TABLE `chinhanh` (
+CREATE TABLE `bookings` (
   `id` int(11) NOT NULL,
-  `ten_chi_nhanh` varchar(100) NOT NULL,
-  `dia_chi` varchar(255) NOT NULL,
-  `gio_mo_cua` time NOT NULL,
-  `gio_dong_cua` time NOT NULL,
-  `so_luong_ban` int(11) NOT NULL,
-  `suc_chua` int(11) NOT NULL,
-  `khung_gio` varchar(50) DEFAULT NULL,
-  `ban_con_trong` int(11) DEFAULT NULL
+  `name` varchar(100) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `people` int(11) DEFAULT 2,
+  `booking_date` date NOT NULL,
+  `booking_time` time NOT NULL,
+  `branch` varchar(255) DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `chinhanh`
+-- Dumping data for table `bookings`
 --
 
-INSERT INTO `chinhanh` (`id`, `ten_chi_nhanh`, `dia_chi`, `gio_mo_cua`, `gio_dong_cua`, `so_luong_ban`, `suc_chua`, `khung_gio`, `ban_con_trong`) VALUES
-(1, 'N5 Pasta – Saigon Centre', 'Saigon Centre, Quận 1, TP.HCM', '08:00:00', '22:00:00', 20, 80, '08:00-22:00', 5),
-(2, 'N5 Pasta – Bến Thành', 'Gần chợ Bến Thành, Quận 1, TP.HCM', '09:00:00', '21:30:00', 15, 60, '09:00-21:30', 3),
-(3, 'N5 Pasta – GigaMall', 'GigaMall, Thủ Đức, TP.HCM', '08:00:00', '22:00:00', 18, 72, '08:00-22:00', 4);
+INSERT INTO `bookings` (`id`, `name`, `phone`, `email`, `people`, `booking_date`, `booking_time`, `branch`, `notes`, `created_at`) VALUES
+(50, 'Vũ Vu Tien', '0326008989', 'tiend4693@gmail.com', 21, '2025-12-15', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa -', '', '2025-12-05 01:26:14'),
+(51, 'Vũ Vu Tien', '0326008989', 'tiend4693@gmail.com', 21, '2025-12-15', '15:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa -', '', '2025-12-05 01:26:22'),
+(52, 'Vũ Vu Tien', '0326008989', 'tiend4693@gmail.com', 2, '2025-12-15', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa -', '', '2025-12-05 01:27:19');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chi_tiet_dat_ban`
+-- Table structure for table `chi_tiet_dat_ban`
 --
 
 CREATE TABLE `chi_tiet_dat_ban` (
@@ -123,7 +124,7 @@ CREATE TABLE `chi_tiet_dat_ban` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chi_tiet_khuyen_mai`
+-- Table structure for table `chi_tiet_khuyen_mai`
 --
 
 CREATE TABLE `chi_tiet_khuyen_mai` (
@@ -134,7 +135,22 @@ CREATE TABLE `chi_tiet_khuyen_mai` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `danh_muc_mon`
+-- Table structure for table `danh_gia`
+--
+
+CREATE TABLE `danh_gia` (
+  `id` int(11) NOT NULL,
+  `id_khach_hang` int(11) NOT NULL,
+  `id_don_hang` int(11) DEFAULT NULL,
+  `sao` int(11) DEFAULT NULL CHECK (`sao` between 1 and 5),
+  `nhan_xet` text DEFAULT NULL,
+  `ngay_danh_gia` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `danh_muc_mon`
 --
 
 CREATE TABLE `danh_muc_mon` (
@@ -144,7 +160,7 @@ CREATE TABLE `danh_muc_mon` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `danh_muc_mon`
+-- Dumping data for table `danh_muc_mon`
 --
 
 INSERT INTO `danh_muc_mon` (`id_danh_muc_mon`, `ten_danh_muc`, `mo_ta`) VALUES
@@ -158,7 +174,7 @@ INSERT INTO `danh_muc_mon` (`id_danh_muc_mon`, `ten_danh_muc`, `mo_ta`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `dat_ban`
+-- Table structure for table `dat_ban`
 --
 
 CREATE TABLE `dat_ban` (
@@ -177,7 +193,33 @@ CREATE TABLE `dat_ban` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `khach_hang`
+-- Table structure for table `don_hang`
+--
+
+CREATE TABLE `don_hang` (
+  `id_don_hang` int(11) NOT NULL,
+  `id_khach_hang` int(11) NOT NULL,
+  `tong_tien` decimal(15,2) NOT NULL,
+  `trang_thai` varchar(50) DEFAULT 'cho_xac_nhan',
+  `ngay_dat` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `email_verification`
+--
+
+CREATE TABLE `email_verification` (
+  `email` varchar(255) NOT NULL,
+  `otp_code` varchar(6) NOT NULL,
+  `expires_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `khach_hang`
 --
 
 CREATE TABLE `khach_hang` (
@@ -194,13 +236,23 @@ CREATE TABLE `khach_hang` (
   `tai_khoan_dang_nhap` varchar(100) DEFAULT NULL,
   `ma_xac_minh` varchar(100) DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `tong_chi_tieu` decimal(15,2) DEFAULT 0.00,
+  `diem_tich_luy` int(11) DEFAULT 0,
+  `hang_thanh_vien` enum('dong','bac','vang','kimcuong') DEFAULT 'dong'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `khach_hang`
+--
+
+INSERT INTO `khach_hang` (`id_khach_hang`, `ten`, `sdt`, `email`, `mat_khau`, `gioi_tinh`, `ngay_sinh`, `dia_chi`, `trang_thai_tai_khoan`, `phan_hoi`, `tai_khoan_dang_nhap`, `ma_xac_minh`, `created_at`, `updated_at`, `tong_chi_tieu`, `diem_tich_luy`, `hang_thanh_vien`) VALUES
+(2, 'Nguyễn Tấn Lộc', NULL, 'tanloccute0310@gmail.com', '$2y$10$XUuR3fs.QU65eaErGZYYqedVeQJ0CZXwu/.B0nsn1D5ylvOmRDPx2', NULL, NULL, NULL, 'Active', NULL, NULL, NULL, '2025-12-01 23:25:58', '2025-12-01 23:25:58', 0.00, 0, 'dong');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `khuyen_mai`
+-- Table structure for table `khuyen_mai`
 --
 
 CREATE TABLE `khuyen_mai` (
@@ -219,7 +271,7 @@ CREATE TABLE `khuyen_mai` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `khu_vuc`
+-- Table structure for table `khu_vuc`
 --
 
 CREATE TABLE `khu_vuc` (
@@ -229,7 +281,7 @@ CREATE TABLE `khu_vuc` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `khu_vuc`
+-- Dumping data for table `khu_vuc`
 --
 
 INSERT INTO `khu_vuc` (`id_khu_vuc`, `ten_khu_vuc`, `mo_ta`) VALUES
@@ -240,7 +292,7 @@ INSERT INTO `khu_vuc` (`id_khu_vuc`, `ten_khu_vuc`, `mo_ta`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `mon_an`
+-- Table structure for table `mon_an`
 --
 
 CREATE TABLE `mon_an` (
@@ -256,7 +308,7 @@ CREATE TABLE `mon_an` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `mon_an`
+-- Dumping data for table `mon_an`
 --
 
 INSERT INTO `mon_an` (`id_mon`, `id_danh_muc_mon`, `ten_mon`, `gia`, `mo_ta`, `hinh_anh`, `trang_thai`, `created_at`, `updated_at`) VALUES
@@ -269,7 +321,7 @@ INSERT INTO `mon_an` (`id_mon`, `id_danh_muc_mon`, `ten_mon`, `gia`, `mo_ta`, `h
 (7, 2, 'Pizza Phô mai Burrata Margherita thịt nguội\r\n', 398000.00, 'Nền bánh Margherita cổ điển được thêm thắt với thịt nguội Parma, rau Rocket và phô mai Burrata nhà làm béo ngậy.Lưu ý: Thịt nguội và rau rocket được đặt riêng để đảm bảo độ tươi ngon của pizza khi giao đến bạn\r\n\r\nChất gây dị ứng & Thành phần chính:\r\n\r\n- Sữa', 'https://delivery.pizza4ps.com/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fdelivery-system-v2%2F03-04-2022-Image%2F10000003_2.jpg&w=828&q=75', 'Còn hàng', '2025-11-27 10:27:19', '2025-11-29 11:05:32'),
 (8, 2, 'Pizza 3 loại phô mai nhà làm', 198000.00, '(Món chay) Bạn sẽ bất ngờ trước sự hợp cạ của bộ đôi “phô mai-mật ong” này đấy! Dòng pizza 3 loại phô mai nhà làm gồm: phô mai Mozzarella, Grano Padano và Camembert.\r\n\r\nChất gây dị ứng & Thành phần chính:\r\n\r\n- Sữa', 'https://delivery.pizza4ps.com/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fdelivery-system-v2%2F03-04-2022-Image%2F10000005_2.jpg&w=828&q=75', 'Còn hàng', '2025-11-27 10:27:19', '2025-11-29 11:05:46'),
 (9, 2, 'Pizza 4 loại phô mai nhà làm\r\n', 248000.00, '(Món chay) Dòng pizza 4 loại phô mai nhà làm gồm: phô mai xanh, Mozzarella, Grano Padano, và Camembert.\r\n\r\nChất gây dị ứng & Thành phần chính:\r\n\r\n- Sữa', 'https://delivery.pizza4ps.com/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fdelivery-system-v2%2F03-04-2022-Image%2F10000006_2.jpg&w=828&q=75', 'Còn hàng', '2025-11-27 10:27:19', '2025-11-29 11:05:59'),
-(10, 2, 'Pizza 5 loại phô mai nhà làm\r\n', 298000.00, '(Vegetarian) Dòng pizza 5 loại phô mai nhà làm gồm: phô mai xanh, Mozzarella, Grano Padano, Camembert và Raclette.\r\n\r\nChất gây dị ứng & Thành phần chính:\r\n\r\n- Sữa', '(Vegetarian) Dòng pizza 5 loại phô mai nhà làm gồm: phô mai xanh, Mozzarella, Grano Padano, Camembert và Raclette.\r\n\r\nChất gây dị ứng & Thành phần chính:\r\n\r\n- Sữa', 'Còn hàng', '2025-11-27 10:27:19', '2025-11-29 11:06:11'),
+(10, 2, 'Pizza 5 loại phô mai nhà làm\r\n', 298000.00, '(Vegetarian) Dòng pizza 5 loại phô mai nhà làm gồm: phô mai xanh, Mozzarella, Grano Padano, Camembert và Raclette.\r\n\r\nChất gây dị ứng & Thành phần chính:\r\n\r\n- Sữa', 'https://img.dominos.vn/thumbnail+b32.jpg', 'Còn hàng', '2025-11-27 10:27:19', '2025-12-01 12:24:44'),
 (11, 2, 'Pizza Margherita\r\n', 160000.00, '(Món chay) Chiếc bánh pizza nóng hổi với nền xốt cà chua, cùng nhân phô mai Mozzarella nhà làm điểm mùi thơm thảo mộc từ lá húng quế tươi.\r\n\r\nChất gây dị ứng & Thành phần chính:\r\n\r\n- Sữa\r\n', 'https://delivery.pizza4ps.com/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fdelivery-system-v2%2F03-04-2022-Image%2F10000008_2.jpg&w=828&q=75', 'Còn hàng', '2025-11-27 10:27:19', '2025-11-29 11:06:23'),
 (12, 2, 'Pizza Thịt nguội Ý Parma và rau rocket với xốt cà chua\r\n', 331000.00, 'Nền bánh Margherita cổ điển được thêm thắt với thịt nguội Parma và rau rocket.Lưu ý: Thịt nguội và rau rocket được đặt riêng để đảm bảo độ tươi ngon của pizza khi giao đến bạn\r\n\r\nChất gây dị ứng & Thành phần chính:\r\n\r\n- Sữa', 'https://delivery.pizza4ps.com/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fdelivery-system-v2%2F03-04-2022-Image%2F10000009_2.jpg&w=828&q=75', 'Còn hàng', '2025-11-27 10:27:19', '2025-11-29 11:06:31'),
 (13, 2, 'Pizza Cá hồi xốt kem miso\r\n', 278000.00, 'Sự cân bằng hài hòa giữa xốt Miso, phô mai Mozzarella nhà làm, cá hồi xen lẫn vị ngọt thanh của hành tây và mùi thơm thoang thoảng từ tiêu cùng hành lá.\r\n\r\nChất gây dị ứng & Thành phần chính:\r\n\r\n- Cá\r\n- Đậu nành\r\n- Sữa', 'https://delivery.pizza4ps.com/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fdelivery-system-v2%2F03-04-2022-Image%2F10000013_2.jpg&w=828&q=75', 'Còn hàng', '2025-11-27 10:27:19', '2025-11-29 11:06:43'),
@@ -322,7 +374,7 @@ INSERT INTO `mon_an` (`id_mon`, `id_danh_muc_mon`, `ten_mon`, `gia`, `mo_ta`, `h
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `tai_khoan_reset`
+-- Table structure for table `tai_khoan_reset`
 --
 
 CREATE TABLE `tai_khoan_reset` (
@@ -335,25 +387,25 @@ CREATE TABLE `tai_khoan_reset` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `admin`
+-- Indexes for table `admin`
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id_admin`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- Chỉ mục cho bảng `bai_viet`
+-- Indexes for table `bai_viet`
 --
 ALTER TABLE `bai_viet`
   ADD PRIMARY KEY (`id_bai_viet`),
   ADD KEY `id_admin` (`id_admin`);
 
 --
--- Chỉ mục cho bảng `ban`
+-- Indexes for table `ban`
 --
 ALTER TABLE `ban`
   ADD PRIMARY KEY (`id_ban`),
@@ -361,34 +413,42 @@ ALTER TABLE `ban`
   ADD KEY `id_khu_vuc` (`id_khu_vuc`);
 
 --
--- Chỉ mục cho bảng `chinhanh`
+-- Indexes for table `bookings`
 --
-ALTER TABLE `chinhanh`
+ALTER TABLE `bookings`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `chi_tiet_dat_ban`
+-- Indexes for table `chi_tiet_dat_ban`
 --
 ALTER TABLE `chi_tiet_dat_ban`
   ADD PRIMARY KEY (`id_dat_ban`,`id_mon`),
   ADD KEY `id_mon` (`id_mon`);
 
 --
--- Chỉ mục cho bảng `chi_tiet_khuyen_mai`
+-- Indexes for table `chi_tiet_khuyen_mai`
 --
 ALTER TABLE `chi_tiet_khuyen_mai`
   ADD PRIMARY KEY (`id_khuyen_mai`,`id_mon`),
   ADD KEY `id_mon` (`id_mon`);
 
 --
--- Chỉ mục cho bảng `danh_muc_mon`
+-- Indexes for table `danh_gia`
+--
+ALTER TABLE `danh_gia`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_khach_hang` (`id_khach_hang`),
+  ADD KEY `id_don_hang` (`id_don_hang`);
+
+--
+-- Indexes for table `danh_muc_mon`
 --
 ALTER TABLE `danh_muc_mon`
   ADD PRIMARY KEY (`id_danh_muc_mon`),
   ADD UNIQUE KEY `ten_danh_muc` (`ten_danh_muc`);
 
 --
--- Chỉ mục cho bảng `dat_ban`
+-- Indexes for table `dat_ban`
 --
 ALTER TABLE `dat_ban`
   ADD PRIMARY KEY (`id_dat_ban`),
@@ -396,7 +456,20 @@ ALTER TABLE `dat_ban`
   ADD KEY `id_ban` (`id_ban`);
 
 --
--- Chỉ mục cho bảng `khach_hang`
+-- Indexes for table `don_hang`
+--
+ALTER TABLE `don_hang`
+  ADD PRIMARY KEY (`id_don_hang`),
+  ADD KEY `id_khach_hang` (`id_khach_hang`);
+
+--
+-- Indexes for table `email_verification`
+--
+ALTER TABLE `email_verification`
+  ADD PRIMARY KEY (`email`);
+
+--
+-- Indexes for table `khach_hang`
 --
 ALTER TABLE `khach_hang`
   ADD PRIMARY KEY (`id_khach_hang`),
@@ -404,27 +477,27 @@ ALTER TABLE `khach_hang`
   ADD UNIQUE KEY `tai_khoan_dang_nhap` (`tai_khoan_dang_nhap`);
 
 --
--- Chỉ mục cho bảng `khuyen_mai`
+-- Indexes for table `khuyen_mai`
 --
 ALTER TABLE `khuyen_mai`
   ADD PRIMARY KEY (`id_khuyen_mai`),
   ADD UNIQUE KEY `ten_ctk` (`ten_ctk`);
 
 --
--- Chỉ mục cho bảng `khu_vuc`
+-- Indexes for table `khu_vuc`
 --
 ALTER TABLE `khu_vuc`
   ADD PRIMARY KEY (`id_khu_vuc`);
 
 --
--- Chỉ mục cho bảng `mon_an`
+-- Indexes for table `mon_an`
 --
 ALTER TABLE `mon_an`
   ADD PRIMARY KEY (`id_mon`),
   ADD KEY `id_danh_muc_mon` (`id_danh_muc_mon`);
 
 --
--- Chỉ mục cho bảng `tai_khoan_reset`
+-- Indexes for table `tai_khoan_reset`
 --
 ALTER TABLE `tai_khoan_reset`
   ADD PRIMARY KEY (`id_reset`),
@@ -432,114 +505,139 @@ ALTER TABLE `tai_khoan_reset`
   ADD KEY `idx_token` (`token`);
 
 --
--- AUTO_INCREMENT cho các bảng đã đổ
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT cho bảng `admin`
+-- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
   MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT cho bảng `bai_viet`
+-- AUTO_INCREMENT for table `bai_viet`
 --
 ALTER TABLE `bai_viet`
   MODIFY `id_bai_viet` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `ban`
+-- AUTO_INCREMENT for table `ban`
 --
 ALTER TABLE `ban`
   MODIFY `id_ban` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `chinhanh`
+-- AUTO_INCREMENT for table `bookings`
 --
-ALTER TABLE `chinhanh`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `bookings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
--- AUTO_INCREMENT cho bảng `danh_muc_mon`
+-- AUTO_INCREMENT for table `danh_gia`
+--
+ALTER TABLE `danh_gia`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `danh_muc_mon`
 --
 ALTER TABLE `danh_muc_mon`
   MODIFY `id_danh_muc_mon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT cho bảng `dat_ban`
+-- AUTO_INCREMENT for table `dat_ban`
 --
 ALTER TABLE `dat_ban`
   MODIFY `id_dat_ban` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `khach_hang`
+-- AUTO_INCREMENT for table `don_hang`
 --
-ALTER TABLE `khach_hang`
-  MODIFY `id_khach_hang` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `don_hang`
+  MODIFY `id_don_hang` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `khuyen_mai`
+-- AUTO_INCREMENT for table `khach_hang`
+--
+ALTER TABLE `khach_hang`
+  MODIFY `id_khach_hang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `khuyen_mai`
 --
 ALTER TABLE `khuyen_mai`
   MODIFY `id_khuyen_mai` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `khu_vuc`
+-- AUTO_INCREMENT for table `khu_vuc`
 --
 ALTER TABLE `khu_vuc`
   MODIFY `id_khu_vuc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT cho bảng `mon_an`
+-- AUTO_INCREMENT for table `mon_an`
 --
 ALTER TABLE `mon_an`
   MODIFY `id_mon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
--- AUTO_INCREMENT cho bảng `tai_khoan_reset`
+-- AUTO_INCREMENT for table `tai_khoan_reset`
 --
 ALTER TABLE `tai_khoan_reset`
   MODIFY `id_reset` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Các ràng buộc cho các bảng đã đổ
+-- Constraints for dumped tables
 --
 
 --
--- Các ràng buộc cho bảng `bai_viet`
+-- Constraints for table `bai_viet`
 --
 ALTER TABLE `bai_viet`
   ADD CONSTRAINT `bai_viet_ibfk_1` FOREIGN KEY (`id_admin`) REFERENCES `admin` (`id_admin`) ON DELETE SET NULL;
 
 --
--- Các ràng buộc cho bảng `ban`
+-- Constraints for table `ban`
 --
 ALTER TABLE `ban`
   ADD CONSTRAINT `ban_ibfk_1` FOREIGN KEY (`id_khu_vuc`) REFERENCES `khu_vuc` (`id_khu_vuc`) ON DELETE SET NULL;
 
 --
--- Các ràng buộc cho bảng `chi_tiet_dat_ban`
+-- Constraints for table `chi_tiet_dat_ban`
 --
 ALTER TABLE `chi_tiet_dat_ban`
   ADD CONSTRAINT `chi_tiet_dat_ban_ibfk_1` FOREIGN KEY (`id_dat_ban`) REFERENCES `dat_ban` (`id_dat_ban`) ON DELETE CASCADE,
   ADD CONSTRAINT `chi_tiet_dat_ban_ibfk_2` FOREIGN KEY (`id_mon`) REFERENCES `mon_an` (`id_mon`);
 
 --
--- Các ràng buộc cho bảng `chi_tiet_khuyen_mai`
+-- Constraints for table `chi_tiet_khuyen_mai`
 --
 ALTER TABLE `chi_tiet_khuyen_mai`
   ADD CONSTRAINT `chi_tiet_khuyen_mai_ibfk_1` FOREIGN KEY (`id_khuyen_mai`) REFERENCES `khuyen_mai` (`id_khuyen_mai`) ON DELETE CASCADE,
   ADD CONSTRAINT `chi_tiet_khuyen_mai_ibfk_2` FOREIGN KEY (`id_mon`) REFERENCES `mon_an` (`id_mon`);
 
 --
--- Các ràng buộc cho bảng `dat_ban`
+-- Constraints for table `danh_gia`
+--
+ALTER TABLE `danh_gia`
+  ADD CONSTRAINT `danh_gia_ibfk_1` FOREIGN KEY (`id_khach_hang`) REFERENCES `khach_hang` (`id_khach_hang`) ON DELETE CASCADE,
+  ADD CONSTRAINT `danh_gia_ibfk_2` FOREIGN KEY (`id_don_hang`) REFERENCES `don_hang` (`id_don_hang`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `dat_ban`
 --
 ALTER TABLE `dat_ban`
   ADD CONSTRAINT `dat_ban_ibfk_1` FOREIGN KEY (`id_khach_hang`) REFERENCES `khach_hang` (`id_khach_hang`) ON DELETE CASCADE,
   ADD CONSTRAINT `dat_ban_ibfk_2` FOREIGN KEY (`id_ban`) REFERENCES `ban` (`id_ban`) ON DELETE SET NULL;
 
 --
--- Các ràng buộc cho bảng `mon_an`
+-- Constraints for table `don_hang`
+--
+ALTER TABLE `don_hang`
+  ADD CONSTRAINT `don_hang_ibfk_1` FOREIGN KEY (`id_khach_hang`) REFERENCES `khach_hang` (`id_khach_hang`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `mon_an`
 --
 ALTER TABLE `mon_an`
   ADD CONSTRAINT `mon_an_ibfk_1` FOREIGN KEY (`id_danh_muc_mon`) REFERENCES `danh_muc_mon` (`id_danh_muc_mon`) ON DELETE CASCADE;
