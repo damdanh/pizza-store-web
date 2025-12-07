@@ -1,0 +1,328 @@
+/* ================================== */
+/* BỐ CỤC CHUNG              */
+/* ================================== */
+
+.account-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: Arial, sans-serif;
+}
+
+.tabs {
+    display: flex;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: #666;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+.tab-btn:hover {
+    color: #8b6f47; /* Màu thương hiệu */
+}
+
+.tab-btn.active {
+    color: #8b6f47;
+    border-bottom: 3px solid #8b6f47;
+}
+
+.tab-content {
+    display: none;
+    padding: 20px 0;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* ================================== */
+/* THẺ THÀNH VIÊN (CARD)        */
+/* ================================== */
+
+.membership-card {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: #fff;
+}
+
+.membership-header {
+    /* Background được set inline trong PHP */
+    padding: 30px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.rank-badge {
+    text-align: center;
+}
+
+.rank-icon {
+    font-size: 40px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.membership-header h2 {
+    font-size: 24px;
+    margin: 0;
+    font-weight: 500;
+}
+
+.member-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.member-info p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.membership-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background: #f7f7f7;
+    border-bottom: 1px solid #eee;
+}
+
+.stat-item {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.stat-item i {
+    font-size: 24px;
+    color: #8b6f47; /* Màu thương hiệu */
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: bold;
+    display: block;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #777;
+    text-transform: uppercase;
+}
+
+/* ================================== */
+/* ƯU ĐÃI VÀ CHI TIẾT          */
+/* ================================== */
+
+.membership-benefits {
+    padding: 20px;
+    background: #fff; /* Đã thay đổi từ f9f9f9 để khớp với card */
+    border-top: 1px solid #eee;
+}
+
+.membership-benefits h3 {
+    margin: 0 0 15px 0;
+    font-size: 18px;
+    color: #333;
+    font-weight: 600;
+}
+
+.membership-benefits ul {
+    list-style: none;
+    padding: 0;
+}
+
+.membership-benefits li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #555;
+}
+
+.membership-benefits li i {
+    color: #4CAF50; /* Màu checkmark */
+    font-size: 14px;
+}
+
+.membership-benefits li:last-child {
+    border-bottom: none;
+}
+
+/* ================================== */
+/* BẢNG ĐƠN HÀNG/ĐÁNH GIÁ      */
+/* ================================== */
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-table th, .order-table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+.order-table th {
+    background: #f5f5f5;
+    font-weight: 600;
+    color: #333;
+}
+
+.btn-view, .btn-review {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.btn-view {
+    background: #e6d9ce;
+    color: #333;
+}
+
+.btn-view:hover {
+    background: #d4c4b6;
+}
+
+.btn-review {
+    background: #8b6f47;
+    color: white;
+}
+
+.btn-review:hover {
+    background: #7a5e3a;
+}
+
+.review-item {
+    border: 1px solid #eee;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.review-item .stars {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.review-item p {
+    margin: 5px 0;
+    color: #333;
+}
+
+.review-item small {
+    display: block;
+    color: #999;
+    font-size: 12px;
+}
+
+/* ================================== */
+/* MODAL                  */
+/* ================================== */
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6); /* Đen đậm hơn */
+    z-index: 10000;
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 500px;
+    margin: 10vh auto; /* Giảm margin trên để hiển thị tốt hơn */
+    padding: 30px;
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 32px;
+    color: #666;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: #333;
+}
+
+/* Rating Form */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    gap: 5px;
+    margin: 15px 0 25px 0;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    cursor: pointer;
+    font-size: 32px;
+    color: #ddd;
+    transition: color 0.2s;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #ffc107;
+}
+
+/* Alerts */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}

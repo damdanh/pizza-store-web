@@ -194,8 +194,18 @@ CREATE TABLE `khach_hang` (
   `tai_khoan_dang_nhap` varchar(100) DEFAULT NULL,
   `ma_xac_minh` varchar(100) DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `tong_chi_tieu` decimal(15,2) DEFAULT 0.00,
+  `diem_tich_luy` int(11) DEFAULT 0,
+  `hang_thanh_vien` enum('dong','bac','vang','kimcuong') DEFAULT 'dong'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `khach_hang`
+--
+
+INSERT INTO `khach_hang` (`id_khach_hang`, `ten`, `sdt`, `email`, `mat_khau`, `gioi_tinh`, `ngay_sinh`, `dia_chi`, `trang_thai_tai_khoan`, `phan_hoi`, `tai_khoan_dang_nhap`, `ma_xac_minh`, `created_at`, `updated_at`, `tong_chi_tieu`, `diem_tich_luy`, `hang_thanh_vien`) VALUES
+(2, 'Nguyễn Tấn Lộc', NULL, 'tanloccute0310@gmail.com', '$2y$10$XUuR3fs.QU65eaErGZYYqedVeQJ0CZXwu/.B0nsn1D5ylvOmRDPx2', NULL, NULL, NULL, 'Active', NULL, NULL, NULL, '2025-12-01 23:25:58', '2025-12-01 23:25:58', 0.00, 0, 'dong');
 
 -- --------------------------------------------------------
 
@@ -269,7 +279,7 @@ INSERT INTO `mon_an` (`id_mon`, `id_danh_muc_mon`, `ten_mon`, `gia`, `mo_ta`, `h
 (7, 2, 'Pizza Phô mai Burrata Margherita thịt nguội\r\n', 398000.00, 'Nền bánh Margherita cổ điển được thêm thắt với thịt nguội Parma, rau Rocket và phô mai Burrata nhà làm béo ngậy.Lưu ý: Thịt nguội và rau rocket được đặt riêng để đảm bảo độ tươi ngon của pizza khi giao đến bạn\r\n\r\nChất gây dị ứng & Thành phần chính:\r\n\r\n- Sữa', 'https://delivery.pizza4ps.com/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fdelivery-system-v2%2F03-04-2022-Image%2F10000003_2.jpg&w=828&q=75', 'Còn hàng', '2025-11-27 10:27:19', '2025-11-29 11:05:32'),
 (8, 2, 'Pizza 3 loại phô mai nhà làm', 198000.00, '(Món chay) Bạn sẽ bất ngờ trước sự hợp cạ của bộ đôi “phô mai-mật ong” này đấy! Dòng pizza 3 loại phô mai nhà làm gồm: phô mai Mozzarella, Grano Padano và Camembert.\r\n\r\nChất gây dị ứng & Thành phần chính:\r\n\r\n- Sữa', 'https://delivery.pizza4ps.com/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fdelivery-system-v2%2F03-04-2022-Image%2F10000005_2.jpg&w=828&q=75', 'Còn hàng', '2025-11-27 10:27:19', '2025-11-29 11:05:46'),
 (9, 2, 'Pizza 4 loại phô mai nhà làm\r\n', 248000.00, '(Món chay) Dòng pizza 4 loại phô mai nhà làm gồm: phô mai xanh, Mozzarella, Grano Padano, và Camembert.\r\n\r\nChất gây dị ứng & Thành phần chính:\r\n\r\n- Sữa', 'https://delivery.pizza4ps.com/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fdelivery-system-v2%2F03-04-2022-Image%2F10000006_2.jpg&w=828&q=75', 'Còn hàng', '2025-11-27 10:27:19', '2025-11-29 11:05:59'),
-(10, 2, 'Pizza 5 loại phô mai nhà làm\r\n', 298000.00, '(Vegetarian) Dòng pizza 5 loại phô mai nhà làm gồm: phô mai xanh, Mozzarella, Grano Padano, Camembert và Raclette.\r\n\r\nChất gây dị ứng & Thành phần chính:\r\n\r\n- Sữa', '(Vegetarian) Dòng pizza 5 loại phô mai nhà làm gồm: phô mai xanh, Mozzarella, Grano Padano, Camembert và Raclette.\r\n\r\nChất gây dị ứng & Thành phần chính:\r\n\r\n- Sữa', 'Còn hàng', '2025-11-27 10:27:19', '2025-11-29 11:06:11'),
+(10, 2, 'Pizza 5 loại phô mai nhà làm\r\n', 298000.00, '(Vegetarian) Dòng pizza 5 loại phô mai nhà làm gồm: phô mai xanh, Mozzarella, Grano Padano, Camembert và Raclette.\r\n\r\nChất gây dị ứng & Thành phần chính:\r\n\r\n- Sữa', 'https://img.dominos.vn/thumbnail+b32.jpg', 'Còn hàng', '2025-11-27 10:27:19', '2025-12-01 12:24:44'),
 (11, 2, 'Pizza Margherita\r\n', 160000.00, '(Món chay) Chiếc bánh pizza nóng hổi với nền xốt cà chua, cùng nhân phô mai Mozzarella nhà làm điểm mùi thơm thảo mộc từ lá húng quế tươi.\r\n\r\nChất gây dị ứng & Thành phần chính:\r\n\r\n- Sữa\r\n', 'https://delivery.pizza4ps.com/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fdelivery-system-v2%2F03-04-2022-Image%2F10000008_2.jpg&w=828&q=75', 'Còn hàng', '2025-11-27 10:27:19', '2025-11-29 11:06:23'),
 (12, 2, 'Pizza Thịt nguội Ý Parma và rau rocket với xốt cà chua\r\n', 331000.00, 'Nền bánh Margherita cổ điển được thêm thắt với thịt nguội Parma và rau rocket.Lưu ý: Thịt nguội và rau rocket được đặt riêng để đảm bảo độ tươi ngon của pizza khi giao đến bạn\r\n\r\nChất gây dị ứng & Thành phần chính:\r\n\r\n- Sữa', 'https://delivery.pizza4ps.com/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fdelivery-system-v2%2F03-04-2022-Image%2F10000009_2.jpg&w=828&q=75', 'Còn hàng', '2025-11-27 10:27:19', '2025-11-29 11:06:31'),
 (13, 2, 'Pizza Cá hồi xốt kem miso\r\n', 278000.00, 'Sự cân bằng hài hòa giữa xốt Miso, phô mai Mozzarella nhà làm, cá hồi xen lẫn vị ngọt thanh của hành tây và mùi thơm thoang thoảng từ tiêu cùng hành lá.\r\n\r\nChất gây dị ứng & Thành phần chính:\r\n\r\n- Cá\r\n- Đậu nành\r\n- Sữa', 'https://delivery.pizza4ps.com/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fdelivery-system-v2%2F03-04-2022-Image%2F10000013_2.jpg&w=828&q=75', 'Còn hàng', '2025-11-27 10:27:19', '2025-11-29 11:06:43'),
@@ -475,7 +485,7 @@ ALTER TABLE `dat_ban`
 -- AUTO_INCREMENT cho bảng `khach_hang`
 --
 ALTER TABLE `khach_hang`
-  MODIFY `id_khach_hang` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_khach_hang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `khuyen_mai`

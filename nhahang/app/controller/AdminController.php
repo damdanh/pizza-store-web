@@ -1,15 +1,13 @@
 <?php
-ob_start();
+
 require_once __DIR__. '/../Model/CategoryModel.php';
 require_once __DIR__. '/../Model/ProductModel.php';
-// require_once __DIR__. '/../Model/UserModel.php';
 require_once __DIR__. '/../Model/AdminModel.php';
 
 class AdminController {
     public $danhmuc;
     public $sanpham;
     public $admin;
-    // public $user;
     public $db;
 
     public function __construct($db_object = null) {
@@ -17,13 +15,15 @@ class AdminController {
         $this->sanpham = new ProductModel();
         $this->admin = new AdminModel();
         $this->db = $db_object;
-        // $this->user = new UserModel($this->db);
+        // $this->user = new UserModel($this->db); // Giữ lại logic cũ nếu có
     }
+
+    // --- CÁC HÀM ROUTER/VIEW GIỮ NGUYÊN LOGIC CŨ ---
 
     public function home(){
         $dssp = $this->sanpham->getAllProducts();
-        // $dsuser = $this->user->getAllUsers();
-        include '../app/view/admin/admin.php';
+        // SỬA: Đã đổi tên view admin.php thành QL_admin.php
+        include '../app/view/admin/QL_admin.php'; 
     }
 
     public function cauhinh(){
@@ -82,18 +82,15 @@ class AdminController {
 
         try {
             // Logic cập nhật (nếu có id) hoặc thêm mới
-            // Hiện tại chỉ xử lý thêm mới:
             $this->danhmuc->createCategory($ten_danh_muc, $mo_ta);
             header("Location: admin.php?page=menu");
             exit;
         } catch (\Exception $e) {
-            // Thêm logic xử lý lỗi tại đây nếu cần
             echo "<script>alert('Lỗi thêm nhóm món: " . $e->getMessage() . "');</script>";
         }
     }
 
     /* ================== 3. LƯU SẢN PHẨM (THÊM/SỬA) ================== */
-    // Kiểm tra tên nút submit trong form themmonan.php là 'save_product'
     if (isset($_POST['save_product'])) {
         $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : null;
         $name = $_POST['ten_mon'];
@@ -107,13 +104,11 @@ class AdminController {
         $upload_dir = "nhahang/app/public/img/";
         if (!empty($_FILES['img']['name'])) {
             $img = time() . "_" . basename($_FILES['img']['name']);
-            // Kiểm tra và tạo thư mục nếu chưa có
             if (!is_dir($upload_dir)) {
                 mkdir($upload_dir, 0777, true);
             }
             move_uploaded_file($_FILES['img']['tmp_name'], $upload_dir . $img);
         } else {
-            // Giữ lại ảnh cũ khi sửa nếu không upload ảnh mới
             $img = $_POST['old_img'] ?? ''; 
         }
 
@@ -128,10 +123,8 @@ class AdminController {
 
         try {
             if ($product_id) {
-                // Cập nhật sản phẩm
                 $this->sanpham->updateProduct($product_id, $data);
             } else {
-                // Thêm sản phẩm mới
                 $this->sanpham->createProduct($data);
             }
             header("Location: admin.php?page=menu");
@@ -190,7 +183,7 @@ class AdminController {
         if ($action == 'add') {
             $old_data = $_SESSION['old_admin_data'] ?? [];
             unset($_SESSION['old_admin_data']);
-            $admin_edit = null; // Đảm bảo biến này null khi thêm mới
+            $admin_edit = null;
             
             include_once "../app/view/admin/themadmin.php";
             return;
@@ -200,7 +193,6 @@ class AdminController {
         if ($action == 'edit' && isset($_GET['id'])) {
             $id = $_GET['id'];
             $admin_edit = $this->admin->getAdminById($id);
-            // Lấy dữ liệu cũ (old_data) để hiện thị lại thông báo lỗi nếu có
             $old_data = $_SESSION['old_admin_data'] ?? []; 
             unset($_SESSION['old_admin_data']);
 
@@ -216,7 +208,6 @@ class AdminController {
             $mat_khau = $_POST['mat_khau'] ?? '';
             $confirm_mat_khau = $_POST['confirm_mat_khau'] ?? '';
             $vai_tro = $_POST['vai_tro'] ?? '';
-            // Giá trị của trang_thai sẽ là '1' nếu checkbox được chọn, hoặc '0' từ input hidden
             $trang_thai_hoat_dong = (int)($_POST['trang_thai_hoat_dong'] ?? 0); 
 
             // Lưu dữ liệu để load lại form nếu có lỗi
@@ -239,7 +230,6 @@ class AdminController {
             }
 
             if (isset($error_msg)) {
-                // Quay lại trang add với thông báo lỗi
                 header("Location: admin.php?page=admin&action=add&error=" . urlencode($error_msg));
                 exit;
             }
@@ -249,16 +239,14 @@ class AdminController {
                 $result = $this->admin->addAdmin($ten, $email, $mat_khau, $vai_tro, $trang_thai_hoat_dong);
                 if ($result) {
                     $message = "Đã thêm tài khoản Admin mới thành công!";
-                    unset($_SESSION['old_admin_data']); // Xóa dữ liệu cũ khi thành công
+                    unset($_SESSION['old_admin_data']); 
                 } else {
                     $message = "Lỗi không xác định khi thêm Admin.";
                 }
-                // Chuyển hướng về trang danh sách Admin
                 header("Location: admin.php?page=admin&msg=" . urlencode($message));
                 exit;
             } catch (\Exception $e) {
                 $error_msg = "Lỗi: " . $e->getMessage();
-                // Chuyển hướng về trang add với lỗi chi tiết từ Model
                 header("Location: admin.php?page=admin&action=add&error=" . urlencode($error_msg));
                 exit;
             }
@@ -270,8 +258,8 @@ class AdminController {
             $id = $_POST['id_admin'] ?? null;
             $ten = trim($_POST['ten'] ?? '');
             $email = trim($_POST['email'] ?? '');
-            $mat_khau = $_POST['mat_khau'] ?? ''; // Có thể là rỗng
-            $confirm_mat_khau = $_POST['confirm_mat_khau'] ?? ''; // Có thể là rỗng
+            $mat_khau = $_POST['mat_khau'] ?? '';
+            $confirm_mat_khau = $_POST['confirm_mat_khau'] ?? '';
             $vai_tro = $_POST['vai_tro'] ?? '';
             $trang_thai_hoat_dong = (int)($_POST['trang_thai_hoat_dong'] ?? 0); 
             
@@ -291,12 +279,10 @@ class AdminController {
             } elseif ($mat_khau !== $confirm_mat_khau) {
                 $error_msg = "Mật khẩu và Xác nhận Mật khẩu không khớp.";
             } elseif (!empty($mat_khau) && strlen($mat_khau) < 6) {
-                // Kiểm tra độ dài nếu người dùng có nhập mật khẩu
                 $error_msg = "Mật khẩu phải có ít nhất 6 ký tự.";
             }
 
             if (isset($error_msg)) {
-                // Quay lại trang edit với thông báo lỗi
                 header("Location: admin.php?page=admin&action=edit&id=" . urlencode($id) . "&error=" . urlencode($error_msg));
                 exit;
             }
@@ -310,12 +296,10 @@ class AdminController {
                 } else {
                     $message = "Thông tin không thay đổi hoặc lỗi không xác định khi cập nhật Admin.";
                 }
-                // Chuyển hướng về trang danh sách Admin
                 header("Location: admin.php?page=admin&msg=" . urlencode($message));
                 exit;
             } catch (\Exception $e) {
                 $error_msg = "Lỗi: " . $e->getMessage();
-                // Chuyển hướng về trang edit với lỗi chi tiết từ Model
                 header("Location: admin.php?page=admin&action=edit&id=" . urlencode($id) . "&error=" . urlencode($error_msg));
                 exit;
             }
@@ -353,16 +337,14 @@ class AdminController {
             }
         }
         
-        // ... (phần HIỂN THỊ DANH SÁCH ADMIN giữ nguyên) ...
         $ds_admin = $this->admin->getAllAdmins();
         
-        // Tải view danh sách admin
-        include_once "../app/view/admin/admin.php";
+        // Tải view danh sách admin - ĐÃ ĐỔI TÊN FILE VIEW
+        include_once "../app/view/admin/QL_admin.php";
     }
 
+    // --- LOGIC ĐĂNG NHẬP MỚI ĐÃ SỬA ĐỔI ---
     
-
-/* ================== XỬ LÝ ĐĂNG NHẬP (NHẬN POST) ================== */
 public function login_process() {
     
     if (isset($_SESSION['admin'])) {
@@ -370,32 +352,50 @@ public function login_process() {
         exit;
     }
     
-    // Lấy dữ liệu POST
     $email = trim($_POST['email'] ?? '');
     $mat_khau = $_POST['mat_khau'] ?? '';
-    
+    $error_msg = ""; 
+
     if (empty($email) || empty($mat_khau)) {
         $error_msg = "Vui lòng nhập đầy đủ Email và Mật khẩu.";
-        header("Location: admin.php?action=login&error=" . urlencode($error_msg));
+        header("Location: admin.php?error=" . urlencode($error_msg)); 
         exit;
     }
 
     try {
-        // 1. Lấy thông tin admin từ Model
         $admin_info = $this->admin->getAdminByEmail($email);
 
         if ($admin_info) {
-            // 2. Kiểm tra mật khẩu (Quan trọng: Dùng password_verify)
-            if (password_verify($mat_khau, $admin_info['mat_khau'])) {
-                
-                // 3. Kiểm tra trạng thái hoạt động (trang_thai_hoat_dong = 1)
+            $db_password = $admin_info['mat_khau'];
+            $login_success = false;
+            $needs_rehash = false; // Cờ báo cần cập nhật hash
+
+            // --- BƯỚC 1: KIỂM TRA BẰNG HASH (Ưu tiên, An toàn) ---
+            if (password_verify($mat_khau, $db_password)) {
+                $login_success = true;
+            } 
+            
+            // --- BƯỚC 2: KIỂM TRA THÔ (Fallback, Cho mật khẩu chưa hash) ---
+            elseif ($mat_khau === $db_password) {
+                $login_success = true;
+                $needs_rehash = true; // Bật cờ để cập nhật hash
+            }
+            
+            if ($login_success) {
+                // 3. Kiểm tra trạng thái hoạt động
                 if ($admin_info['trang_thai_hoat_dong'] != 1) {
                      $error_msg = "Tài khoản của bạn đã bị vô hiệu hóa.";
-                     header("Location: admin.php?action=login&error=" . urlencode($error_msg));
+                     header("Location: admin.php?error=" . urlencode($error_msg)); 
                      exit;
                 }
+
+                // --- BƯỚC 4: CẬP NHẬT HASH NẾU DÙNG MẬT KHẨU THÔ ---
+                if ($needs_rehash) {
+                    $hashed_new_password = password_hash($mat_khau, PASSWORD_DEFAULT);
+                    $this->admin->updatePassword($admin_info['id_admin'], $hashed_new_password);
+                }
                 
-                // 4. ĐĂNG NHẬP THÀNH CÔNG: Thiết lập Session
+                // 5. ĐĂNG NHẬP THÀNH CÔNG: Thiết lập Session
                 $_SESSION['admin'] = [
                     'id' => $admin_info['id_admin'],
                     'ten' => $admin_info['ten'],
@@ -403,7 +403,7 @@ public function login_process() {
                     'vai_tro' => $admin_info['vai_tro']
                 ];
 
-                // 5. CHUYỂN HƯỚNG về trang Dashboard
+                // 6. CHUYỂN HƯỚNG về trang Dashboard
                 header("Location: admin.php?page=dashboard");
                 exit;
 
@@ -413,16 +413,33 @@ public function login_process() {
         } else {
             $error_msg = "Email hoặc Mật khẩu không đúng.";
         }
-
+        
     } catch (\Exception $e) {
         $error_msg = "Lỗi hệ thống: " . $e->getMessage();
     }
-
-    // Đăng nhập thất bại: Chuyển hướng lại về trang Login với thông báo lỗi
-    header("Location: admin.php?action=login&error=" . urlencode($error_msg));
+    
+    // Đăng nhập thất bại: Chuyển hướng lại về trang router chính
+    header("Location: admin.php?error=" . urlencode($error_msg)); 
     exit;
 }
 
 
+public function logout() {
+    // Hủy session
+    $_SESSION = [];
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+    session_destroy();
+    
+    // Chuyển hướng về router chính
+    header('Location: admin.php');
+    exit;
 }
+// Đóng class AdminController
+} 
 ?>

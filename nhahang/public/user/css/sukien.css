@@ -541,3 +541,170 @@ object-fit: cover;
                 gap: 10px;
             }
         }
+
+        /* === PHẦN USER-INFO FIX ĐẸP, KHỚP THEME (Được copy từ home.css) === */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 30px; /* Tăng gap để tách social-icons */
+}
+
+.user-login-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f2ebe3; /* Nền nhạt khớp theme #E6D9CE */
+    padding: 8px 15px;
+    border-radius: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.user-avatar {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, #8B6F47, #6A5536); /* Màu nâu khớp logo */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 20px;
+    flex-shrink: 0;
+    cursor: pointer; /* Thêm cursor pointer cho avatar */
+}
+
+.user-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    line-height: 1.2;
+    text-align: left;
+}
+
+.greeting {
+    font-size: 12px;
+    color: #888;
+}
+
+.username {
+    font-weight: 600;
+    color: #333;
+    font-size: 15px;
+}
+
+.logout-button {
+    background: #8B6F47; /* Màu nâu khớp theme */
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: 0.3s;
+}
+
+.logout-button:hover {
+    background: #6A5536; /* Nâu đậm hơn khi hover */
+}
+
+/* Đồng bộ hóa nút Đăng Ký (Sign Up) */
+.auth-buttons .auth-btn.signup {
+    background: #8B6F47 !important; /* Dùng !important nếu cần ghi đè */
+    color: white !important;
+    border: none !important;
+}
+.auth-buttons .auth-btn.signup:hover {
+    background: #6A5536 !important;
+}
+
+/* ================== POPUP HỒ SƠ KHÁCH HÀNG SIÊU ĐẸP (Được copy từ home.css) ================== */
+.profile-popup {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+}
+
+.popup-content {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    animation: popupShow 0.4s ease;
+}
+
+@keyframes popupShow {
+    from { transform: translate(-50%, -60%); opacity: 0; }
+    to { transform: translate(-50%, -50%); opacity: 1; }
+}
+
+.close-popup {
+    position: absolute;
+    top: 15px; right: 20px;
+    font-size: 32px;
+    color: white;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.profile-header {
+    color: white;
+    text-align: center;
+    padding: 30px 20px 20px;
+}
+
+.profile-avatar-big {
+    width: 90px; height: 90px;
+    background: white;
+    color: #8B6F47;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.profile-body {
+    padding: 25px;
+}
+
+/* Cần thêm style cho các thông tin trong popup vì file header chỉ có <p> */
+.profile-body p { 
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+    margin: 0; 
+}
+.profile-body p strong { 
+    font-weight: 600; 
+    color: #8B6F47; 
+    display: inline-block;
+    min-width: 100px;
+}
+
+/* Nút "Xem hồ sơ chi tiết" */
+.profile-body a {
+    background: #8B6F47 !important;
+    color: white !important;
+    padding: 14px !important;
+    border-radius: 12px !important;
+    font-weight: bold !important;
+    margin-top: 20px !important;
+    transition: 0.3s !important;
+}
+
+.profile-body a:hover {
+    background: #6A5536 !important;
+    transform: translateY(-2px);
+}

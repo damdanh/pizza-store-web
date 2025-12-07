@@ -1,3 +1,9 @@
+<?php
+// Đã loại bỏ session_start() và logic kiểm tra session ở đây.
+// Việc này do admin.php (router chính) đảm nhiệm trước khi include file này.
+
+// LƯU Ý: Vẫn để thẻ mở PHP ở đây vì logic hiển thị lỗi sử dụng PHP.
+?>
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -393,24 +399,25 @@
     <h2 class="welcome-title">Welcome Admin</h2>
 
     <?php 
-    // Giả định Controller đặt thông báo lỗi vào $_SESSION['error_msg'] hoặc lấy từ query string
-    $error_message = $_SESSION['error_msg'] ?? ($_GET['error'] ?? '');
+    // Lấy thông báo lỗi từ query string (do AdminController chuyển hướng về admin.php?error=...)
+    $error_message = $_GET['error'] ?? '';
+    
+    // Nếu Controller lưu lỗi vào Session, ta lấy ra (Chỉ hoạt động nếu session đã được start trong admin.php)
+    if (empty($error_message) && isset($_SESSION['error_msg'])) {
+        $error_message = $_SESSION['error_msg'];
+        // Không thể unset $_SESSION['error_msg'] ở đây an toàn vì không có session_start()
+    }
     
     if (!empty($error_message)): 
-        // Lấy lỗi từ Session/GET và đảm bảo an toàn
+        // Hiển thị lỗi, đảm bảo escape HTML
         $display_error = htmlspecialchars($error_message);
-        
-        // Xóa biến session ngay sau khi lấy để tránh hiển thị lại
-        if (isset($_SESSION['error_msg'])) {
-            unset($_SESSION['error_msg']);
-        }
     ?>
         <div class="error-message">
             <?= $display_error ?>
         </div>
     <?php endif; ?>
 
-    <form action="admin.php?action=login_process" method="POST">
+    <form action="../public/admin.php?action=login_process" method="POST"> 
         <div class="form-group">
             <label class="form-label" for="email">Email Admin</label>
             <input

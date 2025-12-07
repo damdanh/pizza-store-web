@@ -17,10 +17,7 @@ $title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online';
 </head>
 <body>
     
-    <?php 
-
-    include __DIR__ . '/header.php'; 
-    ?>
+   
        <section class="booking-container">
         <div class="booking-image"></div>
         
@@ -99,8 +96,7 @@ $title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online';
         </form>
         <p style="font-size: 12px; color: #666; margin-top: 15px;">Mọi thông tin được bảo mật. Bạn có thể hủy đăng ký bất cứ lúc nào.</p>
     </section>
-    <?php 
-include __DIR__ . '/footer.php'; ?>
+
 
     
 </body>

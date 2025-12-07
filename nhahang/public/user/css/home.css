@@ -242,6 +242,7 @@ object-fit: cover;  /* Để ảnh vừa khít trong vòng tròn */
     transition: transform 0.3s;
     cursor: pointer;
     min-width: 180px;
+    text-decoration: none;
   
 }
 
@@ -261,6 +262,7 @@ object-fit: cover;  /* Để ảnh vừa khít trong vòng tròn */
     color: black;
     padding: 15px;
     font-weight: 600;
+    text-decoration: none;
 }
 
 /* Popular Dishes */
