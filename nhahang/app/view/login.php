@@ -29,8 +29,8 @@
             <div class="form-group">
                 <label class="form-label">Mật khẩu</label>
                 <input 
-                    type="password" 
-                    name="password" 
+                    type="mat_khau" 
+                    name="mat_khau" 
                     class="form-input" 
                     placeholder="Nhập mật khẩu" 
                     required>

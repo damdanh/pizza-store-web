@@ -395,7 +395,7 @@ public function login_process() {
     
     // Lấy dữ liệu POST
     $email = trim($_POST['email'] ?? '');
-    $mat_khau = $_POST['password'] ?? '';
+    $mat_khau = $_POST['mat_khau'] ?? '';
     
     if (empty($email) || empty($mat_khau)) {
         $error_msg = "Vui lòng nhập đầy đủ Email và Mật khẩu.";

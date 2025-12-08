@@ -20,6 +20,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
 if (!isset($_SESSION['admin'])) {
     if (isset($_GET['action']) && $_GET['action'] == 'login_process') {
        $controller->login_process(); 
+       exit();
         
     } else {
         // Tránh lỗi 404: INCLUDE form login
