@@ -243,6 +243,15 @@ class AdminController {
     } else {
         $dssp = $this->sanpham->getAllProducts();
     }
+<<<<<<< Updated upstream
+=======
+    // Nếu yêu cầu hiển thị món ẩn (filter), lấy danh sách món ẩn
+    if (isset($_GET['show']) && $_GET['show'] === 'hidden') {
+        $dssp = $this->sanpham->getHiddenProducts();
+    } else {
+        $dssp = $this->sanpham->getAllProducts();
+    }
+>>>>>>> Stashed changes
     include '../app/view/admin/menu.php';
 }
 

@@ -2,17 +2,29 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+<<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+=======
+>>>>>>> Stashed changes
 -- Host: 127.0.0.1
 -- Generation Time: Dec 05, 2025 at 05:14 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
+<<<<<<< Updated upstream
 ========
+========
+>>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
 -- Máy chủ: 127.0.0.1
 -- Thời gian đã tạo: Th12 05, 2025 lúc 07:12 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
+<<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
 >>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+========
+>>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+=======
+>>>>>>> Stashed changes
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -25,13 +37,21 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
+<<<<<<< Updated upstream
 -- Cơ sở dữ liệu: `wd20302_n5_local (2)`
+=======
+-- Database: `wd20302_n5_local`
+>>>>>>> Stashed changes
 --
 
 -- --------------------------------------------------------
 
 --
+<<<<<<< Updated upstream
 -- Cấu trúc bảng cho bảng `admin`
+=======
+-- Table structure for table `admin`
+>>>>>>> Stashed changes
 --
 
 CREATE TABLE `admin` (
@@ -46,7 +66,11 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+<<<<<<< Updated upstream
 -- Đang đổ dữ liệu cho bảng `admin`
+=======
+-- Dumping data for table `admin`
+>>>>>>> Stashed changes
 --
 
 INSERT INTO `admin` (`id_admin`, `ten`, `email`, `mat_khau`, `vai_tro`, `trang_thai_hoat_dong`, `created_at`, `updated_at`) VALUES
@@ -55,7 +79,11 @@ INSERT INTO `admin` (`id_admin`, `ten`, `email`, `mat_khau`, `vai_tro`, `trang_t
 -- --------------------------------------------------------
 
 --
+<<<<<<< Updated upstream
 -- Cấu trúc bảng cho bảng `bai_viet`
+=======
+-- Table structure for table `bai_viet`
+>>>>>>> Stashed changes
 --
 
 CREATE TABLE `bai_viet` (
@@ -72,7 +100,11 @@ CREATE TABLE `bai_viet` (
 -- --------------------------------------------------------
 
 --
+<<<<<<< Updated upstream
 -- Cấu trúc bảng cho bảng `ban`
+=======
+-- Table structure for table `ban`
+>>>>>>> Stashed changes
 --
 
 CREATE TABLE `ban` (
@@ -89,7 +121,11 @@ CREATE TABLE `ban` (
 -- --------------------------------------------------------
 
 --
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+<<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+=======
+>>>>>>> Stashed changes
 -- Table structure for table `bookings`
 --
 
@@ -114,7 +150,10 @@ INSERT INTO `bookings` (`id`, `name`, `phone`, `email`, `people`, `booking_date`
 (50, 'Vũ Vu Tien', '0326008989', 'tiend4693@gmail.com', 21, '2025-12-15', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa -', '', '2025-12-05 01:26:14'),
 (51, 'Vũ Vu Tien', '0326008989', 'tiend4693@gmail.com', 21, '2025-12-15', '15:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa -', '', '2025-12-05 01:26:22'),
 (52, 'Vũ Vu Tien', '0326008989', 'tiend4693@gmail.com', 2, '2025-12-15', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa -', '', '2025-12-05 01:27:19');
+<<<<<<< Updated upstream
 ========
+========
+>>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
 -- Cấu trúc bảng cho bảng `chinhanh`
 --
 
@@ -138,16 +177,29 @@ INSERT INTO `chinhanh` (`id`, `ten_chi_nhanh`, `dia_chi`, `gio_mo_cua`, `gio_don
 (1, 'N5 Pasta – Saigon Centre', 'Saigon Centre, Quận 1, TP.HCM', '08:00:00', '22:00:00', 20, 80, '08:00-22:00', 5),
 (2, 'N5 Pasta – Bến Thành', 'Gần chợ Bến Thành, Quận 1, TP.HCM', '09:00:00', '21:30:00', 15, 60, '09:00-21:30', 3),
 (3, 'N5 Pasta – GigaMall', 'GigaMall, Thủ Đức, TP.HCM', '08:00:00', '22:00:00', 18, 72, '08:00-22:00', 4);
+<<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
 >>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+========
+>>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+=======
+>>>>>>> Stashed changes
 
 -- --------------------------------------------------------
 
 --
+<<<<<<< Updated upstream
+<<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
 <<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
 -- Table structure for table `chi_tiet_dat_ban`
 ========
 -- Cấu trúc bảng cho bảng `chi_tiet_dat_ban`
 >>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+========
+-- Cấu trúc bảng cho bảng `chi_tiet_dat_ban`
+>>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+=======
+-- Table structure for table `chi_tiet_dat_ban`
+>>>>>>> Stashed changes
 --
 
 CREATE TABLE `chi_tiet_dat_ban` (
@@ -161,7 +213,11 @@ CREATE TABLE `chi_tiet_dat_ban` (
 -- --------------------------------------------------------
 
 --
+<<<<<<< Updated upstream
 -- Cấu trúc bảng cho bảng `chi_tiet_khuyen_mai`
+=======
+-- Table structure for table `chi_tiet_khuyen_mai`
+>>>>>>> Stashed changes
 --
 
 CREATE TABLE `chi_tiet_khuyen_mai` (
@@ -172,7 +228,11 @@ CREATE TABLE `chi_tiet_khuyen_mai` (
 -- --------------------------------------------------------
 
 --
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+<<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+=======
+>>>>>>> Stashed changes
 -- Table structure for table `danh_gia`
 --
 
@@ -189,9 +249,15 @@ CREATE TABLE `danh_gia` (
 
 --
 -- Table structure for table `danh_muc_mon`
+<<<<<<< Updated upstream
 ========
 -- Cấu trúc bảng cho bảng `danh_muc_mon`
 >>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+========
+-- Cấu trúc bảng cho bảng `danh_muc_mon`
+>>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+=======
+>>>>>>> Stashed changes
 --
 
 CREATE TABLE `danh_muc_mon` (
@@ -201,7 +267,11 @@ CREATE TABLE `danh_muc_mon` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+<<<<<<< Updated upstream
 -- Đang đổ dữ liệu cho bảng `danh_muc_mon`
+=======
+-- Dumping data for table `danh_muc_mon`
+>>>>>>> Stashed changes
 --
 
 INSERT INTO `danh_muc_mon` (`id_danh_muc_mon`, `ten_danh_muc`, `mo_ta`) VALUES
@@ -215,7 +285,11 @@ INSERT INTO `danh_muc_mon` (`id_danh_muc_mon`, `ten_danh_muc`, `mo_ta`) VALUES
 -- --------------------------------------------------------
 
 --
+<<<<<<< Updated upstream
 -- Cấu trúc bảng cho bảng `dat_ban`
+=======
+-- Table structure for table `dat_ban`
+>>>>>>> Stashed changes
 --
 
 CREATE TABLE `dat_ban` (
@@ -234,7 +308,11 @@ CREATE TABLE `dat_ban` (
 -- --------------------------------------------------------
 
 --
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+<<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+=======
+>>>>>>> Stashed changes
 -- Table structure for table `don_hang`
 --
 
@@ -262,9 +340,15 @@ CREATE TABLE `email_verification` (
 
 --
 -- Table structure for table `khach_hang`
+<<<<<<< Updated upstream
 ========
 -- Cấu trúc bảng cho bảng `khach_hang`
 >>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+========
+-- Cấu trúc bảng cho bảng `khach_hang`
+>>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+=======
+>>>>>>> Stashed changes
 --
 
 CREATE TABLE `khach_hang` (
@@ -297,7 +381,11 @@ INSERT INTO `khach_hang` (`id_khach_hang`, `ten`, `sdt`, `email`, `mat_khau`, `g
 -- --------------------------------------------------------
 
 --
+<<<<<<< Updated upstream
 -- Cấu trúc bảng cho bảng `khuyen_mai`
+=======
+-- Table structure for table `khuyen_mai`
+>>>>>>> Stashed changes
 --
 
 CREATE TABLE `khuyen_mai` (
@@ -316,7 +404,11 @@ CREATE TABLE `khuyen_mai` (
 -- --------------------------------------------------------
 
 --
+<<<<<<< Updated upstream
 -- Cấu trúc bảng cho bảng `khu_vuc`
+=======
+-- Table structure for table `khu_vuc`
+>>>>>>> Stashed changes
 --
 
 CREATE TABLE `khu_vuc` (
@@ -326,7 +418,11 @@ CREATE TABLE `khu_vuc` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+<<<<<<< Updated upstream
 -- Đang đổ dữ liệu cho bảng `khu_vuc`
+=======
+-- Dumping data for table `khu_vuc`
+>>>>>>> Stashed changes
 --
 
 INSERT INTO `khu_vuc` (`id_khu_vuc`, `ten_khu_vuc`, `mo_ta`) VALUES
@@ -337,7 +433,11 @@ INSERT INTO `khu_vuc` (`id_khu_vuc`, `ten_khu_vuc`, `mo_ta`) VALUES
 -- --------------------------------------------------------
 
 --
+<<<<<<< Updated upstream
 -- Cấu trúc bảng cho bảng `mon_an`
+=======
+-- Table structure for table `mon_an`
+>>>>>>> Stashed changes
 --
 
 CREATE TABLE `mon_an` (
@@ -353,7 +453,11 @@ CREATE TABLE `mon_an` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+<<<<<<< Updated upstream
 -- Đang đổ dữ liệu cho bảng `mon_an`
+=======
+-- Dumping data for table `mon_an`
+>>>>>>> Stashed changes
 --
 
 INSERT INTO `mon_an` (`id_mon`, `id_danh_muc_mon`, `ten_mon`, `gia`, `mo_ta`, `hinh_anh`, `trang_thai`, `created_at`, `updated_at`) VALUES
@@ -419,7 +523,11 @@ INSERT INTO `mon_an` (`id_mon`, `id_danh_muc_mon`, `ten_mon`, `gia`, `mo_ta`, `h
 -- --------------------------------------------------------
 
 --
+<<<<<<< Updated upstream
 -- Cấu trúc bảng cho bảng `tai_khoan_reset`
+=======
+-- Table structure for table `tai_khoan_reset`
+>>>>>>> Stashed changes
 --
 
 CREATE TABLE `tai_khoan_reset` (
@@ -432,25 +540,41 @@ CREATE TABLE `tai_khoan_reset` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+<<<<<<< Updated upstream
 -- Chỉ mục cho các bảng đã đổ
 --
 
 --
 -- Chỉ mục cho bảng `admin`
+=======
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `admin`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id_admin`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
+<<<<<<< Updated upstream
 -- Chỉ mục cho bảng `bai_viet`
+=======
+-- Indexes for table `bai_viet`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `bai_viet`
   ADD PRIMARY KEY (`id_bai_viet`),
   ADD KEY `id_admin` (`id_admin`);
 
 --
+<<<<<<< Updated upstream
 -- Chỉ mục cho bảng `ban`
+=======
+-- Indexes for table `ban`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `ban`
   ADD PRIMARY KEY (`id_ban`),
@@ -458,7 +582,11 @@ ALTER TABLE `ban`
   ADD KEY `id_khu_vuc` (`id_khu_vuc`);
 
 --
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+<<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+=======
+>>>>>>> Stashed changes
 -- Indexes for table `bookings`
 --
 ALTER TABLE `bookings`
@@ -466,7 +594,10 @@ ALTER TABLE `bookings`
 
 --
 -- Indexes for table `chi_tiet_dat_ban`
+<<<<<<< Updated upstream
 ========
+========
+>>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
 -- Chỉ mục cho bảng `chinhanh`
 --
 ALTER TABLE `chinhanh`
@@ -474,21 +605,34 @@ ALTER TABLE `chinhanh`
 
 --
 -- Chỉ mục cho bảng `chi_tiet_dat_ban`
+<<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
 >>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+========
+>>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+=======
+>>>>>>> Stashed changes
 --
 ALTER TABLE `chi_tiet_dat_ban`
   ADD PRIMARY KEY (`id_dat_ban`,`id_mon`),
   ADD KEY `id_mon` (`id_mon`);
 
 --
+<<<<<<< Updated upstream
 -- Chỉ mục cho bảng `chi_tiet_khuyen_mai`
+=======
+-- Indexes for table `chi_tiet_khuyen_mai`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `chi_tiet_khuyen_mai`
   ADD PRIMARY KEY (`id_khuyen_mai`,`id_mon`),
   ADD KEY `id_mon` (`id_mon`);
 
 --
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+<<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+=======
+>>>>>>> Stashed changes
 -- Indexes for table `danh_gia`
 --
 ALTER TABLE `danh_gia`
@@ -498,16 +642,26 @@ ALTER TABLE `danh_gia`
 
 --
 -- Indexes for table `danh_muc_mon`
+<<<<<<< Updated upstream
 ========
 -- Chỉ mục cho bảng `danh_muc_mon`
 >>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+========
+-- Chỉ mục cho bảng `danh_muc_mon`
+>>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+=======
+>>>>>>> Stashed changes
 --
 ALTER TABLE `danh_muc_mon`
   ADD PRIMARY KEY (`id_danh_muc_mon`),
   ADD UNIQUE KEY `ten_danh_muc` (`ten_danh_muc`);
 
 --
+<<<<<<< Updated upstream
 -- Chỉ mục cho bảng `dat_ban`
+=======
+-- Indexes for table `dat_ban`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `dat_ban`
   ADD PRIMARY KEY (`id_dat_ban`),
@@ -515,7 +669,11 @@ ALTER TABLE `dat_ban`
   ADD KEY `id_ban` (`id_ban`);
 
 --
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+<<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+=======
+>>>>>>> Stashed changes
 -- Indexes for table `don_hang`
 --
 ALTER TABLE `don_hang`
@@ -530,9 +688,15 @@ ALTER TABLE `email_verification`
 
 --
 -- Indexes for table `khach_hang`
+<<<<<<< Updated upstream
 ========
 -- Chỉ mục cho bảng `khach_hang`
 >>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+========
+-- Chỉ mục cho bảng `khach_hang`
+>>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+=======
+>>>>>>> Stashed changes
 --
 ALTER TABLE `khach_hang`
   ADD PRIMARY KEY (`id_khach_hang`),
@@ -540,27 +704,43 @@ ALTER TABLE `khach_hang`
   ADD UNIQUE KEY `tai_khoan_dang_nhap` (`tai_khoan_dang_nhap`);
 
 --
+<<<<<<< Updated upstream
 -- Chỉ mục cho bảng `khuyen_mai`
+=======
+-- Indexes for table `khuyen_mai`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `khuyen_mai`
   ADD PRIMARY KEY (`id_khuyen_mai`),
   ADD UNIQUE KEY `ten_ctk` (`ten_ctk`);
 
 --
+<<<<<<< Updated upstream
 -- Chỉ mục cho bảng `khu_vuc`
+=======
+-- Indexes for table `khu_vuc`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `khu_vuc`
   ADD PRIMARY KEY (`id_khu_vuc`);
 
 --
+<<<<<<< Updated upstream
 -- Chỉ mục cho bảng `mon_an`
+=======
+-- Indexes for table `mon_an`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `mon_an`
   ADD PRIMARY KEY (`id_mon`),
   ADD KEY `id_danh_muc_mon` (`id_danh_muc_mon`);
 
 --
+<<<<<<< Updated upstream
 -- Chỉ mục cho bảng `tai_khoan_reset`
+=======
+-- Indexes for table `tai_khoan_reset`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `tai_khoan_reset`
   ADD PRIMARY KEY (`id_reset`),
@@ -568,29 +748,49 @@ ALTER TABLE `tai_khoan_reset`
   ADD KEY `idx_token` (`token`);
 
 --
+<<<<<<< Updated upstream
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
 
 --
 -- AUTO_INCREMENT cho bảng `admin`
+=======
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `admin`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `admin`
   MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+<<<<<<< Updated upstream
 -- AUTO_INCREMENT cho bảng `bai_viet`
+=======
+-- AUTO_INCREMENT for table `bai_viet`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `bai_viet`
   MODIFY `id_bai_viet` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+<<<<<<< Updated upstream
 -- AUTO_INCREMENT cho bảng `ban`
+=======
+-- AUTO_INCREMENT for table `ban`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `ban`
   MODIFY `id_ban` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+<<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+=======
+>>>>>>> Stashed changes
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
@@ -604,7 +804,10 @@ ALTER TABLE `danh_gia`
 
 --
 -- AUTO_INCREMENT for table `danh_muc_mon`
+<<<<<<< Updated upstream
 ========
+========
+>>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
 -- AUTO_INCREMENT cho bảng `chinhanh`
 --
 ALTER TABLE `chinhanh`
@@ -612,89 +815,153 @@ ALTER TABLE `chinhanh`
 
 --
 -- AUTO_INCREMENT cho bảng `danh_muc_mon`
+<<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
 >>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+========
+>>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+=======
+>>>>>>> Stashed changes
 --
 ALTER TABLE `danh_muc_mon`
   MODIFY `id_danh_muc_mon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+<<<<<<< Updated upstream
 -- AUTO_INCREMENT cho bảng `dat_ban`
+=======
+-- AUTO_INCREMENT for table `dat_ban`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `dat_ban`
   MODIFY `id_dat_ban` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+<<<<<<< Updated upstream
+<<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
 <<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
 -- AUTO_INCREMENT for table `don_hang`
+========
+-- AUTO_INCREMENT cho bảng `khach_hang`
+>>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+=======
+-- AUTO_INCREMENT for table `don_hang`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `don_hang`
   MODIFY `id_don_hang` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+<<<<<<< Updated upstream
+<<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
 -- AUTO_INCREMENT for table `khach_hang`
 ========
 -- AUTO_INCREMENT cho bảng `khach_hang`
 >>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+=======
+-- AUTO_INCREMENT for table `khach_hang`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `khach_hang`
   MODIFY `id_khach_hang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+<<<<<<< Updated upstream
+========
+>>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
 -- AUTO_INCREMENT cho bảng `khuyen_mai`
+=======
+-- AUTO_INCREMENT for table `khuyen_mai`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `khuyen_mai`
   MODIFY `id_khuyen_mai` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+<<<<<<< Updated upstream
 -- AUTO_INCREMENT cho bảng `khu_vuc`
+=======
+-- AUTO_INCREMENT for table `khu_vuc`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `khu_vuc`
   MODIFY `id_khu_vuc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+<<<<<<< Updated upstream
 -- AUTO_INCREMENT cho bảng `mon_an`
+=======
+-- AUTO_INCREMENT for table `mon_an`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `mon_an`
   MODIFY `id_mon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
+<<<<<<< Updated upstream
 -- AUTO_INCREMENT cho bảng `tai_khoan_reset`
+=======
+-- AUTO_INCREMENT for table `tai_khoan_reset`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `tai_khoan_reset`
   MODIFY `id_reset` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+<<<<<<< Updated upstream
 -- Các ràng buộc cho các bảng đã đổ
 --
 
 --
 -- Các ràng buộc cho bảng `bai_viet`
+=======
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `bai_viet`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `bai_viet`
   ADD CONSTRAINT `bai_viet_ibfk_1` FOREIGN KEY (`id_admin`) REFERENCES `admin` (`id_admin`) ON DELETE SET NULL;
 
 --
+<<<<<<< Updated upstream
 -- Các ràng buộc cho bảng `ban`
+=======
+-- Constraints for table `ban`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `ban`
   ADD CONSTRAINT `ban_ibfk_1` FOREIGN KEY (`id_khu_vuc`) REFERENCES `khu_vuc` (`id_khu_vuc`) ON DELETE SET NULL;
 
 --
+<<<<<<< Updated upstream
 -- Các ràng buộc cho bảng `chi_tiet_dat_ban`
+=======
+-- Constraints for table `chi_tiet_dat_ban`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `chi_tiet_dat_ban`
   ADD CONSTRAINT `chi_tiet_dat_ban_ibfk_1` FOREIGN KEY (`id_dat_ban`) REFERENCES `dat_ban` (`id_dat_ban`) ON DELETE CASCADE,
   ADD CONSTRAINT `chi_tiet_dat_ban_ibfk_2` FOREIGN KEY (`id_mon`) REFERENCES `mon_an` (`id_mon`);
 
 --
+<<<<<<< Updated upstream
 -- Các ràng buộc cho bảng `chi_tiet_khuyen_mai`
+=======
+-- Constraints for table `chi_tiet_khuyen_mai`
+>>>>>>> Stashed changes
 --
 ALTER TABLE `chi_tiet_khuyen_mai`
   ADD CONSTRAINT `chi_tiet_khuyen_mai_ibfk_1` FOREIGN KEY (`id_khuyen_mai`) REFERENCES `khuyen_mai` (`id_khuyen_mai`) ON DELETE CASCADE,
   ADD CONSTRAINT `chi_tiet_khuyen_mai_ibfk_2` FOREIGN KEY (`id_mon`) REFERENCES `mon_an` (`id_mon`);
 
 --
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+<<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+=======
+>>>>>>> Stashed changes
 -- Constraints for table `danh_gia`
 --
 ALTER TABLE `danh_gia`
@@ -703,16 +970,26 @@ ALTER TABLE `danh_gia`
 
 --
 -- Constraints for table `dat_ban`
+<<<<<<< Updated upstream
 ========
 -- Các ràng buộc cho bảng `dat_ban`
 >>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+========
+-- Các ràng buộc cho bảng `dat_ban`
+>>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+=======
+>>>>>>> Stashed changes
 --
 ALTER TABLE `dat_ban`
   ADD CONSTRAINT `dat_ban_ibfk_1` FOREIGN KEY (`id_khach_hang`) REFERENCES `khach_hang` (`id_khach_hang`) ON DELETE CASCADE,
   ADD CONSTRAINT `dat_ban_ibfk_2` FOREIGN KEY (`id_ban`) REFERENCES `ban` (`id_ban`) ON DELETE SET NULL;
 
 --
+<<<<<<< Updated upstream
 <<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+<<<<<<<< Updated upstream:nhahang/database/wd20302_n5_local.sql
+=======
+>>>>>>> Stashed changes
 -- Constraints for table `don_hang`
 --
 ALTER TABLE `don_hang`
@@ -720,9 +997,15 @@ ALTER TABLE `don_hang`
 
 --
 -- Constraints for table `mon_an`
+<<<<<<< Updated upstream
 ========
 -- Các ràng buộc cho bảng `mon_an`
 >>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+========
+-- Các ràng buộc cho bảng `mon_an`
+>>>>>>>> Stashed changes:nhahang/database/wd20302_n5_local (2).sql
+=======
+>>>>>>> Stashed changes
 --
 ALTER TABLE `mon_an`
   ADD CONSTRAINT `mon_an_ibfk_1` FOREIGN KEY (`id_danh_muc_mon`) REFERENCES `danh_muc_mon` (`id_danh_muc_mon`) ON DELETE CASCADE;

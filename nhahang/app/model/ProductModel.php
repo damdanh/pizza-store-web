@@ -22,6 +22,19 @@ class ProductModel {
         } catch (Exception $e) {
             $this->hasIsHidden = false;
         }
+<<<<<<< Updated upstream
+=======
+    }
+
+    /**
+     * Trả về điều kiện WHERE để lọc món ẩn nếu cột is_hidden tồn tại
+     */
+    private function hiddenCondition($alias = 'm') {
+        if (!empty($this->hasIsHidden)) {
+            return " AND ({$alias}.is_hidden = 0 OR {$alias}.is_hidden IS NULL)";
+        }
+        return "";
+>>>>>>> Stashed changes
     }
 
     /**
@@ -207,6 +220,43 @@ class ProductModel {
             return $stmt->rowCount();
         } catch (PDOException $e) {
             throw new Exception("Lỗi ẩn sản phẩm: " . $e->getMessage());
+<<<<<<< Updated upstream
+=======
+        }
+    }
+
+    public function unhideProduct($id) {
+        try {
+            if (empty($this->hasIsHidden)) {
+                throw new Exception('Cột is_hidden chưa tồn tại. Hãy chạy migration add_is_hidden_to_mon_an.sql.');
+            }
+            $sql = "UPDATE mon_an SET is_hidden = 0 WHERE id_mon = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->rowCount();
+        } catch (PDOException $e) {
+            throw new Exception("Lỗi hiện lại sản phẩm: " . $e->getMessage());
+        }
+    }
+
+    // Lấy các món đã bị ẩn (dành cho trang admin khi muốn hiển thị món đã ẩn)
+    public function getHiddenProducts() {
+        try {
+            if (empty($this->hasIsHidden)) {
+                return [];
+            }
+            $sql = "SELECT m.*, dm.ten_danh_muc 
+                    FROM mon_an m
+                    LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon
+                    WHERE m.is_hidden = 1
+                    ORDER BY m.id_mon ASC";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception("Lỗi lấy danh sách món ẩn: " . $e->getMessage());
+>>>>>>> Stashed changes
         }
     }
 
