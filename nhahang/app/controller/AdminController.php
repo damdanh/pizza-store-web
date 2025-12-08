@@ -253,6 +253,8 @@ class AdminController {
         $dssp = $this->sanpham->getAllProducts();
     }
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
     include '../app/view/admin/menu.php';
 }
 
