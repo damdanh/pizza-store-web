@@ -15,10 +15,6 @@ class ProductModel {
         }
         
         $this->conn = $conn;
-<<<<<<< Updated upstream
-        
-=======
->>>>>>> Stashed changes
         // Kiểm tra xem cột is_hidden có tồn tại không để tránh lỗi trên DB cũ
         try {
             $stmt = $this->conn->query("SHOW COLUMNS FROM `mon_an` LIKE 'is_hidden'");
@@ -26,8 +22,6 @@ class ProductModel {
         } catch (Exception $e) {
             $this->hasIsHidden = false;
         }
-<<<<<<< Updated upstream
-=======
     }
 
     /**
@@ -38,7 +32,6 @@ class ProductModel {
             return " AND ({$alias}.is_hidden = 0 OR {$alias}.is_hidden IS NULL)";
         }
         return "";
->>>>>>> Stashed changes
     }
 
     /**
@@ -55,12 +48,7 @@ class ProductModel {
     // --- Phương thức Đọc (READ) ---
     public function getPopularProducts($limit = 10) {
         try {
-<<<<<<< Updated upstream
-            $limit = (int) $limit; // Ép kiểu an toàn cho LIMIT
-            $sql = "SELECT id_mon, ten_mon, gia, hinh_anh, mo_ta, trang_thai
-=======
                 $sql = "SELECT id_mon, ten_mon, gia, hinh_anh, mo_ta, trang_thai
->>>>>>> Stashed changes
                     FROM mon_an 
                     WHERE trang_thai = 'Còn hàng'" . $this->hiddenCondition('') . "
                     ORDER BY id_mon ASC 
@@ -76,13 +64,8 @@ class ProductModel {
 
     public function getAllProducts() {
         try {
-<<<<<<< Updated upstream
-            // Mặc định: chỉ trả về món không ẩn
-            $sql = "SELECT m.*, dm.ten_danh_muc 
-=======
             // Mặc định: chỉ trả về món không ẩn. Để admin muốn xem món ẩn, dùng getAllProducts(true) hoặc getAllProducts(true, true)
                 $sql = "SELECT m.*, dm.ten_danh_muc 
->>>>>>> Stashed changes
                     FROM mon_an m
                     LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon
                     WHERE 1=1" . $this->hiddenCondition('m') . "
@@ -95,11 +78,7 @@ class ProductModel {
         }
     }
 
-<<<<<<< Updated upstream
-    
-=======
   
->>>>>>> Stashed changes
     public function getProductById($id, $includeHidden = false) {
         try {
             $sql = "SELECT m.*, dm.ten_danh_muc 
@@ -107,10 +86,6 @@ class ProductModel {
                     LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon
                     WHERE m.id_mon = :id";
             if (!$includeHidden) {
-<<<<<<< Updated upstream
-                // Chỉ thêm điều kiện ẩn/hiện nếu KHÔNG yêu cầu includeHidden
-=======
->>>>>>> Stashed changes
                 $sql .= $this->hiddenCondition('m');
             }
             $stmt = $this->conn->prepare($sql);
@@ -141,16 +116,6 @@ class ProductModel {
     // --- Phương thức Thêm (CREATE) ---
     public function createProduct($data) {
         try {
-<<<<<<< Updated upstream
-            // Nếu DB có cột is_hidden thì chèn thêm tham số này
-            if (!empty($this->hasIsHidden)) {
-                $sql = "INSERT INTO mon_an (ten_mon, gia, hinh_anh, mo_ta, trang_thai, id_danh_muc_mon, is_hidden) 
-                    VALUES (:ten_mon, :gia, :hinh_anh, :mo_ta, :trang_thai, :id_danh_muc_mon, :is_hidden)";
-            } else {
-                $sql = "INSERT INTO mon_an (ten_mon, gia, hinh_anh, mo_ta, trang_thai, id_danh_muc_mon) 
-                    VALUES (:ten_mon, :gia, :hinh_anh, :mo_ta, :trang_thai, :id_danh_muc_mon)";
-            }
-=======
                 // Nếu DB chưa có cột is_hidden thì không chèn tham số này
                 if (!empty($this->hasIsHidden)) {
                 $sql = "INSERT INTO mon_an (ten_mon, gia, hinh_anh, mo_ta, trang_thai, id_danh_muc_mon, is_hidden) 
@@ -159,7 +124,6 @@ class ProductModel {
                 $sql = "INSERT INTO mon_an (ten_mon, gia, hinh_anh, mo_ta, trang_thai, id_danh_muc_mon) 
                     VALUES (:ten_mon, :gia, :hinh_anh, :mo_ta, :trang_thai, :id_danh_muc_mon)";
                 }
->>>>>>> Stashed changes
             $stmt = $this->conn->prepare($sql);
             
             // Liên kết các tham số
@@ -169,10 +133,6 @@ class ProductModel {
             $stmt->bindParam(':mo_ta', $data['mo_ta']);
             $stmt->bindParam(':trang_thai', $data['trang_thai']);
             $stmt->bindParam(':id_danh_muc_mon', $data['id_danh_muc_mon'], PDO::PARAM_INT);
-<<<<<<< Updated upstream
-            
-=======
->>>>>>> Stashed changes
             if (!empty($this->hasIsHidden)) {
                 $isHidden = isset($data['is_hidden']) ? (int)$data['is_hidden'] : 0;
                 $stmt->bindParam(':is_hidden', $isHidden, PDO::PARAM_INT);
@@ -220,10 +180,6 @@ class ProductModel {
             $stmt->bindParam(':mo_ta', $data['mo_ta']);
             $stmt->bindParam(':trang_thai', $data['trang_thai']);
             $stmt->bindParam(':id_danh_muc_mon', $data['id_danh_muc_mon'], PDO::PARAM_INT);
-<<<<<<< Updated upstream
-            
-=======
->>>>>>> Stashed changes
             if (!empty($this->hasIsHidden)) {
                 $isHidden = isset($data['is_hidden']) ? (int)$data['is_hidden'] : 0;
                 $stmt->bindParam(':is_hidden', $isHidden, PDO::PARAM_INT);
@@ -238,10 +194,6 @@ class ProductModel {
             throw new Exception("Lỗi cập nhật sản phẩm trong database: " . $e->getMessage());
         }
     }
-<<<<<<< Updated upstream
-    
-=======
->>>>>>> Stashed changes
     // Thay vì xóa vật lý, ẩn sản phẩm bằng cột is_hidden = 1
     public function hideProduct($id) {
         try {
@@ -255,8 +207,6 @@ class ProductModel {
             return $stmt->rowCount();
         } catch (PDOException $e) {
             throw new Exception("Lỗi ẩn sản phẩm: " . $e->getMessage());
-<<<<<<< Updated upstream
-=======
         }
     }
 
@@ -291,7 +241,6 @@ class ProductModel {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             throw new Exception("Lỗi lấy danh sách món ẩn: " . $e->getMessage());
->>>>>>> Stashed changes
         }
     }
 

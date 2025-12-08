@@ -116,18 +116,6 @@ class AdminController {
         move_uploaded_file($_FILES['img']['tmp_name'], $upload_dir . $img); 
     }
 
-<<<<<<< Updated upstream
-    // TẠO MẢNG DATA CUỐI CÙNG CHỈ MỘT LẦN
-    $data = [
-        'ten_mon' => $name,
-        'gia' => $price,
-        'hinh_anh' => $img, // Dùng biến $img đã được xử lý
-        'trang_thai' => $trang_thai,
-        'id_danh_muc_mon' => $cat_id,
-        'mo_ta' => $mota,
-        'is_hidden' => isset($_POST['is_hidden']) ? 1 : 0 // is_hidden checkbox
-    ];
-=======
     /* ================== 3. LƯU SẢN PHẨM (THÊM/SỬA) ================== */
     // Kiểm tra tên nút submit trong form themmonan.php là 'save_product'
     if (isset($_POST['save_product'])) {
@@ -138,7 +126,6 @@ class AdminController {
         $trang_thai = $_POST['trang_thai'] ?? 'Còn hàng';
         $cat_id = $_POST['category'];
         $mota = isset($_POST['mo_ta']) ? $_POST['mo_ta'] : '';
->>>>>>> Stashed changes
 
     try {
         if ($product_id) {
@@ -148,12 +135,6 @@ class AdminController {
             // Thêm sản phẩm mới
             $this->sanpham->createProduct($data);
         }
-<<<<<<< Updated upstream
-        header("Location: admin.php?page=menu");
-        exit;
-    } catch (\Exception $e) {
-         echo "<script>alert('Lỗi lưu sản phẩm: " . $e->getMessage() . "');</script>";
-=======
 
         $data = [
             'ten_mon' => $name,
@@ -201,22 +182,9 @@ class AdminController {
             header("Location: " . $redirect);
             exit;
         }
->>>>>>> Stashed changes
     }
         }
 
-<<<<<<< Updated upstream
-        /* ================== 1. ẨN / HIỆN SẢN PHẨM (SOFT DELETE) ================== */
-        if (isset($_GET['action']) && isset($_GET['id'])) {
-            $action = $_GET['action'];
-            $id = $_GET['id'];
-            if ($action === 'delete' || $action === 'hide') {
-                // Giữ tương thích: 'delete' giờ sẽ ẩn
-                $this->sanpham->hideProduct($id);
-                header("Location: admin.php?page=menu");
-                exit;
-            }
-=======
     /* ================== 2. SỬA SẢN PHẨM (HIỂN THỊ FORM) ================== */
     if (isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
         // Khi edit, cho phép load cả món ẩn để admin có thể chỉnh
@@ -225,7 +193,6 @@ class AdminController {
         include "../app/view/admin/themmonan.php";
         return;
     }
->>>>>>> Stashed changes
 
             if ($action === 'unhide') {
                 $this->sanpham->unhideProduct($id);
@@ -270,8 +237,6 @@ class AdminController {
         
         include '../app/view/admin/menu.php';
     }
-<<<<<<< Updated upstream
-=======
     // Nếu yêu cầu hiển thị món ẩn (filter), lấy danh sách món ẩn
     if (isset($_GET['show']) && $_GET['show'] === 'hidden') {
         $dssp = $this->sanpham->getHiddenProducts();
@@ -280,7 +245,6 @@ class AdminController {
     }
     include '../app/view/admin/menu.php';
 }
->>>>>>> Stashed changes
 
     public function admin() {
         $action = $_GET['action'] ?? 'list';
