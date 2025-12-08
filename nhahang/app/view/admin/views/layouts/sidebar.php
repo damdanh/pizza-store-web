@@ -1,10 +1,9 @@
-    <aside class="sidebar">
-                <div class="sidebar-header">
-                    <img src="img/logoN5.png"  class="avatar">
-                    <div>
-                        <div class="system-name">Hệ thống</div>
-                        <div class="sub-text">Quản lý nhà hàng</div>
-                    </div>
+ <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="img/logoN5.png" alt="logoN5" class="avatar">
+                <div>
+                    <div class="system-name">Hệ thống</div>
+                    <div class="sub-text">Quản lý nhà hàng</div>
                 </div>
 
                 <nav class="sidebar-nav">
