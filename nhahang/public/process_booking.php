@@ -22,13 +22,25 @@ try {
     }
 
     // ĐÃ SỬA DÒNG NÀY – CHỈ CÒN 8 CỘT TƯƠNG ỨNG 8 DẤU ?
-    $sql = "INSERT INTO bookings 
-            (name, phone, email, people, booking_date, booking_time, branch, notes, created_at) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+    // Chèn vào bảng `dat_ban` (sử dụng `id_khach_hang` nếu user đã đăng nhập)
+    $user_id = $_SESSION['user_id'] ?? null;
+
+    // Hợp nhất ngày + giờ thành một DATETIME phù hợp cho cột `ngay_dat_ban`
+    $datetime = date('Y-m-d H:i:s', strtotime($date . ' ' . $time));
+
+    $sql = "INSERT INTO dat_ban (id_khach_hang, id_ban, ngay_dat_ban, so_luong_nguoi, ghi_chu, phu_phi, tong_gia, trang_thai_dat_ban) 
+            VALUES (:id_khach_hang, NULL, :ngay_dat_ban, :so_luong, :ghi_chu, 0.00, 0.00, 'Chờ xác nhận')";
 
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$name, $phone, $email, $people, $date, $time, $branch, $notes]);
+    $params = [
+        'id_khach_hang' => $user_id,
+        'ngay_dat_ban'  => $datetime,
+        'so_luong'      => $people,
+        'ghi_chu'       => $notes
+    ];
+    $stmt->execute($params);
 
+    // Lưu vào session để hiển thị xác nhận cho user
     $_SESSION['booking'] = [
         'id'      => $pdo->lastInsertId(),
         'name'    => $name,
