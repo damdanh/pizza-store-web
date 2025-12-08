@@ -17,9 +17,8 @@ class AdminModel {
      */
     public function getAllAdmins() {
         try {
-            // Sửa đổi câu truy vấn để lấy các cột cần thiết cho trang admin.php
-            // Đã đổi 'created_at' thành 'ngay_tao' theo cấu trúc CSDL giả định trong AdminModel.
-            $sql = "SELECT id_admin, ten, email, vai_tro, created_at AS ngay_tao FROM " . $this->table . " ORDER BY created_at ASC";
+            // Lấy thêm cột trạng thái để UI có thể hiển thị ẩn/kích hoạt
+            $sql = "SELECT id_admin, ten, email, vai_tro, trang_thai_hoat_dong, created_at AS ngay_tao FROM " . $this->table . " ORDER BY created_at ASC";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -149,6 +148,21 @@ class AdminModel {
             return $stmt->execute();
         } catch (PDOException $e) {
             throw new Exception("Lỗi CSDL khi xóa Admin: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Thiết lập trạng thái hoạt động (1 = hoạt động, 0 = ẩn)
+     */
+    public function setAdminStatus($id, $status) {
+        try {
+            $sql = "UPDATE " . $this->table . " SET trang_thai_hoat_dong = :status WHERE id_admin = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':status', $status, PDO::PARAM_INT);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            throw new Exception("Lỗi CSDL khi cập nhật trạng thái Admin: " . $e->getMessage());
         }
     }
 }

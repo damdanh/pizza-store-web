@@ -11,7 +11,9 @@
       integrity="sha512-iN2J3F2pA+dFf5m4rJm5yNf1O05+n0eC9A/6pD5+hF9PzF5/i5i2Q1/N+N+J+A==" 
       crossorigin="anonymous" 
       referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="nhahang/public/admin/css/admin_styles.css"><body>
-<body>
+    <!-- CSS đường dẫn tương đối so với `public/admin.php` -->
+    <link rel="stylesheet" href="admin/css/admin_styles.css">
+  </head>
+  <body>
     <div class="container">
 
