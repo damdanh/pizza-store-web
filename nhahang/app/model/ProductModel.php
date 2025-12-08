@@ -1,8 +1,7 @@
 <?php
-
 class ProductModel {
     private $conn;
-    private $hasIsHidden; // Thêm thuộc tính để lưu trạng thái cột is_hidden
+    private $hasIsHidden; // Thuộc tính để lưu trạng thái cột is_hidden
 
     public function __construct() {
         global $conn;
@@ -25,52 +24,14 @@ class ProductModel {
     }
 
     /**
-     * Trả về điều kiện WHERE để lọc món ẩn nếu cột is_hidden tồn tại
-     */
-    private function hiddenCondition($alias = 'm') {
-        if (!empty($this->hasIsHidden)) {
-            return " AND ({$alias}.is_hidden = 0 OR {$alias}.is_hidden IS NULL)";
-        }
-        return "";
-    }
-
-    /**
-     * Trả về điều kiện WHERE để lọc món ẩn nếu cột is_hidden tồn tại
-     */
-    private function hiddenCondition($alias = 'm') {
-        if (!empty($this->hasIsHidden)) {
-            return " AND ({$alias}.is_hidden = 0 OR {$alias}.is_hidden IS NULL)";
-        }
-        return "";
-    }
-
-    /**
-     * Trả về điều kiện WHERE để lọc món ẩn nếu cột is_hidden tồn tại
-     */
-    private function hiddenCondition($alias = 'm') {
-        if (!empty($this->hasIsHidden)) {
-            return " AND ({$alias}.is_hidden = 0 OR {$alias}.is_hidden IS NULL)";
-        }
-        return "";
-    }
-
-    /**
-     * Trả về điều kiện WHERE để lọc món ẩn nếu cột is_hidden tồn tại
-     */
-    private function hiddenCondition($alias = 'm') {
-        if (!empty($this->hasIsHidden)) {
-            return " AND ({$alias}.is_hidden = 0 OR {$alias}.is_hidden IS NULL)";
-        }
-        return "";
-    }
-
-    /**
-     * Trả về điều kiện WHERE để lọc món ẩn nếu cột is_hidden tồn tại
+     * Trả về điều kiện WHERE để lọc món không ẩn nếu cột is_hidden tồn tại.
      */
     private function hiddenCondition($alias = 'm') {
         if (!empty($this->hasIsHidden)) {
             // Trả về điều kiện lọc: không ẩn (0) HOẶC NULL (cho các bản ghi cũ)
-            return " AND ({$alias}.is_hidden = 0 OR {$alias}.is_hidden IS NULL)";
+            // Nếu alias rỗng, không thêm dấu chấm
+            $col = $alias ? "{$alias}.is_hidden" : "is_hidden";
+            return " AND ({$col} = 0 OR {$col} IS NULL)";
         }
         return "";
     }
@@ -78,7 +39,8 @@ class ProductModel {
     // --- Phương thức Đọc (READ) ---
     public function getPopularProducts($limit = 10) {
         try {
-                $sql = "SELECT id_mon, ten_mon, gia, hinh_anh, mo_ta, trang_thai
+            // Sử dụng alias rỗng vì không có join
+            $sql = "SELECT id_mon, ten_mon, gia, hinh_anh, mo_ta, trang_thai
                     FROM mon_an 
                     WHERE trang_thai = 'Còn hàng'" . $this->hiddenCondition('') . "
                     ORDER BY id_mon ASC 
@@ -94,8 +56,7 @@ class ProductModel {
 
     public function getAllProducts() {
         try {
-            // Mặc định: chỉ trả về món không ẩn. Để admin muốn xem món ẩn, dùng getAllProducts(true) hoặc getAllProducts(true, true)
-                $sql = "SELECT m.*, dm.ten_danh_muc 
+            $sql = "SELECT m.*, dm.ten_danh_muc 
                     FROM mon_an m
                     LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon
                     WHERE 1=1" . $this->hiddenCondition('m') . "
@@ -108,7 +69,7 @@ class ProductModel {
         }
     }
 
-  
+    
     public function getProductById($id, $includeHidden = false) {
         try {
             $sql = "SELECT m.*, dm.ten_danh_muc 
@@ -129,7 +90,7 @@ class ProductModel {
 
     public function getProductsByCategory($categoryId) {
         try {
-                $sql = "SELECT m.*, dm.ten_danh_muc 
+            $sql = "SELECT m.*, dm.ten_danh_muc 
                     FROM mon_an m
                     LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon
                     WHERE m.id_danh_muc_mon = :categoryId" . $this->hiddenCondition('m') . "
@@ -146,14 +107,14 @@ class ProductModel {
     // --- Phương thức Thêm (CREATE) ---
     public function createProduct($data) {
         try {
-                // Nếu DB chưa có cột is_hidden thì không chèn tham số này
-                if (!empty($this->hasIsHidden)) {
+            // Nếu DB chưa có cột is_hidden thì không chèn tham số này
+            if (!empty($this->hasIsHidden)) {
                 $sql = "INSERT INTO mon_an (ten_mon, gia, hinh_anh, mo_ta, trang_thai, id_danh_muc_mon, is_hidden) 
                     VALUES (:ten_mon, :gia, :hinh_anh, :mo_ta, :trang_thai, :id_danh_muc_mon, :is_hidden)";
-                } else {
+            } else {
                 $sql = "INSERT INTO mon_an (ten_mon, gia, hinh_anh, mo_ta, trang_thai, id_danh_muc_mon) 
                     VALUES (:ten_mon, :gia, :hinh_anh, :mo_ta, :trang_thai, :id_danh_muc_mon)";
-                }
+            }
             $stmt = $this->conn->prepare($sql);
             
             // Liên kết các tham số
@@ -224,6 +185,9 @@ class ProductModel {
             throw new Exception("Lỗi cập nhật sản phẩm trong database: " . $e->getMessage());
         }
     }
+    
+    // --- Phương thức Xóa/Ẩn (DELETE/SOFT DELETE) ---
+    
     // Thay vì xóa vật lý, ẩn sản phẩm bằng cột is_hidden = 1
     public function hideProduct($id) {
         try {
@@ -237,142 +201,6 @@ class ProductModel {
             return $stmt->rowCount();
         } catch (PDOException $e) {
             throw new Exception("Lỗi ẩn sản phẩm: " . $e->getMessage());
-        }
-    }
-
-    public function unhideProduct($id) {
-        try {
-            if (empty($this->hasIsHidden)) {
-                throw new Exception('Cột is_hidden chưa tồn tại. Hãy chạy migration add_is_hidden_to_mon_an.sql.');
-            }
-            $sql = "UPDATE mon_an SET is_hidden = 0 WHERE id_mon = :id";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->rowCount();
-        } catch (PDOException $e) {
-            throw new Exception("Lỗi hiện lại sản phẩm: " . $e->getMessage());
-        }
-    }
-
-    // Lấy các món đã bị ẩn (dành cho trang admin khi muốn hiển thị món đã ẩn)
-    public function getHiddenProducts() {
-        try {
-            if (empty($this->hasIsHidden)) {
-                return [];
-            }
-            $sql = "SELECT m.*, dm.ten_danh_muc 
-                    FROM mon_an m
-                    LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon
-                    WHERE m.is_hidden = 1
-                    ORDER BY m.id_mon ASC";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            throw new Exception("Lỗi lấy danh sách món ẩn: " . $e->getMessage());
-        }
-    }
-
-    public function unhideProduct($id) {
-        try {
-            if (empty($this->hasIsHidden)) {
-                throw new Exception('Cột is_hidden chưa tồn tại. Hãy chạy migration add_is_hidden_to_mon_an.sql.');
-            }
-            $sql = "UPDATE mon_an SET is_hidden = 0 WHERE id_mon = :id";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->rowCount();
-        } catch (PDOException $e) {
-            throw new Exception("Lỗi hiện lại sản phẩm: " . $e->getMessage());
-        }
-    }
-
-    // Lấy các món đã bị ẩn (dành cho trang admin khi muốn hiển thị món đã ẩn)
-    public function getHiddenProducts() {
-        try {
-            if (empty($this->hasIsHidden)) {
-                return [];
-            }
-            $sql = "SELECT m.*, dm.ten_danh_muc 
-                    FROM mon_an m
-                    LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon
-                    WHERE m.is_hidden = 1
-                    ORDER BY m.id_mon ASC";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            throw new Exception("Lỗi lấy danh sách món ẩn: " . $e->getMessage());
-        }
-    }
-
-    public function unhideProduct($id) {
-        try {
-            if (empty($this->hasIsHidden)) {
-                throw new Exception('Cột is_hidden chưa tồn tại. Hãy chạy migration add_is_hidden_to_mon_an.sql.');
-            }
-            $sql = "UPDATE mon_an SET is_hidden = 0 WHERE id_mon = :id";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->rowCount();
-        } catch (PDOException $e) {
-            throw new Exception("Lỗi hiện lại sản phẩm: " . $e->getMessage());
-        }
-    }
-
-    // Lấy các món đã bị ẩn (dành cho trang admin khi muốn hiển thị món đã ẩn)
-    public function getHiddenProducts() {
-        try {
-            if (empty($this->hasIsHidden)) {
-                return [];
-            }
-            $sql = "SELECT m.*, dm.ten_danh_muc 
-                    FROM mon_an m
-                    LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon
-                    WHERE m.is_hidden = 1
-                    ORDER BY m.id_mon ASC";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            throw new Exception("Lỗi lấy danh sách món ẩn: " . $e->getMessage());
-        }
-    }
-
-    public function unhideProduct($id) {
-        try {
-            if (empty($this->hasIsHidden)) {
-                throw new Exception('Cột is_hidden chưa tồn tại. Hãy chạy migration add_is_hidden_to_mon_an.sql.');
-            }
-            $sql = "UPDATE mon_an SET is_hidden = 0 WHERE id_mon = :id";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->rowCount();
-        } catch (PDOException $e) {
-            throw new Exception("Lỗi hiện lại sản phẩm: " . $e->getMessage());
-        }
-    }
-
-    // Lấy các món đã bị ẩn (dành cho trang admin khi muốn hiển thị món đã ẩn)
-    public function getHiddenProducts() {
-        try {
-            if (empty($this->hasIsHidden)) {
-                return [];
-            }
-            $sql = "SELECT m.*, dm.ten_danh_muc 
-                    FROM mon_an m
-                    LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon
-                    WHERE m.is_hidden = 1
-                    ORDER BY m.id_mon ASC";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            throw new Exception("Lỗi lấy danh sách món ẩn: " . $e->getMessage());
         }
     }
 

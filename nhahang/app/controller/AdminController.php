@@ -144,50 +144,26 @@ class AdminController {
     }
 
     public function menu(){
-        $dsdm = $this->danhmuc->getAllCategories();
-        $dssp = $this->sanpham->getAllProducts();
-        
-        // Khởi tạo các biến nếu cần, ví dụ: $sp_edit, $dm
+    $dsdm = $this->danhmuc->getAllCategories();
+    $dssp = $this->sanpham->getAllProducts();
+    
+    // Khởi tạo các biến nếu cần, ví dụ: $sp_edit, $dm
 
-        /* ================== Xử lý LƯU NHÓM MÓN ================== */
-        if (isset($_POST['save_category'])) {
-            $ten_danh_muc = trim($_POST['category_name']);
-            $mo_ta = trim($_POST['category_description'] ?? '');
+    /* ================== Xử lý LƯU NHÓM MÓN ================== */
+    if (isset($_POST['save_category'])) {
+        $ten_danh_muc = trim($_POST['category_name']);
+        $mo_ta = trim($_POST['category_description'] ?? '');
 
-            try {
-                // Logic cập nhật (nếu có id) hoặc thêm mới
-                // Hiện tại chỉ xử lý thêm mới:
-                $this->danhmuc->createCategory($ten_danh_muc, $mo_ta);
-                header("Location: admin.php?page=menu");
-                exit;
-            } catch (\Exception $e) {
-                // Thêm logic xử lý lỗi tại đây nếu cần
-                echo "<script>alert('Lỗi thêm nhóm món: " . $e->getMessage() . "');</script>";
-            }
+        try {
+            // Logic cập nhật (nếu có id) hoặc thêm mới
+            // Hiện tại chỉ xử lý thêm mới:
+            $this->danhmuc->createCategory($ten_danh_muc, $mo_ta);
+            header("Location: admin.php?page=menu");
+            exit;
+        } catch (\Exception $e) {
+            // Thêm logic xử lý lỗi tại đây nếu cần
+            echo "<script>alert('Lỗi thêm nhóm món: " . $e->getMessage() . "');</script>";
         }
-
-    /* ================== 3. LƯU SẢN PHẨM (THÊM/SỬA) ================== */
-    // Kiểm tra tên nút submit trong form themmonan.php là 'save_product'
-    if (isset($_POST['save_product'])) {
-        $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : null;
-        $name = $_POST['ten_mon'];
-        $price = $_POST['gia'];
-        $trang_thai = $_POST['trang_thai_hoat_dong'];
-        $cat_id = $_POST['category'];
-        $mota = isset($_POST['mo_ta']) ? $_POST['mo_ta'] : '';
-
-    // KHAI BÁO BIẾN ẢNH BAN ĐẦU (Giữ ảnh cũ hoặc rỗng)
-    $img = $_POST['old_img'] ?? ''; 
-    $upload_dir = "nhahang/app/public/img/";
-
-    // XỬ LÝ UPLOAD ẢNH MỚI (CHỈ XẢY RA KHI CÓ FILE ĐƯỢC CHỌN)
-    if (!empty($_FILES['img']['name'])) {
-        $img = time() . "_" . basename($_FILES['img']['name']);
-        if (!is_dir($upload_dir)) {
-            mkdir($upload_dir, 0777, true);
-        }
-        // Thêm hàm move_uploaded_file vào đây
-        move_uploaded_file($_FILES['img']['tmp_name'], $upload_dir . $img); 
     }
 
     /* ================== 3. LƯU SẢN PHẨM (THÊM/SỬA) ================== */
@@ -201,13 +177,19 @@ class AdminController {
         $cat_id = $_POST['category'];
         $mota = isset($_POST['mo_ta']) ? $_POST['mo_ta'] : '';
 
-    try {
-        if ($product_id) {
-            // Cập nhật sản phẩm
-            $this->sanpham->updateProduct($product_id, $data);
+        // Xử lý ảnh
+        $img = "";
+        $upload_dir = "nhahang/app/public/img/";
+        if (!empty($_FILES['img']['name'])) {
+            $img = time() . "_" . basename($_FILES['img']['name']);
+            // Kiểm tra và tạo thư mục nếu chưa có
+            if (!is_dir($upload_dir)) {
+                mkdir($upload_dir, 0777, true);
+            }
+            move_uploaded_file($_FILES['img']['tmp_name'], $upload_dir . $img);
         } else {
-            // Thêm sản phẩm mới
-            $this->sanpham->createProduct($data);
+            // Giữ lại ảnh cũ khi sửa nếu không upload ảnh mới
+            $img = $_POST['old_img'] ?? ''; 
         }
 
         $data = [
@@ -237,12 +219,16 @@ class AdminController {
         }
     }
 
-    /* ================== 1. XÓA SẢN PHẨM ================== */
-    if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
-        $this->sanpham->deleteProduct($_GET['id']);
-        header("Location: admin.php?page=menu");
-        exit;
-    }
+    /* ================== 1. ẨN / HIỆN SẢN PHẨM (SOFT DELETE) ================== */
+    if (isset($_GET['action']) && isset($_GET['id'])) {
+        $action = $_GET['action'];
+        $id = $_GET['id'];
+        if ($action === 'delete' || $action === 'hide') {
+            // Giữ tương thích: 'delete' giờ sẽ ẩn
+            $this->sanpham->hideProduct($id);
+            header("Location: admin.php?page=menu");
+            exit;
+        }
 
         if ($action === 'unhide') {
             $this->sanpham->unhideProduct($id);
@@ -253,22 +239,22 @@ class AdminController {
             exit;
         }
     }
-        }
 
     /* ================== 2. SỬA SẢN PHẨM (HIỂN THỊ FORM) ================== */
     if (isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
-        $sp_edit = $this->sanpham->getProductById($_GET['id']);
+        // Khi edit, cho phép load cả món ẩn để admin có thể chỉnh
+        $sp_edit = $this->sanpham->getProductById($_GET['id'], true);
         $dsdm = $this->danhmuc->getAllCategories();
         include "../app/view/admin/themmonan.php";
         return;
     }
 
-        /* ================== 4. THÊM NHÓM MÓN (HIỂN THỊ FORM) ================== */
-        if (isset($_GET['action']) && $_GET['action'] == 'add_category') {
-            $category_edit = null;
-            include_once "../app/view/admin/themnhommon.php";
-            return;
-        }
+    /* ================== 4. THÊM NHÓM MÓN (HIỂN THỊ FORM) ================== */
+    if (isset($_GET['action']) && $_GET['action'] == 'add_category') {
+        $category_edit = null;
+        include_once "../app/view/admin/themnhommon.php";
+        return;
+    }
 
     /* ================== 4. THÊM SẢN PHẨM (HIỂN THỊ FORM) ================== */
     if (isset($_GET['action']) && $_GET['action'] == 'add') {
@@ -277,7 +263,12 @@ class AdminController {
         include_once  "../app/view/admin/themmonan.php";
         return;
     }
-    $dssp = $this->sanpham->getAllProducts();
+    // Nếu yêu cầu hiển thị món ẩn (filter), lấy danh sách món ẩn
+    if (isset($_GET['show']) && $_GET['show'] === 'hidden') {
+        $dssp = $this->sanpham->getHiddenProducts();
+    } else {
+        $dssp = $this->sanpham->getAllProducts();
+    }
     include '../app/view/admin/menu.php';
 }
 
@@ -530,15 +521,6 @@ public function login_process() {
     exit;
 }
 
-public function logout() {
-    // Xóa tất cả các biến session
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
-    session_unset();
-    // Hủy session
-    session_destroy();
-}
 
-} // <--- Dấu đóng lớp AdminController cuối cùng
+}
 ?>
