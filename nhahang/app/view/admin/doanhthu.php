@@ -262,6 +262,11 @@ include 'views/layouts/sidebar.php';
     <section class="revenue-stats">
         <div class="card stat-card">
             <div>
+<<<<<<< Updated upstream
+=======
+
+                <div class="stat-value">500,000,000 VNĐ</div>
+>>>>>>> Stashed changes
                 <div class="stat-value">0 VNĐ</div>
                 <div class="stat-label">Tổng Doanh thu</div>
             </div>
@@ -269,7 +274,12 @@ include 'views/layouts/sidebar.php';
         </div>
 
         <div class="card stat-card">
+<<<<<<< Updated upstream
             <div>   
+=======
+            <div>
+                <div class="stat-value">500,000,000 VNĐ</div>
+>>>>>>> Stashed changes
                 <div class="stat-value">0 VNĐ</div>
                 <div class="stat-label">Lợi nhuận ròng</div>
             </div>
