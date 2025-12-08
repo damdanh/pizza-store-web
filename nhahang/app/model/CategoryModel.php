@@ -3,8 +3,16 @@ class CategoryModel {
     private $conn;
 
     public function __construct() {
+
+        global $conn;
+        if (!isset($conn) || $conn === null) {
+            require_once __DIR__ . '/../config/database.php';
+            $conn = getConnection();
+        }
+
         // 1. Chỉ cần require file chứa hàm getConnection()
         require_once __DIR__ . '/../config/database.php'; 
+
         
         // 2. GỌI HÀM để lấy đối tượng PDO
         try {

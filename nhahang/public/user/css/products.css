@@ -230,7 +230,9 @@
             text-align: center;
             font-size: 14px;
             font-weight: 500;
-            color: #0066CC;
+            color: black;
+            font-weight: bold;
+            text-decoration: none;
         }
 
         /* Product Section */
@@ -292,6 +294,7 @@
             font-weight: 600;
             color: #2C3E50;
             margin-bottom: 20px;
+            text-decoration: none;
         }
 
         .product-actions {

@@ -1,24 +1,39 @@
 <?php
 session_start();
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 
-require_once __DIR__ . '/../app/config/database.php';   // ĐÃ ĐÚNG ĐƯỜNG DẪN
+require_once '../app/config/database.php';
+require_once '../app/model/BookingModel.php';
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    die("Yêu cầu không hợp lệ.");
+}
+
+require_once __DIR__ . '/../app/config/database.php';
+
 
 try {
     $pdo = getConnection();
+    $bookingModel = new BookingModel($pdo);
 
+    $people = (int)($_POST['people'] ?? 1);
     $name   = trim($_POST['name'] ?? '');
     $phone  = trim($_POST['phone'] ?? '');
     $email  = trim($_POST['email'] ?? '');
-    $people = (int)($_POST['people'] ?? 2);
-    $date   = $_POST['date'] ?? '2025-12-15';
-    $time   = $_POST['time'] ?? '19:00';
-    $branch = $_POST['branch'] ?? 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa';
+
+    $date   = $_POST['date'] ?? date('Y-m-d');
+    $time   = $_POST['time'] ?? '19:00:00';
+
+    $people = (int)($_POST['people'] ?? 1);
+    $date   = $_POST['date'] ?? '';
+    $time   = $_POST['time'] ?? '';
+
+    $branch = $_POST['branch'] ?? '';
     $notes  = trim($_POST['notes'] ?? '');
+    $cart   = $_SESSION['cart'] ?? [];
+
 
     if (empty($name) || empty($phone)) {
-        die('Vui lòng nhập tên và số điện thoại');
+        die("Vui lòng nhập đầy đủ thông tin!");
     }
 
     // ĐÃ SỬA DÒNG NÀY – CHỈ CÒN 8 CỘT TƯƠNG ỨNG 8 DẤU ?
@@ -42,7 +57,7 @@ try {
 
     // Lưu vào session để hiển thị xác nhận cho user
     $_SESSION['booking'] = [
-        'id'      => $pdo->lastInsertId(),
+        'id'      => $bookingId,
         'name'    => $name,
         'phone'   => $phone,
         'email'   => $email,
@@ -50,13 +65,21 @@ try {
         'date'    => $date,
         'time'    => $time,
         'branch'  => $branch,
-        'notes'   => $notes
+        'notes'   => $notes,
+        'cart'    => $cart,
+        'total'   => $total
     ];
 
-    header('Location: ../app/view/xacnhandatban.php');
-exit;
+    unset($_SESSION['cart']);
+
+
+    header("Location: /WD20302-PRO1014_N5/nhahang/public/xac-nhan");
+    exit;
 
 } catch (Exception $e) {
-    die('Lỗi: ' . $e->getMessage());
+
+    die("Lỗi xử lý đặt bàn: " . $e->getMessage());
+
+    die("Lỗi: " . $e->getMessage());
+
 }
-?>

@@ -262,7 +262,7 @@ include 'views/layouts/sidebar.php';
             
             <input type="text" class="filter-input" placeholder="Chi Nhánh">
 
-            <button class="refresh-btn">Làm mới</button>
+             <button class="refresh-btn">Làm mới</button>
         </div>
     </section>
 

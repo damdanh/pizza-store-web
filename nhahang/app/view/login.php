@@ -14,7 +14,7 @@
             </div>
         <?php endif; ?>
         
-        <form action="/WD20302-PRO1014_N5/nhahang/public/login" method="POST">
+        <form action="admin.php?action=login_process" method="POST">
             
             <div class="form-group">
                 <label class="form-label">Địa chỉ Email</label>
@@ -29,9 +29,9 @@
             <div class="form-group">
                 <label class="form-label">Mật khẩu</label>
                 <input 
-                    type="password" 
+                    type="mat_khau" 
+                    name="mat_khau" 
                     class="form-input" 
-                    name="password" 
                     placeholder="Nhập mật khẩu" 
                     required>
             </div>
