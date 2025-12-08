@@ -56,11 +56,7 @@ $categoryImages = [
                     <?php foreach ($products as $product): ?>
                         <div class="product-card" data-product-id="<?php echo htmlspecialchars($product['id_mon']); ?>">
                             
-                            <?php if ($product['trang_thai'] != 'Còn hàng'): ?>
-                                <div class="out-of-stock-badge">
-                                    <?php echo htmlspecialchars($product['trang_thai']); ?>
-                                </div>
-                            <?php endif; ?>
+                         
 
                             <img src="<?php echo htmlspecialchars($product['hinh_anh']); ?>" alt="<?php echo htmlspecialchars($product['ten_mon']); ?>" class="product-img">
                             
@@ -73,7 +69,6 @@ $categoryImages = [
                                 
                                 <div class="product-actions">
                                     <a href="<?php echo $base_url_path; ?>public/product_detail.php?id=<?php echo htmlspecialchars($product['id_mon']); ?>" class="detail-btn">
-                                        <i class="fas fa-eye"></i>
                                     </a>
                                     <button class="add-to-cart-btn" data-product-id="<?php echo htmlspecialchars($product['id_mon']); ?>">
                                         +
@@ -123,7 +118,7 @@ $categoryImages = [
             </div>
 
             <div class="cart-buttons-area" id="cart-actions" style="display:none;">
-                <button class="checkout-btn">ĐẶT HÀNG</button>
+                <!-- <button class="checkout-btn">ĐẶT HÀNG</button> -->
             </div>
         </aside>
 <script>

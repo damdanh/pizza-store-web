@@ -18,10 +18,7 @@ class AdminModel {
      */
     public function getAllAdmins() {
         try {
-
-            // Lấy thêm cột trạng thái để UI có thể hiển thị ẩn/kích hoạt
             $sql = "SELECT id_admin, ten, email, vai_tro, trang_thai_hoat_dong, created_at AS ngay_tao FROM " . $this->table . " ORDER BY created_at ASC";
-
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -62,13 +59,13 @@ class AdminModel {
     }
     
     /**
-     * Cập nhật mật khẩu admin (Hàm MỚI để lưu hash)
+     * Cập nhật mật khẩu admin (Hàm này vẫn có thể dùng nếu muốn cập nhật mật khẩu thô)
      */
-    public function updatePassword($id, $hashed_password) {
+    public function updatePassword($id, $password) {
         try {
             $sql = "UPDATE " . $this->table . " SET mat_khau = :mat_khau WHERE id_admin = :id";
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':mat_khau', $hashed_password);
+            $stmt->bindParam(':mat_khau', $password); // LƯU DƯỚI DẠNG THÔ
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             return $stmt->execute();
         } catch (PDOException $e) {
@@ -86,8 +83,8 @@ class AdminModel {
                 throw new Exception("Email đã được sử dụng. Vui lòng chọn email khác.");
             }
 
-            // 2. Băm (Hash) mật khẩu trước khi lưu
-            $hashed_password = password_hash($mat_khau, PASSWORD_DEFAULT);
+            // 2. LƯU MẬT KHẨU THÔ (Đã bỏ password_hash)
+            $password_to_save = $mat_khau; 
 
             // 3. Thực hiện Insert
             $sql = "INSERT INTO " . $this->table . " (ten, email, mat_khau, vai_tro, trang_thai_hoat_dong) VALUES (:ten, :email, :mat_khau, :vai_tro, :trang_thai_hoat_dong)";
@@ -95,13 +92,12 @@ class AdminModel {
             
             $stmt->bindParam(':ten', $ten);
             $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':mat_khau', $hashed_password);
+            $stmt->bindParam(':mat_khau', $password_to_save); // Bind mật khẩu thô
             $stmt->bindParam(':vai_tro', $vai_tro);
             $stmt->bindParam(':trang_thai_hoat_dong', $trang_thai_hoat_dong, PDO::PARAM_INT);
             
             return $stmt->execute();
         } catch (PDOException $e) {
-             // Lỗi 23000 (Duplicate entry) cũng đã được xử lý bằng check email thủ công ở trên.
             throw new Exception("Lỗi CSDL khi thêm Admin: " . $e->getMessage());
         }
     }
@@ -120,11 +116,10 @@ class AdminModel {
                 ':trang_thai_hoat_dong' => $trang_thai_hoat_dong
             ];
 
-            // Nếu có mật khẩu mới, băm và thêm vào câu truy vấn
+            // Nếu có mật khẩu mới, LƯU DƯỚI DẠNG THÔ và thêm vào câu truy vấn (Đã bỏ password_hash)
             if ($mat_khau !== null && !empty($mat_khau)) {
-                $hashed_password = password_hash($mat_khau, PASSWORD_DEFAULT);
                 $sql .= ", mat_khau = :mat_khau";
-                $params[':mat_khau'] = $hashed_password;
+                $params[':mat_khau'] = $mat_khau; // Lưu mật khẩu thô
             }
 
             $sql .= " WHERE id_admin = :id";
@@ -149,21 +144,5 @@ class AdminModel {
             throw new Exception("Lỗi CSDL khi xóa Admin: " . $e->getMessage());
         }
     }
-
-    /**
-     * Thiết lập trạng thái hoạt động (1 = hoạt động, 0 = ẩn)
-     */
-    public function setAdminStatus($id, $status) {
-        try {
-            $sql = "UPDATE " . $this->table . " SET trang_thai_hoat_dong = :status WHERE id_admin = :id";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':status', $status, PDO::PARAM_INT);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            return $stmt->execute();
-        } catch (PDOException $e) {
-            throw new Exception("Lỗi CSDL khi cập nhật trạng thái Admin: " . $e->getMessage());
-        }
-    }
 }
-// Dấu đóng ngoặc nhọn thừa đã được loại bỏ
 ?>

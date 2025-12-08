@@ -18,7 +18,7 @@ class UserController {
     }
     
     // =================================================================
-    // CÁC HÀM XỬ LÝ ĐĂNG KÝ/ĐĂNG NHẬP (GIỮ NGUYÊN CODE CŨ CỦA BẠN)
+    // CÁC HÀM XỬ LÝ ĐĂNG KÝ/ĐĂNG NHẬP
     // =================================================================
     
     public function showRegister() {
@@ -178,9 +178,15 @@ class UserController {
                     
                     error_log("✅ Đăng nhập thành công - User ID: " . $user['id_khach_hang']);
                     
-                    
-                    $redirect = $_SESSION['redirect_after_login'] ?? "$this->base_url/";
+                    // LƯU Ý: ĐÃ SỬA LOGIC CHUYỂN HƯỚNG TẠI ĐÂY
+                    $default_redirect = "$this->base_url/";
+                    $redirect = $_SESSION['redirect_after_login'] ?? $default_redirect;
                     unset($_SESSION['redirect_after_login']);
+                    
+                    // KIỂM TRA và LOẠI BỎ nếu URL chứa "admin.php" (ngăn chuyển hướng sang Admin)
+                    if (strpos($redirect, 'admin.php') !== false) {
+                        $redirect = $default_redirect;
+                    }
                     
                     header("Location: $redirect");
                     exit;
@@ -202,11 +208,7 @@ class UserController {
         exit;
     }
     
-    // =================================================================
-    // LOGIC QUÊN MẬT KHẨU (CHỨC NĂNG MỚI)
-    // =================================================================
 
-    // 1. Hiển thị Form nhập email
     public function showForgotPassword() {
         $data = [
             'title' => 'Quên Mật Khẩu',
