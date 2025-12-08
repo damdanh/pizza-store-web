@@ -244,6 +244,7 @@ class AdminController {
         $dssp = $this->sanpham->getAllProducts();
     }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
     // Nếu yêu cầu hiển thị món ẩn (filter), lấy danh sách món ẩn
     if (isset($_GET['show']) && $_GET['show'] === 'hidden') {
