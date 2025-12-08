@@ -264,6 +264,11 @@ include 'views/layouts/sidebar.php';
             <div>
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+
+                <div class="stat-value">500,000,000 VNĐ</div>
+>>>>>>> Stashed changes
 =======
 
                 <div class="stat-value">500,000,000 VNĐ</div>
@@ -281,7 +286,12 @@ include 'views/layouts/sidebar.php';
         <div class="card stat-card">
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             <div>   
+=======
+            <div>
+                <div class="stat-value">500,000,000 VNĐ</div>
+>>>>>>> Stashed changes
 =======
             <div>
                 <div class="stat-value">500,000,000 VNĐ</div>
