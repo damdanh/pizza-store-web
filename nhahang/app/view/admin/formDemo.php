@@ -298,70 +298,76 @@ include 'views/layouts/sidebar.php';
 ?>
 
 <main class="main-content">
-    <header class="page-header">
-        <h1>Đặt bàn trực tuyến</h1>
-        <p>Đặt bàn nhanh chóng và trực tuyến</p>
-    </header>
-    
     <section class="card">
-        <div class="step-indicator">
-            <div class="step-number active">1</div>
-            <div class="step-number">2</div>
-            <div class="step-number">3</div>
-        </div>
-        
-        <form>
+        <form method="POST" action="index.php?controller=Datban&action=processReservation"> 
             <div class="form-title">Thông tin đặt bàn</div>
             
             <div class="form-row">
                 <div class="form-group">
                     <label class="form-group-label" for="ten">Họ và tên <span>*</span></label>
-                    <input type="text" id="ten" class="form-input" value="Nguyễn Văn A">
+                    <input type="text" id="ten" name="ten" class="form-input" value="">
                 </div>
                 <div class="form-group">
                     <label class="form-group-label" for="sdt">Số điện thoại <span>*</span></label>
-                    <input type="tel" id="sdt" class="form-input" value="0123456789">
+                    <input type="tel" id="sdt" name="sdt" class="form-input" value="">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label class="form-group-label" for="email">Email <span>*</span></label> 
-                    <input type="email" id="email" class="form-input" value="email@example.com">
+                    <input type="email" id="email" name="email" class="form-input" value="">
                 </div>
                 <div class="form-group">
-                    <label class="form-group-label" for="chinhanh">Chi nhánh <span>*</span></label>
-                    <select id="chinhanh" class="form-select">
-                        <option disabled selected>Chọn chi nhánh</option>
-                        <option>Chi nhánh 1</option>
-                        <option>Chi nhánh 2</option>
-                    </select>
-                </div>
+    <label class="form-group-label" for="chinhanh">Chi nhánh <span>*</span></label>
+    <select id="chinhanh" name="chinhanh" class="form-select" required>
+        <option value="" disabled selected>Chọn chi nhánh</option>
+        
+        <?php 
+        // Thay thế cú pháp cũ bằng cú pháp dấu ngoặc nhọn {}
+        if (isset($chinhanh_list) && is_array($chinhanh_list)) { 
+            foreach ($chinhanh_list as $cn) {
+                // Kiểm tra sự tồn tại của key để tránh lỗi 'Undefined index'
+                $ten_cn = htmlspecialchars($cn['ten_chi_nhanh'] ?? '');
+                
+                if (!empty($ten_cn)) {
+        ?>
+                    <option value="<?= $ten_cn ?>">
+                        <?= $ten_cn ?>
+                    </option>
+        <?php 
+                }
+            } 
+        } // Đóng if và foreach bằng dấu ngoặc nhọn
+        ?>
+
+    </select>
+</div>
             </div>
             
             <div class="form-row">
                 <div class="form-group">
                     <label class="form-group-label" for="ngay">Ngày <span>*</span></label>
-                    <input type="text" id="ngay" class="form-input" placeholder="dd/mm/yy">
+                    <input type="date" id="ngay" name="ngay" class="form-input">
                 </div>
                 <div class="form-group">
                     <label class="form-group-label" for="gio">Giờ <span>*</span></label>
-                    <input type="text" id="gio" class="form-input" placeholder="--:-- --">
+                    <input type="time" id="gio" name="gio" class="form-input">
                 </div>
                 <div class="form-group">
                     <label class="form-group-label" for="songuoi">Số người <span>*</span></label>
-                    <input type="number" id="songuoi" class="form-input" value="2">
+                    <input type="number" id="songuoi" name="songuoi" class="form-input" value="2" min="1">
                 </div>
             </div>
             
             <div class="form-group">
                 <label class="form-group-label" for="ghichu">Ghi chú</label>
-                <textarea id="ghichu" class="form-textarea" placeholder="Yêu cầu đặc biệt...."></textarea>
+                <textarea id="ghichu" name="ghichu" class="form-textarea" placeholder="Yêu cầu đặc biệt...."></textarea>
             </div>
 
             <div class="form-actions">
                 <button type="submit" class="btn-continue">
-                    Tiếp tục - chọn món (Tùy chọn)
+                    Đặt bàn ngay
                 </button>
             </div>
         </form>

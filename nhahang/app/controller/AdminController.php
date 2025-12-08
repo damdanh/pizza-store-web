@@ -4,18 +4,21 @@ require_once __DIR__. '/../Model/CategoryModel.php';
 require_once __DIR__. '/../Model/ProductModel.php';
 // require_once __DIR__. '/../Model/UserModel.php';
 require_once __DIR__. '/../Model/AdminModel.php';
+require_once __DIR__. '/../Model/DatBanModel.php';
 
 class AdminController {
     public $danhmuc;
     public $sanpham;
     public $admin;
     // public $user;
+    public $datban;
     public $db;
 
     public function __construct($db_object = null) {
         $this->danhmuc = new CategoryModel();
         $this->sanpham = new ProductModel();
         $this->admin = new AdminModel();
+        $this->datban = new DatbanModel();
         $this->db = $db_object;
         // $this->user = new UserModel($this->db);
     }
@@ -52,6 +55,77 @@ class AdminController {
     }
 
     public function quanlydatban(){
+        $action = $_GET['action'] ?? 'list';
+        $id = $_GET['id'] ?? null;
+        $message = '';
+        $is_error = false;
+        
+        // Lấy thông báo lỗi/thành công từ URL nếu có
+        if (isset($_GET['error'])) {
+            $message = $_GET['error'];
+            $is_error = true;
+        } else if (isset($_GET['msg'])) {
+            $message = $_GET['msg'];
+        }
+        
+        /* ================== XỬ LÝ CẬP NHẬT TRẠNG THÁI ================== */
+        if ($action == 'update_status' && $id) {
+            $status = $_GET['status'] ?? 'Chờ xác nhận'; // Giá trị trạng thái mới
+            try {
+                $result = $this->datban->updateReservationStatus($id, $status);
+                if ($result) {
+                    $msg = "Cập nhật trạng thái đơn đặt bàn #{$id} thành **'{$status}'** thành công!";
+                    header("Location: admin.php?page=quanlydatban&msg=" . urlencode($msg));
+                    exit;
+                } else {
+                    $error_msg = "Không tìm thấy đơn đặt bàn #{$id} hoặc trạng thái không thay đổi.";
+                    header("Location: admin.php?page=quanlydatban&error=" . urlencode($error_msg));
+                    exit;
+                }
+            } catch (\Exception $e) {
+                $error_msg = "Lỗi CSDL: " . $e->getMessage();
+                header("Location: admin.php?page=quanlydatban&error=" . urlencode($error_msg));
+                exit;
+            }
+        }
+        
+        /* ================== XỬ LÝ HIỂN THỊ CHI TIẾT ================== */
+        if ($action == 'view' && $id) {
+            try {
+                $reservation_detail = $this->datban->getReservationDetails($id);
+                if (!$reservation_detail) {
+                     $error_msg = "Không tìm thấy đơn đặt bàn #{$id}.";
+                     header("Location: admin.php?page=quanlydatban&error=" . urlencode($error_msg));
+                     exit;
+                }
+                // Nếu bạn có View cho chi tiết đặt bàn (vd: view/admin/chitietdatban.php)
+                // include '../app/view/admin/chitietdatban.php'; 
+                // Tạm thời hiển thị dưới dạng JSON để kiểm tra dữ liệu
+                 echo "<pre>" . print_r($reservation_detail, true) . "</pre>";
+                 return;
+            } catch (\Exception $e) {
+                 $error_msg = "Lỗi: " . $e->getMessage();
+                 header("Location: admin.php?page=quanlydatban&error=" . urlencode($error_msg));
+                 exit;
+            }
+        }
+
+        /* ================== XỬ LÝ DANH SÁCH (MẶC ĐỊNH) ================== */
+        // Lấy tham số lọc trạng thái từ URL (vd: admin.php?page=quanlydatban&filter_status=Chờ xác nhận)
+        $filter_status = $_GET['filter_status'] ?? null; 
+        
+        try {
+             $ds_datban = $this->datban->getAllReservations($filter_status);
+        } catch (\Exception $e) {
+             $ds_datban = [];
+             $error_msg = "Lỗi khi tải danh sách: " . $e->getMessage();
+             $is_error = true;
+        }
+        
+        // Chuẩn bị các trạng thái để dùng cho filter/dropdown (nếu cần)
+        $statuses = ['Chờ xác nhận', 'Đã xác nhận', 'Đã hoàn thành', 'Đã hủy'];
+
+        // Truyền dữ liệu sang View
         include '../app/view/admin/quanlydatban.php';
     }
 
@@ -92,15 +166,15 @@ class AdminController {
             }
         }
 
-        /* ================== 3. LƯU SẢN PHẨM (THÊM/SỬA) ================== */
-        // Kiểm tra tên nút submit trong form themmonan.php là 'save_product'
-       if (isset($_POST['save_product'])) {
-    $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : null;
-    $name = $_POST['ten_mon'];
-    $price = $_POST['gia'];
-    $trang_thai = $_POST['trang_thai'] ?? 'Còn hàng';
-    $cat_id = $_POST['category'];
-    $mota = isset($_POST['mo_ta']) ? $_POST['mo_ta'] : '';
+    /* ================== 3. LƯU SẢN PHẨM (THÊM/SỬA) ================== */
+    // Kiểm tra tên nút submit trong form themmonan.php là 'save_product'
+    if (isset($_POST['save_product'])) {
+        $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : null;
+        $name = $_POST['ten_mon'];
+        $price = $_POST['gia'];
+        $trang_thai = $_POST['trang_thai_hoat_dong'];
+        $cat_id = $_POST['category'];
+        $mota = isset($_POST['mo_ta']) ? $_POST['mo_ta'] : '';
 
     // KHAI BÁO BIẾN ẢNH BAN ĐẦU (Giữ ảnh cũ hoặc rỗng)
     $img = $_POST['old_img'] ?? ''; 
@@ -163,16 +237,12 @@ class AdminController {
         }
     }
 
-    /* ================== 1. ẨN / HIỆN SẢN PHẨM (SOFT DELETE) ================== */
-    if (isset($_GET['action']) && isset($_GET['id'])) {
-        $action = $_GET['action'];
-        $id = $_GET['id'];
-        if ($action === 'delete' || $action === 'hide') {
-            // Giữ tương thích: 'delete' giờ sẽ ẩn
-            $this->sanpham->hideProduct($id);
-            header("Location: admin.php?page=menu");
-            exit;
-        }
+    /* ================== 1. XÓA SẢN PHẨM ================== */
+    if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
+        $this->sanpham->deleteProduct($_GET['id']);
+        header("Location: admin.php?page=menu");
+        exit;
+    }
 
         if ($action === 'unhide') {
             $this->sanpham->unhideProduct($id);
@@ -187,31 +257,11 @@ class AdminController {
 
     /* ================== 2. SỬA SẢN PHẨM (HIỂN THỊ FORM) ================== */
     if (isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
-        // Khi edit, cho phép load cả món ẩn để admin có thể chỉnh
-        $sp_edit = $this->sanpham->getProductById($_GET['id'], true);
+        $sp_edit = $this->sanpham->getProductById($_GET['id']);
         $dsdm = $this->danhmuc->getAllCategories();
         include "../app/view/admin/themmonan.php";
         return;
     }
-
-            if ($action === 'unhide') {
-                $this->sanpham->unhideProduct($id);
-                // Nếu đang xem danh sách món ẩn, giữ lại filter
-                $redirect = 'admin.php?page=menu';
-                if (isset($_GET['show']) && $_GET['show'] === 'hidden') $redirect .= '&show=hidden';
-                header("Location: " . $redirect);
-                exit;
-            }
-        }
-
-        /* ================== 2. SỬA SẢN PHẨM (HIỂN THỊ FORM) ================== */
-        if (isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
-            // Khi edit, cho phép load cả món ẩn để admin có thể chỉnh
-            $sp_edit = $this->sanpham->getProductById($_GET['id'], true);
-            $dsdm = $this->danhmuc->getAllCategories();
-            include "../app/view/admin/themmonan.php";
-            return;
-        }
 
         /* ================== 4. THÊM NHÓM MÓN (HIỂN THỊ FORM) ================== */
         if (isset($_GET['action']) && $_GET['action'] == 'add_category') {
@@ -220,41 +270,14 @@ class AdminController {
             return;
         }
 
-        /* ================== 4. THÊM SẢN PHẨM (HIỂN THỊ FORM) ================== */
-        if (isset($_GET['action']) && $_GET['action'] == 'add') {
-            $dsdm = $this->danhmuc->getAllCategories();
-            $sp_edit = null; 
-            include_once  "../app/view/admin/themmonan.php";
-            return;
-        }
-        
-        // Nếu yêu cầu hiển thị món ẩn (filter), lấy danh sách món ẩn
-        if (isset($_GET['show']) && $_GET['show'] === 'hidden') {
-            $dssp = $this->sanpham->getHiddenProducts();
-        } else {
-            $dssp = $this->sanpham->getAllProducts();
-        }
-        
-        include '../app/view/admin/menu.php';
+    /* ================== 4. THÊM SẢN PHẨM (HIỂN THỊ FORM) ================== */
+    if (isset($_GET['action']) && $_GET['action'] == 'add') {
+        $dsdm = $this->danhmuc->getAllCategories();
+        $sp_edit = null; 
+        include_once  "../app/view/admin/themmonan.php";
+        return;
     }
-    // Nếu yêu cầu hiển thị món ẩn (filter), lấy danh sách món ẩn
-    if (isset($_GET['show']) && $_GET['show'] === 'hidden') {
-        $dssp = $this->sanpham->getHiddenProducts();
-    } else {
-        $dssp = $this->sanpham->getAllProducts();
-    }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-    // Nếu yêu cầu hiển thị món ẩn (filter), lấy danh sách món ẩn
-    if (isset($_GET['show']) && $_GET['show'] === 'hidden') {
-        $dssp = $this->sanpham->getHiddenProducts();
-    } else {
-        $dssp = $this->sanpham->getAllProducts();
-    }
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+    $dssp = $this->sanpham->getAllProducts();
     include '../app/view/admin/menu.php';
 }
 

@@ -18,6 +18,25 @@
         --black-btn: #222;
         --black-btn-hover: #000;
     }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    :root {
+        --sidebar-width: 280px;
+        --main-bg: #f9f9f9;
+        --white: #ffffff;
+        --text-dark: #333;
+        --text-sub: #777;
+        --border-color: #eee;
+        --primary-color: #1a73e8;
+        --nav-hover: #f0f0f0;
+        --black-btn: #222;
+        --black-btn-hover: #000;
+    }
 
     body {
         background-color: var(--main-bg);
@@ -284,20 +303,7 @@ include 'views/layouts/sidebar.php';
         </div>
 
         <div class="card stat-card">
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
             <div>   
-=======
-            <div>
-                <div class="stat-value">500,000,000 VNĐ</div>
->>>>>>> Stashed changes
-=======
-            <div>
-                <div class="stat-value">500,000,000 VNĐ</div>
->>>>>>> Stashed changes
-=======
-            <div>
                 <div class="stat-value">500,000,000 VNĐ</div>
 >>>>>>> Stashed changes
                 <div class="stat-value">0 VNĐ</div>

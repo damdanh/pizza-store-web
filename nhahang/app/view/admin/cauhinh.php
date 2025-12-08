@@ -177,17 +177,17 @@ include 'views/layouts/sidebar.php';
 
         <div class="form-group">
             <label class="form-group-label" for="tennhahang">Tên nhà hàng</label>
-            <input type="text" id="tennhahang" class="form-input-text" value="Nhà hàng ABC">
+            <input type="text" id="tennhahang" class="form-input-text" value="Nhà hàng N5">
         </div>
         
         <div class="form-group">
             <label class="form-group-label" for="sodienthoai">Số điện thoại</label>
-            <input type="text" id="sodienthoai" class="form-input-text" value="0123456789">
+            <input type="text" id="sodienthoai" class="form-input-text" value="0349033743">
         </div>
 
         <div class="form-group">
             <label class="form-group-label" for="email">Email</label>
-            <input type="email" id="email" class="form-input-text" value="contact@gmail.com">
+            <input type="email" id="email" class="form-input-text" value="le4569780@gmail.com">
         </div>
     </section>
     
@@ -206,10 +206,10 @@ include 'views/layouts/sidebar.php';
         
         <div class="form-group">
             <label class="form-group-label" for="thoigianhuy">Thời gian cho phép hủy đặt bàn (giờ)</label>
-            <input type="number" id="thoigianhuy" class="form-input-text" value="24">
+            <input type="number" id="thoigianhuy" class="form-input-text" value="15">
             <span class="form-input-hint">Khách hàng có thể hủy đặt bàn trước ít nhất bao nhiêu giờ</span>
         </div>
-    </section>
+    </section>  
 
     <section class="card">
         <div class="config-card-title">
