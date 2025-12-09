@@ -35,8 +35,8 @@ class AccountModel {
             'Đã đặt bàn' as trang_thai, 
             b.booking_date as ngay_dat,   
             'booking' as loai_don,
-            -- TÍNH TỔNG TIỀN MÓN ĐÃ ĐẶT (Chỉ giữ lại cột này để hiển thị tổng tiền)
-            (SELECT COALESCE(SUM(bi.so_luong * bi.gia), 0) FROM booking_items bi WHERE bi.booking_id = b.id) as tong_tien_hien_thi
+            -- CẬP NHẬT LOGIC: TỔNG TIỀN MÓN (CÓ VAT) = TIỀN THANH TOÁN SAU + TIỀN CỌC
+            (b.tien_thanh_toan_sau + b.total) as tong_tien_hien_thi
             FROM bookings b
             WHERE b.id_khach_hang = :userId2)
             
@@ -104,4 +104,4 @@ class AccountModel {
         $stmt->execute([$hang, $userId]);
     }
 }
-// KHÔNG CÓ DẤU NGOẶC NHỌN THỪA HOẶC THẺ ĐÓNG ?>
+?>

@@ -33,13 +33,14 @@ if (empty($name) || empty($phone) || empty($branch)) {
     die("Vui lòng điền đầy đủ thông tin bắt buộc!");
 }
 
-// ====== TÍNH PHÍ ======
+// ====== TÍNH PHÍ (LOGIC MỚI: GIÁ MENU ĐÃ CÓ VAT) ======
 $cart = $_SESSION['cart'] ?? [];
-$totalMonChuaVAT = 0; // Tổng tiền món (chưa VAT)
+$tongGiaMenuCoVAT = 0; // Tổng tiền món (CÓ VAT) - Đây là Tổng giá trị giỏ hàng
 
 foreach ($cart as $item) {
     if (isset($item['gia'], $item['so_luong'])) {
-        $totalMonChuaVAT += $item['gia'] * $item['so_luong'];
+        // TÍNH TỔNG GIÁ TRỊ CỦA CÁC MÓN (ĐÃ BAO GỒM VAT 8%)
+        $tongGiaMenuCoVAT += $item['gia'] * $item['so_luong'];
     }
 }
 
@@ -48,32 +49,61 @@ define('GIA_MOT_BAN', 50000);
 $phiBan = $tables * GIA_MOT_BAN;
 
 // Tính tổng CẦN THANH TOÁN
-if ($totalMonChuaVAT > 0) {
-    // CÓ MÓN: Tính VAT 8% + Phí dịch vụ 20%
-    $vat = $totalMonChuaVAT * 0.08; // VAT 8%
-    $totalMonCoVAT = $totalMonChuaVAT + $vat; // Tổng món + VAT
-    $phiDichVu = $totalMonCoVAT * 0.20; // Phí dịch vụ 20% tính trên tổng có VAT
-    $tongCuoiCung = $phiBan + $phiDichVu; // CHỈ trả phí bàn + phí dịch vụ
+if ($tongGiaMenuCoVAT > 0) {
+    
+    // === 1. TÍNH CÁC THÀNH PHẦN RIÊNG LẺ (Dùng cho hiển thị) ===
+    $totalMonCoVAT = $tongGiaMenuCoVAT; // Tổng tiền món thực tế
+    
+    // Tổng món CHƯA VAT (Bóc tách VAT 8% ra khỏi tổng tiền)
+    $totalMonChuaVAT = $totalMonCoVAT / 1.08; 
+    
+    // VAT 8% (Phần VAT thực tế trong Tổng giá menu)
+    $vat = $totalMonCoVAT - $totalMonChuaVAT; 
+    
+    // Phí dịch vụ 20% tính trên tổng CÓ VAT
+    $phiDichVu = $totalMonCoVAT * 0.20; 
+    
+    // Total Amount (Tiền cọc cần thanh toán ngay: Phí bàn + Phí dịch vụ)
+    $tongCuoiCung = $phiBan + $phiDichVu; 
+    
+    // === 2. TÍNH TIỀN CÒN LẠI PHẢI THANH TOÁN SAU (LOGIC MỚI LƯU DB) ===
+    // Tiền còn lại phải trả = Tổng món có VAT - Tiền cọc đã trả
+    $tienThanhToanSauDB = $totalMonCoVAT - $tongCuoiCung;
+    
+    // --- LÀM TRÒN ---
+    // Nên làm tròn tất cả các giá trị tiền tệ trước khi lưu vào session
+    $totalMonChuaVAT = round($totalMonChuaVAT, 0); 
+    $vat = round($vat, 0); 
+    $totalMonCoVAT = round($totalMonCoVAT, 0);
+    $phiDichVu = round($phiDichVu, 0); 
+    $tongCuoiCung = round($tongCuoiCung, 0); 
+    $tienThanhToanSauDB = round($tienThanhToanSauDB, 0);
+
 } else {
     // KHÔNG CÓ MÓN: Chỉ tính phí bàn
     $vat = 0;
     $totalMonCoVAT = 0;
     $tongCuoiCung = $phiBan;
     $phiDichVu = 0;
+    $totalMonChuaVAT = 0;
+    $tienThanhToanSauDB = 0;
 }
 
 // ====== CASE 1: KHÔNG CÓ MÓN ======
-if (empty($cart) || $totalMonChuaVAT <= 0) {
+if (empty($cart) || $totalMonCoVAT <= 0) { // Sửa điều kiện thành totalMonCoVAT
     try {
         $bookingId = $bookingModel->createBooking([
             'name' => $name,
             'phone' => $phone,
             'email' => $email,
-            'people' => $tables, // Lưu số bàn vào cột people
+            'soluongban' => $tables, // Sửa: Dùng soluongban để khớp Model
             'date' => $date,
             'time' => $time,
             'branch' => $branch,
-            'notes' => $notes
+            'notes' => $notes,
+            'user_id' => $_SESSION['user_id'] ?? null,
+            'total' => $tongCuoiCung, 
+            'tien_thanh_toan_sau_db' => 0 // Tiền thanh toán sau bằng 0
         ]);
 
         if (!$bookingId) {
@@ -97,7 +127,8 @@ if (empty($cart) || $totalMonChuaVAT <= 0) {
             'phi_ban' => $phiBan,
             'phi_dich_vu' => 0,
             'total' => $phiBan,
-            'paid' => true
+            'paid' => true,
+            'tien_thanh_toan_sau_db' => 0 // Thêm key này vào session
         ];
 
         $_SESSION['last_booking_time'] = time();
@@ -131,6 +162,7 @@ $_SESSION['pending_booking'] = [
     'tien_mon_co_vat' => $totalMonCoVAT,
     'phi_ban'    => $phiBan,
     'phi_dich_vu' => $phiDichVu,
+    'tien_thanh_toan_sau_db' => $tienThanhToanSauDB, // KEY QUAN TRỌNG ĐÃ ĐƯỢC THÊM VÀ TÍNH ĐÚNG
     'name'       => $name,
     'phone'      => $phone,
     'email'      => $email,

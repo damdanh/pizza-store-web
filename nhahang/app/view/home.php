@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 
 <?php
 $base_url_path = '/WD20302-PRO1014_N5/nhahang/';
@@ -11,20 +10,6 @@ $categoryImages = [
     4 => 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300', 
     5 => 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=300', 
     6 => 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300', 
-=======
-<!-- Hero Section -->
-<?php
-$base_url_path = '/WD20302-PRO1014_N5/nhahang/';
-
-// Định nghĩa mảng hình ảnh mặc định cho từng danh mục
-$categoryImages = [
-    1 => 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=300', // Delivery Combo
-    2 => 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300', // Bánh pizza
-    3 => 'https://images.unsplash.com/photo-1625944525533-473f1a3d54e7?w=300', // Khai vị
-    4 => 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300', // Salad
-    5 => 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=300', // Món chính + mỳ ý
-    6 => 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300', // Tráng miệng/Thức uống
->>>>>>> Stashed changes
 ];
 ?>
 <section class="hero">
@@ -35,7 +20,6 @@ $categoryImages = [
     </div>
 </section>
 
-<<<<<<< Updated upstream
 
 <section class="menu-section">
     <div class="container">
@@ -76,55 +60,14 @@ $categoryImages = [
 </section>
 
 
-=======
-<!-- Menu Categories -->
-<section class="menu-section">
-    <div class="container">
-        <h2 class="section-title">THỰC ĐƠN</h2>
-        <div class="menu-categories">
-            <?php 
-            // Hiển thị danh mục từ database
-            if (!empty($categories)): 
-                foreach ($categories as $category):
-                    // Lấy hình ảnh tương ứng với ID danh mục
-                    $categoryImage = isset($categoryImages[$category['id_danh_muc_mon']]) 
-                        ? $categoryImages[$category['id_danh_muc_mon']] 
-                        : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300'; // Hình mặc định
-            ?>
-            <div class="category-card">
-                <div class="category-icon" style="background-image: url('<?php echo $categoryImage; ?>')"></div>
-                <h3><?php echo htmlspecialchars($category['ten_danh_muc']); ?></h3>
-                <?php if (!empty($category['mo_ta'])): ?>
-                    <p class="category-desc"><?php echo htmlspecialchars($category['mo_ta']); ?></p>
-                <?php endif; ?>
-            </div>
-            <?php 
-                endforeach; 
-            else:
-            ?>
-            <p>Hiện chưa có danh mục nào để hiển thị.</p>
-            <?php endif; ?>
-        </div>
-    </div>
-</section>
-
-<!-- Popular Dishes -->
->>>>>>> Stashed changes
 <section class="popular-section">
     <div class="container">
         <h2 class="section-title">PHỔ BIẾN NHẤT</h2>
         <div class="dish-grid">
             <?php 
-<<<<<<< Updated upstream
             if (!empty($popularProducts)): 
                 foreach ($popularProducts as $product):
 
-=======
-            // Biến $popularProducts được Controller gửi sang.
-            if (!empty($popularProducts)): 
-                foreach ($popularProducts as $product):
-                    // CÁC CỘT DỮ LIỆU: id_mon, ten_mon, gia, hinh_anh
->>>>>>> Stashed changes
             ?>
             
             <div class="dish-card">

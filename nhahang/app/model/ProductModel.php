@@ -20,7 +20,7 @@ class ProductModel {
                     WHERE trang_thai = 'Còn hàng' 
                     ORDER BY id_mon ASC 
                     LIMIT :limit";
-            $stmt = $this->conn->prepare($sql);
+            $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -56,7 +56,7 @@ class ProductModel {
                     FROM mon_an m
                     LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon
                     WHERE m.id_mon = :id";
-            $stmt = $this->conn->prepare($sql);
+            $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -73,7 +73,7 @@ class ProductModel {
                     LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon
                     WHERE m.id_danh_muc_mon = :categoryId
                     ORDER BY m.id_mon ASC";
-            $stmt = $this->conn->prepare($sql);
+            $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':categoryId', $categoryId, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -86,7 +86,7 @@ class ProductModel {
         try {
             $sql = "INSERT INTO mon_an (ten_mon, gia, hinh_anh, mo_ta, trang_thai, id_danh_muc_mon) 
                     VALUES (:ten_mon, :gia, :hinh_anh, :mo_ta, :trang_thai, :id_danh_muc_mon)";
-            $stmt = $this->conn->prepare($sql);
+            $stmt = $this->pdo->prepare($sql);
             
             // Liên kết các tham số
             $stmt->bindParam(':ten_mon', $data['ten_mon']);
@@ -99,7 +99,7 @@ class ProductModel {
             $stmt->execute();
             
             // Trả về ID của bản ghi vừa được tạo
-            return $this->conn->lastInsertId();
+            return $this->pdo->lastInsertId();
         } catch (PDOException $e) {
             throw new Exception("Lỗi thêm sản phẩm vào database: " . $e->getMessage());
         }
@@ -138,7 +138,7 @@ class ProductModel {
     public function deleteProduct($id) {
         try {
             $sql = "DELETE FROM mon_an WHERE id_mon = :id";
-            $stmt = $this->conn->prepare($sql);
+            $stmt = $this->pdo->prepare($sql);
             
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 

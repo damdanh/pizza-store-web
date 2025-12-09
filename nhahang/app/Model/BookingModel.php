@@ -70,7 +70,8 @@ class BookingModel {
                 $data['branch'], 
                 $data['notes'] ?? '',
                 $totalAmount,               
-                $status                     
+                $status,
+                $tienThanhToanSau ?? 0                
             ]);
 
             if (!$success) {
@@ -82,6 +83,32 @@ class BookingModel {
         } catch (PDOException $e) {
             error_log("PDO Error in createBooking: " . $e->getMessage());
             throw new Exception("Lỗi database: " . $e->getMessage());
+        }
+    }
+
+    public function addBookingItem($bookingId, $idMon, $soLuong, $gia) {
+        try {
+            // ✅ Validate
+            if (!is_numeric($bookingId) || !is_numeric($idMon)) {
+                throw new Exception("Invalid booking or item ID");
+            }
+
+            $stmt = $this->pdo->prepare("
+                INSERT INTO booking_items (booking_id, id_mon, so_luong, gia)
+                VALUES (?, ?, ?, ?)
+            ");
+            
+            $success = $stmt->execute([$bookingId, $idMon, $soLuong, $gia]);
+            
+            if (!$success) {
+                error_log("Failed to add item: " . implode(", ", $stmt->errorInfo()));
+            }
+            
+            return $success;
+            
+        } catch (PDOException $e) {
+            error_log("PDO Error in addBookingItem: " . $e->getMessage());
+            return false;
         }
     }
     

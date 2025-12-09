@@ -147,19 +147,26 @@ $rankIcon  = $rankStyles[$rank]['icon'];
             <tbody>
                 <?php foreach ($orders as $order): ?>
                     <?php 
-                        // XÓA TẤT CẢ LOGIC LẤY ĐÁNH GIÁ TẠI ĐÂY
                         $orderId = $order['id_don_hang'] ?? 0;
                         $isBooking = ($order['loai_don'] ?? '') === 'booking';
                         $ngayDat = $order['ngay_dat'] ?? date('Y-m-d');
                         $displayTotal = $order['tong_tien_hien_thi'] ?? 0;
+                        
+                        // Giá trị cọc (total) được lưu trong tong_tien
+                        $deposit = $order['tong_tien'] ?? 0;
                     ?>
                     <tr>
                         <td>#<?= $orderId ?></td>
                         <td><?= date('d/m/Y', strtotime($ngayDat)) ?></td>
-                        <td style="font-weight: 600; color: <?= $isBooking ? '#3498db' : '#2c3e50' ?>;">
+                        <td style="font-weight: 600; color: <?= $isBooking ? '#27ae60' : '#2c3e50' ?>;">
                             <?= number_format($displayTotal, 0, ',', '.') ?> VNĐ
                             <?php if ($isBooking): ?>
-                                <small style="display: block; font-weight: normal; color: #7f8c8d;">(Giá trị món ăn)</small>
+                                <small style="display: block; font-weight: normal; color: #7f8c8d;">
+                                    (Tổng món: <?= number_format($displayTotal, 0, ',', '.') ?>đ)
+                                </small>
+                                <small style="display: block; font-weight: normal; color: #e67e22;">
+                                    Đã cọc: <?= number_format($deposit, 0, ',', '.') ?>đ
+                                </small>
                             <?php endif; ?>
                         </td>
                         <td>
@@ -196,6 +203,4 @@ tabBtns.forEach(btn => {
         document.getElementById(btn.dataset.tab).classList.add('active');
     });
 });
-
-// XÓA TẤT CẢ LOGIC JAVASCRIPT ĐÁNH GIÁ TẠI ĐÂY
-</script>
+</script>   

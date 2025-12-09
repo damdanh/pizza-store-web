@@ -25,22 +25,22 @@ try {
     // Nếu có user_id trong session, gán vào booking.
     $userId = $_SESSION['user_id'] ?? null;
 
+    // LẤY GIÁ TRỊ TIỀN THANH TOÁN SAU MỚI TỪ SESSION PENDING
+    $tienThanhToanSauDB = $pending['tien_thanh_toan_sau_db'] ?? 0;
+
     // ====== 1. TẠO BOOKING CHÍNH THỨC ======
     $bookingId = $bookingModel->createBooking([
         'name'    => $pending['name'],
         'phone'   => $pending['phone'],
         'email'   => $pending['email'] ?? null,
-<<<<<<< HEAD
         'soluongban'  => $pending['tables'] ?? null, // Lưu số bàn
-=======
-        'soluongban'  => $pending['tables'], 
->>>>>>> 17f3eeb97c3c9dc60d1dd544285ad28b79763547
         'date'    => $pending['date'],
         'time'    => $pending['time'],
         'branch'  => $pending['branch'],
         'notes'   => $pending['notes'] ?? '',
         'user_id' => $userId, // TRUYỀN USER ID VÀO
-        'total'   => $pending['amount'] // LƯU TỔNG TIỀN ĐÃ THANH TOÁN (PHÍ BOOKING + DỊCH VỤ)
+        'total'   => $pending['amount'], // LƯU TỔNG TIỀN ĐÃ THANH TOÁN (PHÍ BOOKING + DỊCH VỤ)
+        'tien_thanh_toan_sau_db' => $tienThanhToanSauDB // KEY MỚI: Tiền thanh toán sau (Tổng món - Tiền cọc)
     ]);
 
     if (!$bookingId) {
@@ -84,7 +84,7 @@ try {
         require_once '../app/model/AccountModel.php';
         $accountModel = new AccountModel($pdo);
         
-        // LẤY TỔNG GIÁ TRỊ MÓN ĂN (CÓ VAT) - THEO YÊU CẦU MỚI
+        // LẤY TỔNG GIÁ TRỊ MÓN ĂN (CÓ VAT) - TỔNG TIỀN MÓN THỰC TẾ
         $totalFoodValue = $pending['tien_mon_co_vat']; 
         
         // Thực hiện cập nhật
@@ -112,7 +112,8 @@ try {
         'phi_dich_vu' => $pending['phi_dich_vu'],
         'total'      => $pending['amount'],
         'paid'       => true,
-        'order_code' => $pending['order_code']
+        'order_code' => $pending['order_code'],
+        'tien_thanh_toan_sau_db' => $tienThanhToanSauDB // THÊM KEY MỚI VÀO SESSION BOOKING
     ];
 
     // ====== 5. XÓA DỮ LIỆU TẠM ======
