@@ -234,16 +234,112 @@ include 'views/layouts/sidebar.php';
             <p>Cập nhật thông tin và quản lý các chi nhánh</p>
         </div>
         
-        <div class="action-button-single">
-            <button class="action-btn">
-                Thêm Chi Nhánh
-            </button>
-        </div>
+            <div class="action-button-single">
+                <button class="action-btn" onclick="document.getElementById('add-branch-form').scrollIntoView({behavior:'smooth'})">
+                    Thêm Chi Nhánh
+                </button>
+            </div>
     </header>
 
-    <section class="card empty-state-content">
-        <p>Chưa có chi nhánh nào. Nhấn "Thêm chi nhánh" để bắt đầu</p>
-    </section>
+        <?php if (!empty($_GET['msg'])): ?>
+            <div class="card" style="margin-bottom:16px; border-left:4px solid #2ecc71; padding:12px;"><?= htmlspecialchars($_GET['msg']) ?></div>
+        <?php endif; ?>
+
+        <section class="card">
+            <?php if (!empty($branches) && is_array($branches)): ?>
+                <table style="width:100%; border-collapse:collapse;">
+                    <thead>
+                        <tr>
+                            <th style="text-align:left;padding:8px;border-bottom:1px solid #eee">ID</th>
+                            <th style="text-align:left;padding:8px;border-bottom:1px solid #eee">Tên chi nhánh</th>
+                            <th style="text-align:left;padding:8px;border-bottom:1px solid #eee">Địa chỉ</th>
+                            <th style="text-align:left;padding:8px;border-bottom:1px solid #eee">Giờ mở</th>
+                            <th style="text-align:left;padding:8px;border-bottom:1px solid #eee">Giờ đóng</th>
+                            <th style="text-align:right;padding:8px;border-bottom:1px solid #eee">Số bàn</th>
+                            <th style="text-align:right;padding:8px;border-bottom:1px solid #eee">Sức chứa</th>
+                            <th style="text-align:right;padding:8px;border-bottom:1px solid #eee">Bàn còn trống</th>
+                            <th style="text-align:right;padding:8px;border-bottom:1px solid #eee">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($branches as $b): ?>
+                                    <tr>
+                                            <td style="padding:8px;border-bottom:1px solid #f5f5f5"><?= htmlspecialchars($b['id']) ?></td>
+                                            <td style="padding:8px;border-bottom:1px solid #f5f5f5"><?= htmlspecialchars($b['ten_chi_nhanh']) ?></td>
+                                            <td style="padding:8px;border-bottom:1px solid #f5f5f5"><?= htmlspecialchars($b['dia_chi']) ?></td>
+                                            <td style="padding:8px;border-bottom:1px solid #f5f5f5"><?= htmlspecialchars($b['gio_mo_cua']) ?></td>
+                                            <td style="padding:8px;border-bottom:1px solid #f5f5f5"><?= htmlspecialchars($b['gio_dong_cua']) ?></td>
+                                            <td style="padding:8px;border-bottom:1px solid #f5f5f5;text-align:right"><?= htmlspecialchars($b['so_luong_ban']) ?></td>
+                                            <td style="padding:8px;border-bottom:1px solid #f5f5f5;text-align:right"><?= htmlspecialchars($b['suc_chua']) ?></td>
+                                            <td style="padding:8px;border-bottom:1px solid #f5f5f5;text-align:right"><?= htmlspecialchars($b['ban_con_trong']) ?></td>
+                                            <td style="padding:8px;border-bottom:1px solid #f5f5f5;text-align:right">
+                                                <a href="admin.php?page=chinhanh&action=edit&id=<?= $b['id'] ?>" class="action-link">Sửa</a>
+                                                |
+                                                <a href="admin.php?page=chinhanh&action=delete&id=<?= $b['id'] ?>" class="action-link" onclick="return confirm('Bạn có chắc chắn muốn xóa chi nhánh <?= htmlspecialchars($b['ten_chi_nhanh']) ?> không?')">Xóa</a>
+                                            </td>
+                                    </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <div class="empty-state-content">
+                    <p>Chưa có chi nhánh nào. Nhấn "Thêm chi nhánh" để bắt đầu</p>
+                </div>
+            <?php endif; ?>
+        </section>
+
+        <section class="card" id="add-branch-form" style="margin-top:20px;">
+            <h3><?= !empty($branch_edit) ? 'Cập nhật chi nhánh' : 'Thêm chi nhánh mới' ?></h3>
+            <?php if (!empty($error)): ?>
+                <div style="color:#b71c1c; margin-bottom:8px;"><?= htmlspecialchars($error) ?></div>
+            <?php endif; ?>
+            <form method="post" action="admin.php?page=chinhanh">
+                <input type="hidden" name="save_branch" value="1">
+                <?php if (!empty($branch_edit)): ?>
+                    <input type="hidden" name="branch_id" value="<?= htmlspecialchars($branch_edit['id']) ?>">
+                <?php endif; ?>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div>
+                        <label>Tên chi nhánh</label>
+                        <input type="text" name="ten_chi_nhanh" required style="width:100%;padding:8px;margin-top:6px;" value="<?= htmlspecialchars($branch_edit['ten_chi_nhanh'] ?? '') ?>">
+                    </div>
+                    <div>
+                        <label>Địa chỉ</label>
+                        <input type="text" name="dia_chi" required style="width:100%;padding:8px;margin-top:6px;" value="<?= htmlspecialchars($branch_edit['dia_chi'] ?? '') ?>">
+                    </div>
+                    <div>
+                        <label>Giờ mở cửa</label>
+                        <input type="time" name="gio_mo_cua" required style="width:100%;padding:8px;margin-top:6px;" value="<?= htmlspecialchars($branch_edit['gio_mo_cua'] ?? '') ?>">
+                    </div>
+                    <div>
+                        <label>Giờ đóng cửa</label>
+                        <input type="time" name="gio_dong_cua" required style="width:100%;padding:8px;margin-top:6px;" value="<?= htmlspecialchars($branch_edit['gio_dong_cua'] ?? '') ?>">
+                    </div>
+                    <div>
+                        <label>Số lượng bàn</label>
+                        <input type="number" name="so_luong_ban" min="0" value="<?= htmlspecialchars($branch_edit['so_luong_ban'] ?? 10) ?>" style="width:100%;padding:8px;margin-top:6px;">
+                    </div>
+                    <div>
+                        <label>Sức chứa</label>
+                        <input type="number" name="suc_chua" min="0" value="<?= htmlspecialchars($branch_edit['suc_chua'] ?? 50) ?>" style="width:100%;padding:8px;margin-top:6px;">
+                    </div>
+                    <div>
+                        <label>Khung giờ (hiển thị)</label>
+                        <input type="text" name="khung_gio" placeholder="08:00-22:00" style="width:100%;padding:8px;margin-top:6px;" value="<?= htmlspecialchars($branch_edit['khung_gio'] ?? '') ?>">
+                    </div>
+                    <div>
+                        <label>Bàn còn trống</label>
+                        <input type="number" name="ban_con_trong" min="0" value="<?= htmlspecialchars($branch_edit['ban_con_trong'] ?? 0) ?>" style="width:100%;padding:8px;margin-top:6px;">
+                    </div>
+                </div>
+                <div style="margin-top:12px;">
+                    <button type="submit" class="action-btn"><?= !empty($branch_edit) ? 'Cập nhật chi nhánh' : 'Lưu chi nhánh' ?></button>
+                    <?php if (!empty($branch_edit)): ?>
+                        <a href="admin.php?page=chinhanh" style="margin-left:8px;" class="action-link">Hủy</a>
+                    <?php endif; ?>
+                </div>
+            </form>
+        </section>
 </main>
 
 <?php include 'views/layouts/footer.php'; ?>

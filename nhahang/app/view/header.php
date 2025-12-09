@@ -27,13 +27,12 @@ $firstLetter = $userName ? strtoupper(mb_substr($userName, 0, 1)) : 'U';
 
         <ul class="nav-menu">
                 <li><a href="<?php echo $base_url_path; ?>public/">Trang chủ</a></li>
-                <li><a href="<?php echo $base_url_path; ?>public/chungtoi">Chúng Tôi</a></li>
+                <li><a href="<?= $base_url_path ?>public/chung-toi">Về Chúng Tôi</a></li>
+                <li><a href="<?= $base_url_path ?>public/su-kien">Sự Kiện</a></li>
+                <li><a href="<?= $base_url_path ?>public/bao-chi">Báo Chí</a></li>
                 <li><a href="<?php echo $base_url_path; ?>public/category.php?id=1">Thực Đơn</a></li>
-                <li> <a href="<?php echo $base_url_path; ?>public/contact">Liên Hệ</a></li>
-                <li> <a href="<?php echo $base_url_path; ?>public/sukien">Sự Kiện</a><li>
-                <li><a href="<?php echo $base_url_path; ?>public/baochi">Báo Chí</a></li>
-                <li><a href="<?php echo $base_url_path; ?>public/datban">Đặt Bàn</a></li>
-                
+                <li><a href="<?= $base_url_path ?>public/lien-he">Liên Hệ</a></li>
+                <li><a href="<?php echo $base_url_path; ?>public/dat-ban">Đặt Bàn</a></li>
               
         </ul>
     </div>

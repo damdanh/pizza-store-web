@@ -9,12 +9,12 @@ class UserModel {
         $this->db = $pdo;
     }
 
-    // Lấy người dùng theo email (BỊ LỖI DÒNG 18 TRƯỚC ĐÓ)
+ 
     public function getUserByEmail(string $email) {
         $sql = "SELECT id_khach_hang, email, mat_khau FROM " . $this->table . " WHERE email = :email";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['email' => $email]);
-        return $stmt->fetch(PDO::FETCH_ASSOC); // Sử dụng PDO chuẩn
+        return $stmt->fetch(PDO::FETCH_ASSOC); 
     }
     
     // Lưu mã xác minh (OTP) và thời gian hết hạn
@@ -80,11 +80,10 @@ class UserModel {
         return $stmt->execute(['user_id' => $user_id]); // Sử dụng PDO chuẩn
     }
     
-    // Các hàm cũ của bạn (Giữ nguyên hoặc sửa nếu chúng cũng dùng get_row/action)
-    // Giả định các hàm cũ của bạn đã được sửa trong lần cập nhật trước đó
+    
 }
 
-}
+
 ?>
 
  

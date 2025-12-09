@@ -1,10 +1,12 @@
 <?php
+// file: profile.php (ĐÃ LOẠI BỎ LOGIC ĐÁNH GIÁ VÀ GIAO DIỆN)
 // Tên file: profile.php
 $base_url_path = '/WD20302-PRO1014_N5/nhahang/';
 
-// ==== SAFE LOAD DATA (Đã điều chỉnh để an toàn hơn) ====
+// ==== SAFE LOAD DATA (Giữ nguyên) ====
 $customer   = is_array($customer) && !empty($customer) ? $customer : ['ten' => 'Khách hàng', 'ngay_tao' => date('Y-m-d'), 'id_khach_hang' => 0];
 $membership = is_array($membership) && !empty($membership) ? $membership : ['hang_thanh_vien' => 'thuong', 'tong_chi_tieu' => 0];
+// Dữ liệu orders đã được giả định là có sẵn từ Controller
 $orders     = is_array($orders) ? $orders : [];
 $reviews    = is_array($reviews) ? $reviews : [];
 
@@ -13,7 +15,8 @@ $rankStyles = [
     'kimcuong' => ['color' => '#00c6ff', 'icon' => '💎'],
     'vang'     => ['color' => '#ffcc00', 'icon' => '🥇'],
     'bac'      => ['color' => '#c0c0c0', 'icon' => '🥈'],
-    'thuong'   => ['color' => '#8d8d8d', 'icon' => '🥉'],
+    'dong'     => ['color' => '#cd7f32', 'icon' => '🥉'], // THÊM HẠNG ĐỒNG
+    'thuong'   => ['color' => '#8d8d8d', 'icon' => '⭐'],
 ];
 
 // Lấy hạng thành viên, nếu không tồn tại hoặc null, mặc định là 'thuong'
@@ -25,9 +28,25 @@ if (!isset($rankStyles[$rank])) {
 
 $rankColor = $rankStyles[$rank]['color'];
 $rankIcon  = $rankStyles[$rank]['icon'];
+
+// Biến $accountModel đã được truyền từ Controller và không còn dùng trong View
+
+// Xóa hàm giả định kiểm tra ngày (vì không cần logic đánh giá)
 ?>
 
 <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/profile.css">
+<style>
+    /* Xóa các styles liên quan đến đánh giá (star-rating, note-input, submit-note-btn) */
+    .review-action-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 250px;
+        margin: 0 auto;
+        padding: 5px;
+    }
+</style>
+
 
 <div class="account-container">
 
@@ -45,7 +64,6 @@ $rankIcon  = $rankStyles[$rank]['icon'];
 
 
     <section class="membership-card">
-
         <div class="membership-header"
              style="background: linear-gradient(135deg, <?= $rankColor ?>, <?= $rankColor ?>dd );">
 
@@ -70,7 +88,7 @@ $rankIcon  = $rankStyles[$rank]['icon'];
                 <i class="fas fa-shopping-bag"></i>
                 <div>
                     <span class="stat-value"><?= count($orders) ?></span>
-                    <span class="stat-label">Đơn hàng</span>
+                    <span class="stat-label">Đơn hàng/Đặt bàn</span>
                 </div>
             </div>
 
@@ -92,10 +110,10 @@ $rankIcon  = $rankStyles[$rank]['icon'];
                     'kimcuong' => ['Ưu tiên đặt bàn', 'Giảm giá 15%', 'Quà tặng đặc biệt'],
                     'vang'     => ['Giảm giá 10%', 'Ưu tiên cuối tuần'],
                     'bac'      => ['Giảm giá 5%', 'Tích điểm x2'],
+                    'dong'     => ['Tích điểm x1.5', 'Ưu đãi sinh nhật'],
                     'thuong'   => ['Tích điểm cơ bản', 'Ưu đãi mùa vụ']
                 ];
 
-                // Đã kiểm tra $rank ở trên, đảm bảo truy cập an toàn
                 $currentBenefits = $benefits[$rank] ?? $benefits['thuong'];
 
                 foreach ($currentBenefits as $ud) {
@@ -110,31 +128,45 @@ $rankIcon  = $rankStyles[$rank]['icon'];
 
     <div class="tabs">
         <button class="tab-btn active" data-tab="orders">Lịch sử đơn hàng</button>
-        <button class="tab-btn" data-tab="reviews">Đánh giá của tôi</button>
     </div>
 
 
     <div id="orders" class="tab-content active">
         <?php if (empty($orders)): ?>
-            <p>Chưa có đơn hàng nào.</p>
+            <p>Chưa có đơn hàng hoặc đơn đặt bàn nào.</p>
         <?php else: ?>
         <table class="order-table">
             <thead>
                 <tr>
-                    <th>Mã đơn</th>
+                    <th>Mã</th>
                     <th>Ngày đặt</th>
-                    <th>Tổng tiền</th>
-                    <th>Trạng thái</th>
-                </tr>
+                    <th>Tổng tiền</th> <th>Trạng thái</th>
+                    </tr>
             </thead>
 
             <tbody>
                 <?php foreach ($orders as $order): ?>
+                    <?php 
+                        // XÓA TẤT CẢ LOGIC LẤY ĐÁNH GIÁ TẠI ĐÂY
+                        $orderId = $order['id_don_hang'] ?? 0;
+                        $isBooking = ($order['loai_don'] ?? '') === 'booking';
+                        $ngayDat = $order['ngay_dat'] ?? date('Y-m-d');
+                        $displayTotal = $order['tong_tien_hien_thi'] ?? 0;
+                    ?>
                     <tr>
-                        <td>#<?= $order['id_don_hang'] ?? 'N/A' ?></td>
-                        <td><?= date('d/m/Y', strtotime($order['ngay_dat'] ?? date('Y-m-d'))) ?></td>
-                        <td><?= number_format($order['tong_tien'] ?? 0) ?> VNĐ</td>
-                        <td><?= htmlspecialchars($order['trang_thai'] ?? 'Không rõ') ?></td>
+                        <td>#<?= $orderId ?></td>
+                        <td><?= date('d/m/Y', strtotime($ngayDat)) ?></td>
+                        <td style="font-weight: 600; color: <?= $isBooking ? '#3498db' : '#2c3e50' ?>;">
+                            <?= number_format($displayTotal, 0, ',', '.') ?> VNĐ
+                            <?php if ($isBooking): ?>
+                                <small style="display: block; font-weight: normal; color: #7f8c8d;">(Giá trị món ăn)</small>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <span style="font-weight: bold;">
+                                <?= htmlspecialchars($order['trang_thai'] ?? 'Không rõ') ?>
+                            </span>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -144,23 +176,14 @@ $rankIcon  = $rankStyles[$rank]['icon'];
 
 
     <div id="reviews" class="tab-content">
-        <?php if (empty($reviews)): ?>
-            <p>Chưa có đánh giá nào.</p>
-        <?php else: ?>
-            <?php foreach ($reviews as $review): ?>
-                <div class="review-item">
-                    <div class="stars"><?= str_repeat('⭐', $review['sao'] ?? 0) ?></div>
-                    <p><?= htmlspecialchars($review['nhan_xet'] ?? 'Không có nhận xét') ?></p>
-                    <small>Đơn hàng #<?= $review['id_don_hang'] ?? 'N/A' ?> - <?= date('d/m/Y H:i', strtotime($review['ngay_danh_gia'] ?? date('Y-m-d H:i'))) ?></small>
-                </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
+        <p>Tính năng đánh giá đang được bảo trì.</p>
     </div>
-
-</div>
+    
+    </div>
 
 
 <script>
+// Logic Tabs (Giữ nguyên)
 const tabBtns = document.querySelectorAll('.tab-btn');
 const tabContents = document.querySelectorAll('.tab-content');
 
@@ -173,4 +196,6 @@ tabBtns.forEach(btn => {
         document.getElementById(btn.dataset.tab).classList.add('active');
     });
 });
+
+// XÓA TẤT CẢ LOGIC JAVASCRIPT ĐÁNH GIÁ TẠI ĐÂY
 </script>

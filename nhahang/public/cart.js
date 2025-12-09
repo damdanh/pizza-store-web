@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             subtotalElement.textContent = formatCurrency(total);
             const vat = total * 0.08;
             // const shipping = 30000;
-            totalElement.textContent = formatCurrency(total + vat /*+ shipping*/);
+            totalElement.textContent = formatCurrency(total);
 
             cartEmpty.style.display = 'none';
             cartItemsContainer.style.display = 'flex';
@@ -102,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
 
 
     function updateQuantity(productId, action) {
@@ -179,3 +180,14 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error('Lỗi tải giỏ hàng:', error));
     
 });
+// Thêm vào cuối cart.js
+const datHangBtn = document.getElementById('dat-hang-btn');
+if (datHangBtn) {
+    datHangBtn.addEventListener('click', () => {
+        if (Object.keys(cartItems).length === 0) {
+            alert('Giỏ hàng rỗng!');
+            return;
+        }
+        window.location.href = '/WD20302-PRO1014_N5/nhahang/public/booking_info.php'; // Chuyển đến form
+    });
+}

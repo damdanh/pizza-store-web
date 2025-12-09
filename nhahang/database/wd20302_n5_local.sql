@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2025 at 05:14 AM
+-- Generation Time: Dec 08, 2025 at 03:46 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -43,7 +43,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id_admin`, `ten`, `email`, `mat_khau`, `vai_tro`, `trang_thai_hoat_dong`, `created_at`, `updated_at`) VALUES
-(1, 'Danh', 'danhdam200@gmail.com', '12345', 1, 1, '2025-11-28 01:38:49', '2025-11-28 01:38:49');
+(1, 'Danh', 'danhdam200@gmail.com', '12345', 1, 1, '2025-11-28 01:38:49', '2025-12-08 13:28:49');
 
 -- --------------------------------------------------------
 
@@ -90,11 +90,13 @@ CREATE TABLE `bookings` (
   `name` varchar(100) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
+  `id_khach_hang` int(11) DEFAULT NULL,
   `people` int(11) DEFAULT 2,
   `booking_date` date NOT NULL,
   `booking_time` time NOT NULL,
   `branch` varchar(255) DEFAULT NULL,
   `notes` text DEFAULT NULL,
+  `total` decimal(15,2) DEFAULT 0.00,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -102,10 +104,115 @@ CREATE TABLE `bookings` (
 -- Dumping data for table `bookings`
 --
 
-INSERT INTO `bookings` (`id`, `name`, `phone`, `email`, `people`, `booking_date`, `booking_time`, `branch`, `notes`, `created_at`) VALUES
-(50, 'Vũ Vu Tien', '0326008989', 'tiend4693@gmail.com', 21, '2025-12-15', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa -', '', '2025-12-05 01:26:14'),
-(51, 'Vũ Vu Tien', '0326008989', 'tiend4693@gmail.com', 21, '2025-12-15', '15:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa -', '', '2025-12-05 01:26:22'),
-(52, 'Vũ Vu Tien', '0326008989', 'tiend4693@gmail.com', 2, '2025-12-15', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa -', '', '2025-12-05 01:27:19');
+INSERT INTO `bookings` (`id`, `name`, `phone`, `email`, `id_khach_hang`, `people`, `booking_date`, `booking_time`, `branch`, `notes`, `total`, `created_at`) VALUES
+(50, 'Vũ Vu Tien', '0326008989', 'tiend4693@gmail.com', NULL, 21, '2025-12-15', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa -', '', 0.00, '2025-12-05 01:26:14'),
+(51, 'Vũ Vu Tien', '0326008989', 'tiend4693@gmail.com', NULL, 21, '2025-12-15', '15:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa -', '', 0.00, '2025-12-05 01:26:22'),
+(52, 'Vũ Vu Tien', '0326008989', 'tiend4693@gmail.com', NULL, 2, '2025-12-15', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa -', '', 0.00, '2025-12-05 01:27:19'),
+(53, 'Nguyễn Tấn Lộc', '0367474615', 'tanloccute0310@gmail.com', NULL, 2, '2025-12-15', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa', '', 0.00, '2025-12-05 22:28:22'),
+(54, 'Nguyễn Tấn Lộc', '0367474615', 'tanloccute0310@gmail.com', NULL, 2, '2025-12-15', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa', '', 0.00, '2025-12-06 10:35:38'),
+(55, 'Nguyễn Tấn Lộc', '0367474615', 'tanloccute0310@gmail.com', NULL, 2, '2025-12-06', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa', '', 0.00, '2025-12-06 16:47:12'),
+(56, 'Nguyễn Tấn Lộc', '0367474615', 'tanloccute0310@gmail.com', NULL, 2, '2025-12-06', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa', '', 0.00, '2025-12-06 18:03:24'),
+(57, 'Nguyễn Tấn', '0367474615', 'tanloccute0310@gmail.com', NULL, 2, '2025-12-08', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa', '', 0.00, '2025-12-08 14:58:01'),
+(58, 'Nguyễn Tấn', '0367474615', 'tanloccute0310@gmail.com', NULL, 2, '2025-12-08', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa', '', 0.00, '2025-12-08 14:58:20'),
+(59, 'Nguyễn Tấn Lộc', '0367474615', 'tanloccute0310@gmail.com', NULL, 2, '2025-12-08', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa', '', 0.00, '2025-12-08 14:59:00'),
+(60, 'Nguyễn Tấn Lộc', '0367474615', 'tanloccute0310@gmail.com', NULL, 2, '2025-12-08', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa', '', 0.00, '2025-12-08 15:00:51'),
+(61, 'Nguyễn Tấn Lộc', '0367474615', 'tanloccute0310@gmail.com', NULL, 1, '2025-12-08', '19:00:00', 'Pizza & Pasta - Saigon Centre', '', 0.00, '2025-12-08 15:08:58'),
+(62, 'Nguyễn Tấn Lộc', '0367474615', 'tanloccute0310@gmail.com', NULL, 1, '2025-12-08', '19:00:00', 'Pizza & Pasta - Saigon Centre', '', 0.00, '2025-12-08 15:09:56'),
+(63, 'Nguyễn Tấn Lộc', '0367474615', 'tanloccute0310@gmail.com', NULL, 1, '2025-12-08', '19:00:00', 'Pizza & Pasta - Bến Thành', '', 0.00, '2025-12-08 15:30:48'),
+(64, 'Nguyễn Tấn Lộc', '0367474615', 'tanloccute0310@gmail.com', NULL, 1, '2025-12-08', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa', '', 0.00, '2025-12-08 15:33:36'),
+(65, 'Nguyễn Tấn Lộc', '0367474615', 'tanloccute0310@gmail.com', NULL, 1, '2025-12-08', '19:00:00', 'Pizza & Pasta - Bến Thành', '', 0.00, '2025-12-08 15:35:42'),
+(66, 'Nguyễn Tấn Lộc', '0367474615', 'tanloccute0310@gmail.com', NULL, 1, '2025-12-08', '19:00:00', 'Pizza & Pasta - Saigon Centre', '', 0.00, '2025-12-08 15:36:26'),
+(67, 'Nguyễn Tấn Lộc', '0367474615', 'tanloccute0310@gmail.com', NULL, 1, '2025-12-08', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa', '', 0.00, '2025-12-08 15:44:49'),
+(68, 'Nguyễn Tấn Lộc', '0367474615', 'tanloccute0310@gmail.com', 2, 1, '2025-12-08', '19:00:00', 'Pizza & Pasta - Bến Thành', '', 242240.00, '2025-12-08 15:54:53'),
+(69, 'Nguyễn Tấn Lộc', '0367474615', 'tanloccute0310@gmail.com', 2, 1, '2025-12-08', '19:00:00', 'Pizza & Pasta - Bến Thành', '', 134240.00, '2025-12-08 16:29:50'),
+(70, 'Nguyễn Tấn Lộc', '0367474615', 'tanloccute0310@gmail.com', 2, 1, '2025-12-08', '19:00:00', 'Pizza & Pasta - Saigon Centre', '', 218480.00, '2025-12-08 16:47:45'),
+(71, 'Nguyễn Tấn Lộc', '0367474615', 'tanloccute0310@gmail.com', 2, 1, '2025-12-08', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa', '', 123008.00, '2025-12-08 17:22:03'),
+(72, 'Nguyễn Tấn Lộc', '0367474615', 'tanloccute0310@gmail.com', 2, 1, '2025-12-08', '19:00:00', 'Pizza & Pasta - 24 Nguyễn Thị Nghĩa', '', 304880.00, '2025-12-08 21:44:43');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `booking_items`
+--
+
+CREATE TABLE `booking_items` (
+  `id` int(11) NOT NULL,
+  `booking_id` int(11) NOT NULL,
+  `id_mon` int(11) NOT NULL,
+  `so_luong` int(11) NOT NULL DEFAULT 1,
+  `gia` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `booking_items`
+--
+
+INSERT INTO `booking_items` (`id`, `booking_id`, `id_mon`, `so_luong`, `gia`, `created_at`) VALUES
+(15, 72, 26, 1, 198000.00, '2025-12-05 18:30:05'),
+(16, 72, 25, 1, 109000.00, '2025-12-05 18:30:05'),
+(17, 72, 24, 1, 82000.00, '2025-12-05 18:30:05'),
+(18, 73, 24, 1, 82000.00, '2025-12-05 18:30:53'),
+(19, 74, 54, 1, 36000.00, '2025-12-05 18:31:30'),
+(20, 76, 1, 2, 195000.00, '2025-12-05 18:34:00'),
+(21, 77, 25, 1, 109000.00, '2025-12-05 18:39:15'),
+(22, 77, 3, 1, 695000.00, '2025-12-05 18:39:15'),
+(23, 79, 25, 1, 109000.00, '2025-12-05 18:46:02'),
+(24, 79, 26, 1, 198000.00, '2025-12-05 18:46:02'),
+(25, 82, 7, 1, 398000.00, '2025-12-05 19:07:06'),
+(26, 82, 3, 1, 695000.00, '2025-12-05 19:07:06'),
+(27, 88, 8, 1, 198000.00, '2025-12-06 03:44:18'),
+(28, 55, 7, 1, 398000.00, '2025-12-06 09:47:12'),
+(29, 55, 8, 2, 198000.00, '2025-12-06 09:47:12'),
+(30, 56, 7, 1, 398000.00, '2025-12-06 11:03:24'),
+(31, 56, 8, 1, 198000.00, '2025-12-06 11:03:24'),
+(32, 57, 2, 1, 195000.00, '2025-12-08 07:58:01'),
+(33, 57, 3, 1, 695000.00, '2025-12-08 07:58:01'),
+(34, 61, 3, 1, 695000.00, '2025-12-08 08:08:58'),
+(35, 61, 2, 1, 195000.00, '2025-12-08 08:08:58'),
+(36, 66, 2, 1, 195000.00, '2025-12-08 08:36:26'),
+(37, 66, 3, 1, 695000.00, '2025-12-08 08:36:26'),
+(38, 66, 5, 1, 485000.00, '2025-12-08 08:36:26'),
+(39, 67, 3, 1, 695000.00, '2025-12-08 08:44:49'),
+(40, 67, 2, 1, 195000.00, '2025-12-08 08:44:49'),
+(41, 67, 1, 1, 195000.00, '2025-12-08 08:44:49'),
+(42, 68, 3, 1, 695000.00, '2025-12-08 08:54:53'),
+(43, 68, 2, 1, 195000.00, '2025-12-08 08:54:53'),
+(44, 69, 2, 1, 195000.00, '2025-12-08 09:29:50'),
+(45, 69, 1, 1, 195000.00, '2025-12-08 09:29:50'),
+(46, 70, 5, 1, 485000.00, '2025-12-08 09:47:45'),
+(47, 70, 4, 1, 295000.00, '2025-12-08 09:47:45'),
+(48, 71, 35, 1, 219000.00, '2025-12-08 10:22:03'),
+(49, 71, 34, 1, 119000.00, '2025-12-08 10:22:03'),
+(50, 72, 3, 1, 695000.00, '2025-12-08 14:44:43'),
+(51, 72, 5, 1, 485000.00, '2025-12-08 14:44:43');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chinhanh`
+--
+
+CREATE TABLE `chinhanh` (
+  `id` int(11) NOT NULL,
+  `ten_chi_nhanh` varchar(100) NOT NULL,
+  `dia_chi` varchar(255) NOT NULL,
+  `gio_mo_cua` time NOT NULL,
+  `gio_dong_cua` time NOT NULL,
+  `so_luong_ban` int(11) NOT NULL,
+  `suc_chua` int(11) NOT NULL,
+  `khung_gio` varchar(50) DEFAULT NULL,
+  `ban_con_trong` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `chinhanh`
+--
+
+INSERT INTO `chinhanh` (`id`, `ten_chi_nhanh`, `dia_chi`, `gio_mo_cua`, `gio_dong_cua`, `so_luong_ban`, `suc_chua`, `khung_gio`, `ban_con_trong`) VALUES
+(1, 'N5 Pasta – Saigon Centre', 'Saigon Centre, Quận 1, TP.HCM', '08:00:00', '22:00:00', 20, 80, '08:00-22:00', 5),
+(2, 'N5 Pasta – Bến Thành', 'Gần chợ Bến Thành, Quận 1, TP.HCM', '09:00:00', '21:30:00', 15, 60, '09:00-21:30', 3),
+(3, 'N5 Pasta – GigaMall', 'GigaMall, Thủ Đức, TP.HCM', '08:00:00', '22:00:00', 18, 72, '08:00-22:00', 4);
 
 -- --------------------------------------------------------
 
@@ -131,6 +238,30 @@ CREATE TABLE `chi_tiet_khuyen_mai` (
   `id_khuyen_mai` int(11) NOT NULL,
   `id_mon` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact`
+--
+
+CREATE TABLE `contact` (
+  `id` int(11) NOT NULL,
+  `ho_ten` varchar(100) NOT NULL,
+  `sdt` varchar(20) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `noi_dung` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `contact`
+--
+
+INSERT INTO `contact` (`id`, `ho_ten`, `sdt`, `email`, `noi_dung`, `created_at`) VALUES
+(1, 'Vũ Tiến Đạt', '0326008989', 'tiend4693@gmail.com', 'tôi cần gặp quản lý', '2025-12-06 10:19:27'),
+(2, 'Nguyễn Tấn Lộc ', '0367474615', 'tanloccute0310@gmail.com', 'aaaa', '2025-12-06 10:36:00'),
+(3, 'Nguyễn Tấn Lộc ', '0367474615', 'tanloccute0310@gmail.com', 'hgdrxsees', '2025-12-06 11:05:56');
 
 -- --------------------------------------------------------
 
@@ -239,15 +370,17 @@ CREATE TABLE `khach_hang` (
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `tong_chi_tieu` decimal(15,2) DEFAULT 0.00,
   `diem_tich_luy` int(11) DEFAULT 0,
-  `hang_thanh_vien` enum('dong','bac','vang','kimcuong') DEFAULT 'dong'
+  `hang_thanh_vien` enum('dong','bac','vang','kimcuong') DEFAULT 'dong',
+  `reset_expires` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `khach_hang`
 --
 
-INSERT INTO `khach_hang` (`id_khach_hang`, `ten`, `sdt`, `email`, `mat_khau`, `gioi_tinh`, `ngay_sinh`, `dia_chi`, `trang_thai_tai_khoan`, `phan_hoi`, `tai_khoan_dang_nhap`, `ma_xac_minh`, `created_at`, `updated_at`, `tong_chi_tieu`, `diem_tich_luy`, `hang_thanh_vien`) VALUES
-(2, 'Nguyễn Tấn Lộc', NULL, 'tanloccute0310@gmail.com', '$2y$10$XUuR3fs.QU65eaErGZYYqedVeQJ0CZXwu/.B0nsn1D5ylvOmRDPx2', NULL, NULL, NULL, 'Active', NULL, NULL, NULL, '2025-12-01 23:25:58', '2025-12-01 23:25:58', 0.00, 0, 'dong');
+INSERT INTO `khach_hang` (`id_khach_hang`, `ten`, `sdt`, `email`, `mat_khau`, `gioi_tinh`, `ngay_sinh`, `dia_chi`, `trang_thai_tai_khoan`, `phan_hoi`, `tai_khoan_dang_nhap`, `ma_xac_minh`, `created_at`, `updated_at`, `tong_chi_tieu`, `diem_tich_luy`, `hang_thanh_vien`, `reset_expires`) VALUES
+(2, 'Nguyễn Tấn Lộc', NULL, 'tanloccute0310@gmail.com', '$2y$10$I6bv7fbcGkSR.nYDUUXfjuGpxJTkfe/U6YoSSLBZpOL4fj57MHSuy', NULL, NULL, NULL, 'Active', NULL, '562781e230a6a807237767ea9c9d868fcae38b120c92be53549dee6a67ae078a', 'D6B8DE', '2025-12-01 23:25:58', '2025-12-08 21:44:43', 5383040.00, 0, 'vang', 1765167401),
+(3, 'Nguyễn Tấn Lộc cccc', NULL, 'abc@gmail.com', '$2y$10$eCsCHfrbDzQxntj.taW.WOQkxe/pq8N6MtX4xD4Pl2Pz6MExzLeQa', NULL, NULL, NULL, 'Active', NULL, NULL, NULL, '2025-12-06 11:33:20', '2025-12-06 11:33:20', 0.00, 0, 'dong', NULL);
 
 -- --------------------------------------------------------
 
@@ -419,6 +552,19 @@ ALTER TABLE `bookings`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `booking_items`
+--
+ALTER TABLE `booking_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `booking_id` (`booking_id`);
+
+--
+-- Indexes for table `chinhanh`
+--
+ALTER TABLE `chinhanh`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `chi_tiet_dat_ban`
 --
 ALTER TABLE `chi_tiet_dat_ban`
@@ -431,6 +577,12 @@ ALTER TABLE `chi_tiet_dat_ban`
 ALTER TABLE `chi_tiet_khuyen_mai`
   ADD PRIMARY KEY (`id_khuyen_mai`,`id_mon`),
   ADD KEY `id_mon` (`id_mon`);
+
+--
+-- Indexes for table `contact`
+--
+ALTER TABLE `contact`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `danh_gia`
@@ -530,19 +682,37 @@ ALTER TABLE `ban`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+
+--
+-- AUTO_INCREMENT for table `booking_items`
+--
+ALTER TABLE `booking_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+
+--
+-- AUTO_INCREMENT for table `chinhanh`
+--
+ALTER TABLE `chinhanh`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `contact`
+--
+ALTER TABLE `contact`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `danh_gia`
 --
 ALTER TABLE `danh_gia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `danh_muc_mon`
 --
 ALTER TABLE `danh_muc_mon`
-  MODIFY `id_danh_muc_mon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_danh_muc_mon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `dat_ban`
@@ -560,7 +730,7 @@ ALTER TABLE `don_hang`
 -- AUTO_INCREMENT for table `khach_hang`
 --
 ALTER TABLE `khach_hang`
-  MODIFY `id_khach_hang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_khach_hang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `khuyen_mai`

@@ -1,4 +1,5 @@
-
+<?php session_start(); 
+?>
 <style>
         /* --- DÁN TOÀN BỘ MÃ CSS CHUNG BẠN ĐÃ CÓ VÀO ĐÂY --- */
 
