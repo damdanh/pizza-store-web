@@ -1,19 +1,17 @@
 <?php
 
 class ProductModel {
-    private $conn;
+    private $pdo;
 
     public function __construct() {
-        global $conn;
-        if (!isset($conn) || $conn === null) {
-            // Include database config nếu chưa có
-            if (!function_exists('getConnection')) {
-                require_once __DIR__ . '/../config/database.php';
-            }
-            $conn = getConnection();
+        // Cần đảm bảo rằng file database.php tồn tại và hàm getConnection() trả về đối tượng PDO
+        require_once __DIR__ . '/../config/database.php'; 
+        try {
+            $this->pdo = getConnection(); 
+        } catch (\Exception $e) {
+            // Log lỗi và kết thúc chương trình nếu không thể kết nối DB
+            die("Lỗi kết nối database trong ProductModel: " . $e->getMessage());
         }
-        
-        $this->conn = $conn;
     }
     public function getPopularProducts($limit = 10) {
         try {
@@ -32,20 +30,25 @@ class ProductModel {
     }
 
 
-    public function getAllProducts() {
-        try {
-            $sql = "SELECT m.*, dm.ten_danh_muc 
-                    FROM mon_an m
-                    LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon
-                    ORDER BY m.id_mon ASC";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            throw new Exception("Lỗi truy vấn database: " . $e->getMessage());
-        }
+    public function getAllProducts($filter = 'all') {
+    // Giả định bạn đã có logic JOIN với danh_muc_mon để lấy ten_danh_muc
+    $sql = "SELECT m.*, dm.ten_danh_muc 
+            FROM mon_an m
+            LEFT JOIN danh_muc_mon dm ON m.id_danh_muc_mon = dm.id_danh_muc_mon";
+    
+    // Thêm điều kiện lọc
+    if ($filter === 'active') {
+        $sql .= " WHERE m.trang_thai = 'Còn hàng'";
+    } elseif ($filter === 'hidden') {
+        $sql .= " WHERE m.trang_thai = 'Hết hàng'";
     }
-
+    
+    $sql .= " ORDER BY m.id_mon DESC"; // Sắp xếp theo ID mới nhất
+    
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
   
     public function getProductById($id) {
         try {
@@ -112,7 +115,7 @@ class ProductModel {
                         trang_thai = :trang_thai, 
                         id_danh_muc_mon = :id_danh_muc_mon
                     WHERE id_mon = :id";
-            $stmt = $this->conn->prepare($sql);
+            $stmt = $this->pdo->prepare($sql);
             
             // Liên kết các tham số
             $stmt->bindParam(':ten_mon', $data['ten_mon']);

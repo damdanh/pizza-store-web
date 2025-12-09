@@ -260,12 +260,12 @@ include 'views/layouts/sidebar.php';
         <p>Tổng quan về quản lý nhà hàng</p>
     </header>
 
-    <section class="kpi-cards">
+   <section class="kpi-cards">
         <div class="card kpi-card">
             <div class="kpi-title">Tổng đặt bàn</div>
             <span class="kpi-icon blue"><span class="material-icons-outlined">event</span></span>
-            <div class="kpi-data">0</div>
-            <div class="kpi-sub-text">0 chờ xác nhận</div>
+            <div class="kpi-data"><?= isset($totalBookings) ? htmlspecialchars($totalBookings) : '0' ?></div>
+            <div class="kpi-sub-text"><?= isset($pendingBookings) ? htmlspecialchars($pendingBookings) : '0' ?> chờ xác nhận</div>
         </div>
 
         <div class="card kpi-card">

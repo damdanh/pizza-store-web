@@ -37,6 +37,28 @@ class AdminController {
     public function dashboard(){
         // Prepare counts for dashboard KPIs
         require_once __DIR__ . '/../Model/chinhanhModel.php';
+        
+        // --- LẤY DỮ LIỆU ĐẶT BÀN ---
+        $totalBookings = 0;
+        $pendingBookings = 0;
+        try {
+            // Sử dụng getAllBookings để lấy toàn bộ danh sách
+            $ds_datban = $this->booking->getAllBookings(); 
+            $totalBookings = is_array($ds_datban) ? count($ds_datban) : 0;
+            
+            // Đếm số đơn chờ xác nhận (status = 0)
+            foreach($ds_datban as $datban) {
+                // Giả định cột 'status' tồn tại và 0 là chờ xác nhận
+                if (($datban['status'] ?? 0) == 0) { 
+                    $pendingBookings++;
+                }
+            }
+        } catch (Exception $e) {
+            // Bỏ qua lỗi DB nếu không tìm thấy dữ liệu đặt bàn, chỉ set count về 0
+            error_log("Lỗi lấy dữ liệu đặt bàn cho dashboard: " . $e->getMessage()); 
+        }
+        // --- KẾT THÚC LẤY DỮ LIỆU ĐẶT BÀN ---
+        
         try {
             $dssp = $this->sanpham->getAllProducts();
         } catch (Exception $e) {
@@ -52,6 +74,7 @@ class AdminController {
         }
         $totalBranches = is_array($branches) ? count($branches) : 0;
 
+        // Truyền các biến mới vào view
         include '../app/view/admin/dashboard.php';
     }
 
@@ -194,7 +217,14 @@ class AdminController {
 
     public function menu(){
     $dsdm = $this->danhmuc->getAllCategories();
-    $dssp = $this->sanpham->getAllProducts();
+    
+    // --- 1. XÁC ĐỊNH CHẾ ĐỘ LỌC TỪ URL ---
+    $filter_mode = 'active'; // Mặc định hiển thị món 'Còn hàng' (active)
+    if (isset($_GET['show']) && $_GET['show'] == 'hidden') {
+        $filter_mode = 'hidden'; // Nếu có &show=hidden, chỉ hiển thị món đã ẩn
+    }
+    // Giả định nếu không có tham số nào, ProductModel::getAllProducts() mặc định chỉ lấy món "Còn hàng"
+    // Nếu bạn muốn hiển thị TẤT CẢ theo mặc định: $filter_mode = 'all';
     
     // Khởi tạo các biến nếu cần, ví dụ: $sp_edit, $dm
 
@@ -204,19 +234,15 @@ class AdminController {
         $mo_ta = trim($_POST['category_description'] ?? '');
 
         try {
-            // Logic cập nhật (nếu có id) hoặc thêm mới
-            // Hiện tại chỉ xử lý thêm mới:
             $this->danhmuc->createCategory($ten_danh_muc, $mo_ta);
-            header("Location: admin.php?page=menu");
+            header("Location: admin.php?page=menu&msg=" . urlencode("Đã thêm nhóm món thành công."));
             exit;
         } catch (\Exception $e) {
-            // Thêm logic xử lý lỗi tại đây nếu cần
             echo "<script>alert('Lỗi thêm nhóm món: " . $e->getMessage() . "');</script>";
         }
     }
 
-    /* ================== 3. LƯU SẢN PHẨM (THÊM/SỬA) ================== */
-    // Kiểm tra tên nút submit trong form themmonan.php là 'save_product'
+    /* ================== LƯU SẢN PHẨM (THÊM/SỬA) ================== */
     if (isset($_POST['save_product'])) {
         $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : null;
         $name = $_POST['ten_mon'];
@@ -225,18 +251,16 @@ class AdminController {
         $cat_id = $_POST['category'];
         $mota = isset($_POST['mo_ta']) ? $_POST['mo_ta'] : '';
 
-        // Xử lý ảnh
+        // Xử lý ảnh (Giữ nguyên logic upload ảnh của bạn)
         $img = "";
         $upload_dir = "nhahang/app/public/img/";
         if (!empty($_FILES['img']['name'])) {
             $img = time() . "_" . basename($_FILES['img']['name']);
-            // Kiểm tra và tạo thư mục nếu chưa có
             if (!is_dir($upload_dir)) {
                 mkdir($upload_dir, 0777, true);
             }
             move_uploaded_file($_FILES['img']['tmp_name'], $upload_dir . $img);
         } else {
-            // Giữ lại ảnh cũ khi sửa nếu không upload ảnh mới
             $img = $_POST['old_img'] ?? ''; 
         }
 
@@ -251,13 +275,13 @@ class AdminController {
 
         try {
             if ($product_id) {
-                // Cập nhật sản phẩm
                 $this->sanpham->updateProduct($product_id, $data);
+                $msg = "Đã cập nhật món ăn thành công.";
             } else {
-                // Thêm sản phẩm mới
                 $this->sanpham->createProduct($data);
+                $msg = "Đã thêm món ăn mới thành công.";
             }
-            header("Location: admin.php?page=menu");
+            header("Location: admin.php?page=menu&msg=" . urlencode($msg));
             exit;
         } catch (\Exception $e) {
              echo "<script>alert('Lỗi lưu sản phẩm: " . $e->getMessage() . "');</script>";
@@ -267,17 +291,51 @@ class AdminController {
     /* ================== 1. XÓA SẢN PHẨM ================== */
     if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
         $this->sanpham->deleteProduct($_GET['id']);
-        header("Location: admin.php?page=menu");
+        header("Location: admin.php?page=menu&msg=" . urlencode("Đã xóa món ăn thành công."));
         exit;
     }
 
-    /* ================== 2. SỬA SẢN PHẨM (HIỂN THỊ FORM) ================== */
+    /* ================== 2. ẨN / HIỆN SẢN PHẨM (TOGGLE STATUS) ================== */
+    if (isset($_GET['action']) && ($_GET['action'] == 'hide' || $_GET['action'] == 'unhide') && isset($_GET['id'])) {
+        $id = (int)$_GET['id'];
+        $action = $_GET['action'];
+        
+        // Xác định trạng thái mới dựa trên action
+        $new_status = ($action === 'hide') ? 'Hết hàng' : 'Còn hàng';
+        $msg = ($action === 'hide') ? 'Đã ẩn món ăn thành công.' : 'Đã hiển thị món ăn thành công.';
+
+        try {
+            // Cập nhật trạng thái thông qua ProductModel
+            $data = ['trang_thai' => $new_status];
+            $this->sanpham->updateProduct($id, $data);
+            
+            // CHUYỂN HƯỚNG VỀ TRANG XEM HIỆN TẠI ĐỂ DUY TRÌ BỘ LỌC
+            $redirect_url = "admin.php?page=menu";
+            if ($filter_mode === 'hidden') {
+                $redirect_url .= "&show=hidden";
+            }
+            $redirect_url .= "&msg=" . urlencode($msg);
+
+            header("Location: " . $redirect_url);
+            exit;
+        } catch (\Exception $e) {
+            $error_msg = "Lỗi cập nhật trạng thái: " . $e->getMessage();
+            header("Location: admin.php?page=menu&error=" . urlencode($error_msg));
+            exit;
+        }
+    }
+
+
+    /* ================== 3. HIỂN THỊ FORM SỬA/THÊM MÓN ================== */
+    
+    // Giữ lại logic hiển thị form SỬA
     if (isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
         $sp_edit = $this->sanpham->getProductById($_GET['id']);
         $dsdm = $this->danhmuc->getAllCategories();
         include "../app/view/admin/themmonan.php";
         return;
     }
+
 
     /* ================== 4. THÊM NHÓM MÓN (HIỂN THỊ FORM) ================== */
     if (isset($_GET['action']) && $_GET['action'] == 'add_category') {
@@ -286,14 +344,24 @@ class AdminController {
         return;
     }
 
-    /* ================== 4. THÊM SẢN PHẨM (HIỂN THỊ FORM) ================== */
+    /* ================== 5. THÊM SẢN PHẨM (HIỂN THỊ FORM) ================== */
     if (isset($_GET['action']) && $_GET['action'] == 'add') {
         $dsdm = $this->danhmuc->getAllCategories();
         $sp_edit = null; 
         include_once  "../app/view/admin/themmonan.php";
         return;
     }
-    $dssp = $this->sanpham->getAllProducts();
+    
+    // --- 2. GỌI MODEL VỚI BỘ LỌC (Cần sửa ProductModel để chấp nhận tham số) ---
+    // Giả sử ProductModel::getAllProducts($filter_mode) đã được sửa để hoạt động
+    // Nếu bạn chưa sửa Model, nó sẽ chỉ lấy mặc định, bạn cần phải sửa Model
+    $dssp = $this->sanpham->getAllProducts($filter_mode);
+    
+    // Gán cờ is_hidden vào từng món ăn để View có thể xử lý style
+    foreach ($dssp as $key => $dish) {
+        $dssp[$key]['is_hidden'] = ($dish['trang_thai'] === 'Hết hàng');
+    }
+    
     include '../app/view/admin/menu.php';
 }
 

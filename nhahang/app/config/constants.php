@@ -3,8 +3,4 @@
 define('BASE_URL', '/WD20302-PRO1014_N5/nhahang/');
 define('VIEW_URL', BASE_URL . 'app/view/');
 define('PUBLIC_URL', BASE_URL . 'public/');
-<<<<<<< HEAD
-
-=======
->>>>>>> 17f3eeb97c3c9dc60d1dd544285ad28b79763547
 ?>
