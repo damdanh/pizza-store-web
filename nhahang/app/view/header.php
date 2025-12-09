@@ -17,9 +17,8 @@ $firstLetter = $userName ? strtoupper(mb_substr($userName, 0, 1)) : 'U';
 </div>
 
 <header class="header">
-    <div class="header-left">
-    <a href="<?= VIEW_URL ?>main.php" style="text-decoration: none; display: flex; align-items: center;">
-            <div class="logo">
+    <div class="header-left">            
+        <div class="logo">
                 <div class="logo-circle"><img src="<?php echo $base_url_path; ?>public/user/img/logo.jpg" alt="Logo Pizza Pasta"></div>
             </div>
             <div class="brand-name">PIZZA &<br>PASTA</div>
