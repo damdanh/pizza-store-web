@@ -1,4 +1,7 @@
-
+<?php
+$base_url_path = '/WD20302-PRO1014_N5/nhahang/'; 
+$title = $title ?? 'PIZZA & PASTA - Nhà Hàng Online'; 
+?>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -12,7 +15,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
 </head>
 <body>
-
 
 <section class="booking-container">
         <div class="booking-image"></div>
@@ -74,7 +76,5 @@
     </div>
 </section>
 
-
 </body>
 </html>
-

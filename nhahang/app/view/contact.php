@@ -1,5 +1,6 @@
 
 
+
 <div class="banner">
     <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&h=400&fit=crop" alt="Contact Banner">
     <div class="banner-text">LIÊN HỆ</div>
@@ -8,25 +9,34 @@
 <div class="contact-container">
     <aside class="contact-sidebar">
         <h2 class="sidebar-title">Gửi Thông Tin</h2>
-        <form class="contact-form">
-            <div class="form-group">
-                <label>HỌ VÀ TÊN</label>
-                <input type="text" placeholder="Nguyễn Văn A" class="form-input">
-            </div>
-            <div class="form-group">
-                <label>SỐ ĐIỆN THOẠI</label>
-                <input type="tel" placeholder="Số điện thoại" class="form-input">
-            </div>
-            <div class="form-group">
-                <label>EMAIL</label>
-                <input type="email" placeholder="abc@gmail.com" class="form-input">
-            </div>
-            <div class="form-group">
-                <label>NỘI DUNG</label>
-                <textarea placeholder="" class="form-textarea" rows="5"></textarea>
-            </div>
-            <button type="submit" class="form-submit">GỬI</button>
-        </form>
+        <form class="contact-form" method="POST">
+    <?php if (!empty($message)): ?>
+        <p style="color: green; font-weight: bold;"><?php echo $message; ?></p>
+    <?php endif; ?>
+
+    <div class="form-group">
+        <label>HỌ VÀ TÊN</label>
+        <input name="ho_ten" type="text" placeholder="Nguyễn Văn A" class="form-input" required>
+    </div>
+
+    <div class="form-group">
+        <label>SỐ ĐIỆN THOẠI</label>
+        <input name="sdt" type="tel" placeholder="Số điện thoại" class="form-input" required>
+    </div>
+
+    <div class="form-group">
+        <label>EMAIL</label>
+        <input name="email" type="email" placeholder="abc@gmail.com" class="form-input" required>
+    </div>
+
+    <div class="form-group">
+        <label>NỘI DUNG</label>
+        <textarea name="noi_dung" class="form-textarea" rows="5" required></textarea>
+    </div>
+
+    <button type="submit" class="form-submit">GỬI</button>
+</form>
+
     </aside>
 
     <div class="contact-content">
@@ -85,4 +95,5 @@ gmail.com
         </div>
     </div>
 </div>
+
 

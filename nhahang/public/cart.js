@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             subtotalElement.textContent = formatCurrency(total);
             const vat = total * 0.08;
             // const shipping = 30000;
-            totalElement.textContent = formatCurrency(total + vat /*+ shipping*/);
+            totalElement.textContent = formatCurrency(total);
 
             cartEmpty.style.display = 'none';
             cartItemsContainer.style.display = 'flex';

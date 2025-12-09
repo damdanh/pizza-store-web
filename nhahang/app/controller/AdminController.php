@@ -4,21 +4,21 @@ require_once __DIR__. '/../Model/CategoryModel.php';
 require_once __DIR__. '/../Model/ProductModel.php';
 // require_once __DIR__. '/../Model/UserModel.php';
 require_once __DIR__. '/../Model/AdminModel.php';
-require_once __DIR__. '/../Model/DatBanModel.php';
+require_once __DIR__. '/../Model/BookingModel.php';
 
 class AdminController {
     public $danhmuc;
     public $sanpham;
     public $admin;
+    public $booking;
     // public $user;
-    public $datban;
     public $db;
 
     public function __construct($db_object = null) {
         $this->danhmuc = new CategoryModel();
         $this->sanpham = new ProductModel();
         $this->admin = new AdminModel();
-        $this->datban = new DatbanModel();
+        $this->booking = new BookingModel();
         $this->db = $db_object;
         // $this->user = new UserModel($this->db);
     }
@@ -55,80 +55,18 @@ class AdminController {
     }
 
     public function quanlydatban(){
-        $action = $_GET['action'] ?? 'list';
-        $id = $_GET['id'] ?? null;
-        $message = '';
-        $is_error = false;
-        
-        // Lấy thông báo lỗi/thành công từ URL nếu có
-        if (isset($_GET['error'])) {
-            $message = $_GET['error'];
-            $is_error = true;
-        } else if (isset($_GET['msg'])) {
-            $message = $_GET['msg'];
-        }
-        
-        /* ================== XỬ LÝ CẬP NHẬT TRẠNG THÁI ================== */
-        if ($action == 'update_status' && $id) {
-            $status = $_GET['status'] ?? 'Chờ xác nhận'; // Giá trị trạng thái mới
-            try {
-                $result = $this->datban->updateReservationStatus($id, $status);
-                if ($result) {
-                    $msg = "Cập nhật trạng thái đơn đặt bàn #{$id} thành **'{$status}'** thành công!";
-                    header("Location: admin.php?page=quanlydatban&msg=" . urlencode($msg));
-                    exit;
-                } else {
-                    $error_msg = "Không tìm thấy đơn đặt bàn #{$id} hoặc trạng thái không thay đổi.";
-                    header("Location: admin.php?page=quanlydatban&error=" . urlencode($error_msg));
-                    exit;
-                }
-            } catch (\Exception $e) {
-                $error_msg = "Lỗi CSDL: " . $e->getMessage();
-                header("Location: admin.php?page=quanlydatban&error=" . urlencode($error_msg));
-                exit;
-            }
-        }
-        
-        /* ================== XỬ LÝ HIỂN THỊ CHI TIẾT ================== */
-        if ($action == 'view' && $id) {
-            try {
-                $reservation_detail = $this->datban->getReservationDetails($id);
-                if (!$reservation_detail) {
-                     $error_msg = "Không tìm thấy đơn đặt bàn #{$id}.";
-                     header("Location: admin.php?page=quanlydatban&error=" . urlencode($error_msg));
-                     exit;
-                }
-                // Nếu bạn có View cho chi tiết đặt bàn (vd: view/admin/chitietdatban.php)
-                // include '../app/view/admin/chitietdatban.php'; 
-                // Tạm thời hiển thị dưới dạng JSON để kiểm tra dữ liệu
-                 echo "<pre>" . print_r($reservation_detail, true) . "</pre>";
-                 return;
-            } catch (\Exception $e) {
-                 $error_msg = "Lỗi: " . $e->getMessage();
-                 header("Location: admin.php?page=quanlydatban&error=" . urlencode($error_msg));
-                 exit;
-            }
-        }
-
-        /* ================== XỬ LÝ DANH SÁCH (MẶC ĐỊNH) ================== */
-        // Lấy tham số lọc trạng thái từ URL (vd: admin.php?page=quanlydatban&filter_status=Chờ xác nhận)
-        $filter_status = $_GET['filter_status'] ?? null; 
-        
         try {
-             $ds_datban = $this->datban->getAllReservations($filter_status);
+            $ds_datban = $this->booking->getAllBookings(); // Lấy danh sách đặt bàn
         } catch (\Exception $e) {
-             $ds_datban = [];
-             $error_msg = "Lỗi khi tải danh sách: " . $e->getMessage();
-             $is_error = true;
+            $ds_datban = [];
+            $error = "Lỗi lấy dữ liệu đặt bàn: " . $e->getMessage();
         }
         
-        // Chuẩn bị các trạng thái để dùng cho filter/dropdown (nếu cần)
-        $statuses = ['Chờ xác nhận', 'Đã xác nhận', 'Đã hoàn thành', 'Đã hủy'];
+        $error = $error ?? ($_GET['error'] ?? null); // Truyền error nếu có
+        $msg = $_GET['msg'] ?? null;
 
-        // Truyền dữ liệu sang View
         include '../app/view/admin/quanlydatban.php';
     }
-
     public function chinhanh(){
         require_once __DIR__ . '/chinhanh.Controller.php';
         $c = new ChinhanhController();
@@ -140,6 +78,56 @@ class AdminController {
     }
 
     public function formDemo(){
+        require_once __DIR__ . '/../Model/chinhanhModel.php';
+        $branchesModel = new ChinhanhModel();
+        
+        try {
+            $branches = $branchesModel->getAllBranches();
+        } catch (\Exception $e) {
+            $branches = []; // Xử lý lỗi nếu không lấy được chi nhánh
+        }
+
+        // --- XỬ LÝ FORM ĐẶT BÀN ---
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_booking'])) {
+            
+            $ten = trim($_POST['ten'] ?? '');
+            $sdt = trim($_POST['sdt'] ?? '');
+            $email = trim($_POST['email'] ?? '');
+            $chinhanh_id = (int)($_POST['chinhanh'] ?? 0); // Lấy ID chi nhánh
+            $ngay = trim($_POST['ngay'] ?? '');
+            $gio = trim($_POST['gio'] ?? '');
+            $songuoi = (int)($_POST['songuoi'] ?? 1);
+            $ghichu = trim($_POST['ghichu'] ?? '');
+            
+            try {
+                // Giả sử có 1 vài validation cơ bản:
+                if (empty($ten) || empty($sdt) || empty($email) || empty($ngay) || empty($gio) || $chinhanh_id <= 0) {
+                    throw new Exception("Vui lòng điền đầy đủ thông tin bắt buộc.");
+                }
+
+                // Gọi Model để lưu vào CSDL
+                $result = $this->booking->createBooking($ten, $sdt, $email, $chinhanh_id, $ngay, $gio, $songuoi, $ghichu);
+                
+                if ($result) {
+                     $msg = "Đặt bàn thành công! Mã đặt bàn của bạn là..."; // Có thể thêm logic lấy ID cuối cùng
+                } else {
+                     $msg = "Đặt bàn thất bại.";
+                }
+                
+                // Chuyển hướng về trang formDemo với thông báo
+                header("Location: admin.php?page=formDemo&msg=" . urlencode($msg));
+                exit;
+                
+            } catch (\Exception $e) {
+                $error_msg = "Lỗi đặt bàn: " . $e->getMessage();
+                header("Location: admin.php?page=formDemo&error=" . urlencode($error_msg));
+                exit;
+            }
+        }
+        
+        $error = $_GET['error'] ?? null;
+        $msg = $_GET['msg'] ?? null;
+        
         include '../app/view/admin/formDemo.php';
     }
 
@@ -508,8 +496,6 @@ public function login_process() {
             } else {
                 $error_msg = "Email hoặc Mật khẩu không đúng.";
             }
-        } else {
-            $error_msg = "Email hoặc Mật khẩu không đúng.";
         }
 
     } catch (\Exception $e) {
@@ -523,4 +509,3 @@ public function login_process() {
 
 
 }
-?>
