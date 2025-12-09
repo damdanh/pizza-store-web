@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cartItemsContainer.innerHTML = cartHtml;
             subtotalElement.textContent = formatCurrency(total);
             const vat = total * 0.08;
+            total = total + vat;
           
             totalElement.textContent = formatCurrency(total + vat);
 
