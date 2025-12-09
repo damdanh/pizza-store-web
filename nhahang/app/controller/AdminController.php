@@ -31,6 +31,23 @@ class AdminController {
     }
 
     public function dashboard(){
+        // Prepare counts for dashboard KPIs
+        require_once __DIR__ . '/../Model/chinhanhModel.php';
+        try {
+            $dssp = $this->sanpham->getAllProducts();
+        } catch (Exception $e) {
+            $dssp = [];
+        }
+        $totalProducts = is_array($dssp) ? count($dssp) : 0;
+
+        try {
+            $branchesModel = new ChinhanhModel();
+            $branches = $branchesModel->getAllBranches();
+        } catch (Exception $e) {
+            $branches = [];
+        }
+        $totalBranches = is_array($branches) ? count($branches) : 0;
+
         include '../app/view/admin/dashboard.php';
     }
 
@@ -39,7 +56,9 @@ class AdminController {
     }
 
     public function chinhanh(){
-        include '../app/view/admin/chinhanh.php';
+        require_once __DIR__ . '/chinhanh.Controller.php';
+        $c = new ChinhanhController();
+        $c->index();
     }
 
     public function doanhthu(){
@@ -79,7 +98,8 @@ class AdminController {
         $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : null;
         $name = $_POST['ten_mon'];
         $price = $_POST['gia'];
-        $trang_thai = $_POST['trang_thai_hoat_dong'];
+        // Form sử dụng name="trang_thai"
+        $trang_thai = $_POST['trang_thai'] ?? 'Còn hàng';
         $cat_id = $_POST['category'];
         $mota = isset($_POST['mo_ta']) ? $_POST['mo_ta'] : '';
 
@@ -102,10 +122,13 @@ class AdminController {
             'ten_mon' => $name,
             'gia' => $price,
             'hinh_anh' => $img,
-            'trang_thai_hoat_dong' => $trang_thai,
+            'trang_thai' => $trang_thai,
             'id_danh_muc_mon' => $cat_id,
             'mo_ta' => $mota
         ];
+
+        // is_hidden checkbox
+        $data['is_hidden'] = isset($_POST['is_hidden']) ? 1 : 0;
 
         try {
             if ($product_id) {
@@ -122,16 +145,31 @@ class AdminController {
         }
     }
 
-    /* ================== 1. XÓA SẢN PHẨM ================== */
-    if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
-        $this->sanpham->deleteProduct($_GET['id']);
-        header("Location: admin.php?page=menu");
-        exit;
+    /* ================== 1. ẨN / HIỆN SẢN PHẨM (SOFT DELETE) ================== */
+    if (isset($_GET['action']) && isset($_GET['id'])) {
+        $action = $_GET['action'];
+        $id = $_GET['id'];
+        if ($action === 'delete' || $action === 'hide') {
+            // Giữ tương thích: 'delete' giờ sẽ ẩn
+            $this->sanpham->hideProduct($id);
+            header("Location: admin.php?page=menu");
+            exit;
+        }
+
+        if ($action === 'unhide') {
+            $this->sanpham->unhideProduct($id);
+            // Nếu đang xem danh sách món ẩn, giữ lại filter
+            $redirect = 'admin.php?page=menu';
+            if (isset($_GET['show']) && $_GET['show'] === 'hidden') $redirect .= '&show=hidden';
+            header("Location: " . $redirect);
+            exit;
+        }
     }
 
     /* ================== 2. SỬA SẢN PHẨM (HIỂN THỊ FORM) ================== */
     if (isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
-        $sp_edit = $this->sanpham->getProductById($_GET['id']);
+        // Khi edit, cho phép load cả món ẩn để admin có thể chỉnh
+        $sp_edit = $this->sanpham->getProductById($_GET['id'], true);
         $dsdm = $this->danhmuc->getAllCategories();
         include "../app/view/admin/themmonan.php";
         return;
@@ -151,7 +189,12 @@ class AdminController {
         include_once  "../app/view/admin/themmonan.php";
         return;
     }
-    $dssp = $this->sanpham->getAllProducts();
+    // Nếu yêu cầu hiển thị món ẩn (filter), lấy danh sách món ẩn
+    if (isset($_GET['show']) && $_GET['show'] === 'hidden') {
+        $dssp = $this->sanpham->getHiddenProducts();
+    } else {
+        $dssp = $this->sanpham->getAllProducts();
+    }
     include '../app/view/admin/menu.php';
 }
 
@@ -302,13 +345,32 @@ class AdminController {
             }
         }
         
-        /* ================== Xử lý XÓA ADMIN ================== */
+        /* ================== XỬ LÝ XÓA ADMIN (ĐÃ VÔ HIỆU HÓA) ================== */
         if ($action == 'delete' && isset($_GET['id'])) {
-            $id = $_GET['id'];
+            // Vô hiệu hóa chức năng xóa để tránh mất dữ liệu bằng URL.
+            $message = "Chức năng xóa tài khoản Admin đã bị vô hiệu hóa.";
+            header("Location: admin.php?page=admin&msg=" . urlencode($message));
+            exit;
+        }
+
+        /* ================== XỬ LÝ ẨN / KÍCH HOẠT ADMIN (SOFT) ================== */
+        if ($action == 'toggle_status' && isset($_GET['id'])) {
+            $id = (int)$_GET['id'];
+            // mong đợi param status (0 hoặc 1)
+            $status = isset($_GET['status']) ? ((int)$_GET['status'] ? 1 : 0) : 0;
             try {
-                $this->admin->deleteAdmin($id);
-                $message = "Đã xóa tài khoản Admin.";
-                header("Location: admin.php?page=admin&msg=" . urlencode($message));
+                // Không cho phép admin ẩn chính họ
+                if (session_status() === PHP_SESSION_NONE) session_start();
+                $currentAdminId = $_SESSION['admin']['id'] ?? null;
+                if ($currentAdminId && (int)$currentAdminId === $id) {
+                    $message = 'Không thể ẩn/kích hoạt chính bạn.';
+                    header("Location: admin.php?page=admin&msg=" . urlencode($message));
+                    exit;
+                }
+
+                $this->admin->setAdminStatus($id, $status);
+                $msg = $status ? 'Đã kích hoạt tài khoản Admin.' : 'Đã ẩn tài khoản Admin.';
+                header("Location: admin.php?page=admin&msg=" . urlencode($msg));
                 exit;
             } catch (\Exception $e) {
                 $message = "Lỗi: " . $e->getMessage();
