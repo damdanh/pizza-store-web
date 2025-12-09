@@ -3,7 +3,6 @@ class CategoryModel {
     private $conn;
 
     public function __construct() {
-<<<<<<< Updated upstream
 
         global $conn;
         if (!isset($conn) || $conn === null) {
@@ -25,19 +24,6 @@ class CategoryModel {
             throw new Exception("Kết nối database không tồn tại. Vui lòng kiểm tra file config/database.php");
         }
     }
-=======
-        global $conn;
-        
-        // Kiểm tra kết nối database
-        if (!isset($conn) || $conn === null) {
-            throw new Exception("Kết nối database không tồn tại. Vui lòng kiểm tra file config/database.php");
-        }
-        
-        $this->conn = $conn;
-    }
-
-    // Lấy tất cả danh mục món ăn
->>>>>>> Stashed changes
     public function getAllCategories() {
         try {
             $sql = "SELECT id_danh_muc_mon, ten_danh_muc, mo_ta FROM danh_muc_mon ORDER BY id_danh_muc_mon";
@@ -48,7 +34,6 @@ class CategoryModel {
             throw new Exception("Lỗi truy vấn database: " . $e->getMessage());
         }
     }
-<<<<<<< Updated upstream
     public function getCategoryById($id) {
         try {
             $sql = "SELECT id_danh_muc_mon, ten_danh_muc, mo_ta FROM danh_muc_mon WHERE id_danh_muc_mon = :id";
@@ -134,27 +119,5 @@ class CategoryModel {
             }
             throw new Exception("Lỗi Database khi xóa nhóm món: " . $e->getMessage());
         }
-=======
-
-    // Lấy danh mục theo ID
-    public function getCategoryById($id) {
-        $sql = "SELECT id_danh_muc_mon, ten_danh_muc, mo_ta FROM danh_muc_mon WHERE id_danh_muc_mon = :id";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    // Đếm số món ăn trong mỗi danh mục
-    public function getCategoriesWithCount() {
-        $sql = "SELECT dm.id_danh_muc_mon, dm.ten_danh_muc, dm.mo_ta, COUNT(m.id_mon) as so_luong_mon
-                FROM danh_muc_mon dm
-                LEFT JOIN mon_an m ON dm.id_danh_muc_mon = m.id_danh_muc_mon
-                GROUP BY dm.id_danh_muc_mon, dm.ten_danh_muc, dm.mo_ta
-                ORDER BY dm.id_danh_muc_mon";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
->>>>>>> Stashed changes
     }
 }
