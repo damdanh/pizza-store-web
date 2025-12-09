@@ -9,9 +9,16 @@ class HomeController {
             $productModel = new ProductModel();
             $categoryModel = new CategoryModel();
             
+<<<<<<< Updated upstream
             $popularProducts = $productModel->getPopularProducts(5);
             
       
+=======
+            // Lấy sản phẩm phổ biến
+            $popularProducts = $productModel->getPopularProducts(5);
+            
+            // Lấy danh mục món ăn từ database
+>>>>>>> Stashed changes
             $categories = $categoryModel->getAllCategories();
 
             $data = [
@@ -26,7 +33,11 @@ class HomeController {
             include __DIR__ . '/../view/main.php';
             
         } catch (Exception $e) {
+<<<<<<< Updated upstream
             
+=======
+            // Xử lý lỗi
+>>>>>>> Stashed changes
             echo "Lỗi: " . $e->getMessage();
             echo "<br>File: " . $e->getFile();
             echo "<br>Line: " . $e->getLine();
