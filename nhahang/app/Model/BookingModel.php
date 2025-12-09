@@ -1,16 +1,22 @@
 <?php
 class BookingModel {
-    private $pdo;
+    private $conn; // Đã đổi tên biến kết nối từ $pdo sang $conn
+    private $table = 'bookings'; // Bảng chính của model này
 
-    public function __construct($pdo) { 
-        $this->pdo = $pdo; 
+    // SỬA LỖI: Bỏ đối số $pdo và tự thiết lập kết nối
+    public function __construct() { 
+        // Đường dẫn đến file database.php có thể cần điều chỉnh tùy cấu trúc
+        require_once __DIR__ . '/../config/database.php'; 
+        try {
+            $this->conn = getConnection(); 
+        } catch (\Exception $e) {
+            throw new Exception("Lỗi kết nối database: " . $e->getMessage());
+        }
     }
 
     public function createBooking($data) {
         try {
             // ✅ Validate dữ liệu trước khi INSERT
-            // Đã thêm 'user_id' và 'total' vào các trường cần thiết trong $data, 
-            // nhưng chỉ validate các trường bắt buộc ban đầu.
             $required = ['name', 'phone', 'people', 'date', 'time', 'branch'];
             foreach ($required as $field) {
                 if (empty($data[$field])) {
@@ -23,7 +29,7 @@ class BookingModel {
             $totalAmount = $data['total'] ?? 0;
             
             // CẬP NHẬT CÂU LỆNH SQL: Thêm id_khach_hang và total
-            $stmt = $this->pdo->prepare("
+            $stmt = $this->conn->prepare(" // ĐÃ SỬA: Dùng $this->conn
                 INSERT INTO bookings (name, phone, email, id_khach_hang, people, booking_date, booking_time, branch, notes, total, created_at)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
             ");
@@ -33,20 +39,20 @@ class BookingModel {
                 $data['name'], 
                 $data['phone'], 
                 $data['email'] ?? null,
-                $userId,                    // THAM SỐ MỚI: id_khach_hang
+                $userId,                    
                 $data['people'], 
-                $data['date'],              // booking_date
+                $data['date'],              
                 $data['time'], 
                 $data['branch'], 
                 $data['notes'] ?? '',
-                $totalAmount                // THAM SỐ MỚI: total
+                $totalAmount                
             ]);
 
             if (!$success) {
                 throw new Exception("Execute failed: " . implode(", ", $stmt->errorInfo()));
             }
 
-            $lastId = $this->pdo->lastInsertId();
+            $lastId = $this->conn->lastInsertId(); // ĐÃ SỬA: Dùng $this->conn
             
             // ✅ Log để debug
             error_log("Created booking ID: {$lastId} for {$data['name']} (User ID: {$userId})");
@@ -66,7 +72,7 @@ class BookingModel {
                 throw new Exception("Invalid booking or item ID");
             }
 
-            $stmt = $this->pdo->prepare("
+            $stmt = $this->conn->prepare(" // ĐÃ SỬA: Dùng $this->conn
                 INSERT INTO booking_items (booking_id, id_mon, so_luong, gia)
                 VALUES (?, ?, ?, ?)
             ");
