@@ -30,7 +30,7 @@ try {
         'name'    => $pending['name'],
         'phone'   => $pending['phone'],
         'email'   => $pending['email'] ?? null,
-        'people'  => $pending['tables'], // Lưu số bàn
+        'soluongban'  => $pending['tables'], 
         'date'    => $pending['date'],
         'time'    => $pending['time'],
         'branch'  => $pending['branch'],

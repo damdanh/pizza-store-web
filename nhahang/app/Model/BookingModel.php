@@ -11,7 +11,7 @@ class BookingModel {
             // ✅ Validate dữ liệu trước khi INSERT
             // Đã thêm 'user_id' và 'total' vào các trường cần thiết trong $data, 
             // nhưng chỉ validate các trường bắt buộc ban đầu.
-            $required = ['name', 'phone', 'people', 'date', 'time', 'branch'];
+            $required = ['name', 'phone', 'soluongban', 'date', 'time', 'branch'];
             foreach ($required as $field) {
                 if (empty($data[$field])) {
                     throw new Exception("Thiếu trường bắt buộc: {$field}");
@@ -24,7 +24,7 @@ class BookingModel {
             
             // CẬP NHẬT CÂU LỆNH SQL: Thêm id_khach_hang và total
             $stmt = $this->pdo->prepare("
-                INSERT INTO bookings (name, phone, email, id_khach_hang, people, booking_date, booking_time, branch, notes, total, created_at)
+                INSERT INTO bookings (name, phone, email, id_khach_hang, soluongban, booking_date, booking_time, branch, notes, total, created_at)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
             ");
             
@@ -34,7 +34,7 @@ class BookingModel {
                 $data['phone'], 
                 $data['email'] ?? null,
                 $userId,                    // THAM SỐ MỚI: id_khach_hang
-                $data['people'], 
+                $data['soluongban'], 
                 $data['date'],              // booking_date
                 $data['time'], 
                 $data['branch'], 
