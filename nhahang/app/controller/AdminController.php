@@ -3,6 +3,7 @@
 require_once __DIR__. '/../Model/CategoryModel.php';
 require_once __DIR__. '/../Model/ProductModel.php';
 require_once __DIR__. '/../Model/AdminModel.php';
+require_once __DIR__. '/../Model/DatBanModel.php';
 
 class AdminController {
     public $danhmuc;
@@ -14,6 +15,7 @@ class AdminController {
         $this->danhmuc = new CategoryModel();
         $this->sanpham = new ProductModel();
         $this->admin = new AdminModel();
+        $this->datban = new DatbanModel();
         $this->db = $db_object;
         // $this->user = new UserModel($this->db); // Giữ lại logic cũ nếu có
     }
@@ -52,6 +54,77 @@ class AdminController {
     }
 
     public function quanlydatban(){
+        $action = $_GET['action'] ?? 'list';
+        $id = $_GET['id'] ?? null;
+        $message = '';
+        $is_error = false;
+        
+        // Lấy thông báo lỗi/thành công từ URL nếu có
+        if (isset($_GET['error'])) {
+            $message = $_GET['error'];
+            $is_error = true;
+        } else if (isset($_GET['msg'])) {
+            $message = $_GET['msg'];
+        }
+        
+        /* ================== XỬ LÝ CẬP NHẬT TRẠNG THÁI ================== */
+        if ($action == 'update_status' && $id) {
+            $status = $_GET['status'] ?? 'Chờ xác nhận'; // Giá trị trạng thái mới
+            try {
+                $result = $this->datban->updateReservationStatus($id, $status);
+                if ($result) {
+                    $msg = "Cập nhật trạng thái đơn đặt bàn #{$id} thành **'{$status}'** thành công!";
+                    header("Location: admin.php?page=quanlydatban&msg=" . urlencode($msg));
+                    exit;
+                } else {
+                    $error_msg = "Không tìm thấy đơn đặt bàn #{$id} hoặc trạng thái không thay đổi.";
+                    header("Location: admin.php?page=quanlydatban&error=" . urlencode($error_msg));
+                    exit;
+                }
+            } catch (\Exception $e) {
+                $error_msg = "Lỗi CSDL: " . $e->getMessage();
+                header("Location: admin.php?page=quanlydatban&error=" . urlencode($error_msg));
+                exit;
+            }
+        }
+        
+        /* ================== XỬ LÝ HIỂN THỊ CHI TIẾT ================== */
+        if ($action == 'view' && $id) {
+            try {
+                $reservation_detail = $this->datban->getReservationDetails($id);
+                if (!$reservation_detail) {
+                     $error_msg = "Không tìm thấy đơn đặt bàn #{$id}.";
+                     header("Location: admin.php?page=quanlydatban&error=" . urlencode($error_msg));
+                     exit;
+                }
+                // Nếu bạn có View cho chi tiết đặt bàn (vd: view/admin/chitietdatban.php)
+                // include '../app/view/admin/chitietdatban.php'; 
+                // Tạm thời hiển thị dưới dạng JSON để kiểm tra dữ liệu
+                 echo "<pre>" . print_r($reservation_detail, true) . "</pre>";
+                 return;
+            } catch (\Exception $e) {
+                 $error_msg = "Lỗi: " . $e->getMessage();
+                 header("Location: admin.php?page=quanlydatban&error=" . urlencode($error_msg));
+                 exit;
+            }
+        }
+
+        /* ================== XỬ LÝ DANH SÁCH (MẶC ĐỊNH) ================== */
+        // Lấy tham số lọc trạng thái từ URL (vd: admin.php?page=quanlydatban&filter_status=Chờ xác nhận)
+        $filter_status = $_GET['filter_status'] ?? null; 
+        
+        try {
+             $ds_datban = $this->datban->getAllReservations($filter_status);
+        } catch (\Exception $e) {
+             $ds_datban = [];
+             $error_msg = "Lỗi khi tải danh sách: " . $e->getMessage();
+             $is_error = true;
+        }
+        
+        // Chuẩn bị các trạng thái để dùng cho filter/dropdown (nếu cần)
+        $statuses = ['Chờ xác nhận', 'Đã xác nhận', 'Đã hoàn thành', 'Đã hủy'];
+
+        // Truyền dữ liệu sang View
         include '../app/view/admin/quanlydatban.php';
     }
 
