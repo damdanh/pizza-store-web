@@ -1,6 +1,5 @@
 <?php
 
-
 class EmailSender {
     
     public static function sendEmail(string $recipientEmail, string $subject, string $body): bool {

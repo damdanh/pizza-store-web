@@ -1,12 +1,26 @@
 <?php
+// app/controller/UserController.php
+
+// Đảm bảo đường dẫn đúng theo cấu trúc: nhahang/app/controller/
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../model/UserModel.php';
+require_once __DIR__ . '/../Utils/EmailSender.php'; 
+
 class UserController {
     private $base_url = '/WD20302-PRO1014_N5/nhahang/public';
     private $pdo;
+    private $userModel;
 
     public function __construct() {
+        // Giả định getConnection() trả về đối tượng PDO
         $this->pdo = getConnection();
+        $this->userModel = new UserModel($this->pdo); 
     }
+    
+    // =================================================================
+    // CÁC HÀM XỬ LÝ ĐĂNG KÝ/ĐĂNG NHẬP (GIỮ NGUYÊN CODE CŨ CỦA BẠN)
+    // =================================================================
+    
     public function showRegister() {
         $data = [
             'title' => 'Đăng Ký Tài Khoản',
@@ -129,6 +143,7 @@ class UserController {
             include __DIR__ . '/../view/main.php';
         }
     }
+    
     public function showLogin() {
         $data = [
             'title' => 'Đăng Nhập',
@@ -141,49 +156,225 @@ class UserController {
         include __DIR__ . '/../view/main.php';
     }
 
-   public function login() {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $email = trim($_POST['email'] ?? '');
-        $pass  = $_POST['password'] ?? '';
+    public function login() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = trim($_POST['email'] ?? '');
+            $pass  = $_POST['password'] ?? '';
 
-        if (empty($email) || empty($pass)) {
-            $_SESSION['login_error'] = "Vui lòng nhập đầy đủ email và mật khẩu!";
-            $this->showLogin();
-            return;
-        }
-
-        try {
-            $stmt = $this->pdo->prepare("SELECT * FROM khach_hang WHERE email = ?");
-            $stmt->execute([$email]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($user && password_verify($pass, $user['mat_khau'])) {
-                $_SESSION['user_id']   = $user['id_khach_hang'];
-                $_SESSION['user_name'] = $user['ten'];
-                
-                error_log("✅ Đăng nhập thành công - User ID: " . $user['id_khach_hang']);
-                
-                
-                $redirect = $_SESSION['redirect_after_login'] ?? "$this->base_url/";
-                unset($_SESSION['redirect_after_login']);
-                
-                header("Location: $redirect");
-                exit;
+            if (empty($email) || empty($pass)) {
+                $_SESSION['login_error'] = "Vui lòng nhập đầy đủ email và mật khẩu!";
+                $this->showLogin();
+                return;
             }
-            
-            $_SESSION['login_error'] = "Email hoặc mật khẩu không đúng!";
-        } catch (PDOException $e) {
-            error_log("Lỗi đăng nhập: " . $e->getMessage());
-            $_SESSION['login_error'] = "Lỗi hệ thống. Vui lòng thử lại!";
+
+            try {
+                $stmt = $this->pdo->prepare("SELECT * FROM khach_hang WHERE email = ?");
+                $stmt->execute([$email]);
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($user && password_verify($pass, $user['mat_khau'])) {
+                    $_SESSION['user_id']   = $user['id_khach_hang'];
+                    $_SESSION['user_name'] = $user['ten'];
+                    
+                    error_log("✅ Đăng nhập thành công - User ID: " . $user['id_khach_hang']);
+                    
+                    
+                    $redirect = $_SESSION['redirect_after_login'] ?? "$this->base_url/";
+                    unset($_SESSION['redirect_after_login']);
+                    
+                    header("Location: $redirect");
+                    exit;
+                }
+                
+                $_SESSION['login_error'] = "Email hoặc mật khẩu không đúng!";
+            } catch (PDOException $e) {
+                error_log("Lỗi đăng nhập: " . $e->getMessage());
+                $_SESSION['login_error'] = "Lỗi hệ thống. Vui lòng thử lại!";
+            }
         }
+        
+        $this->showLogin();
     }
-    
-    $this->showLogin();
-}
 
     public function logout() {
         session_destroy();
         header("Location: $this->base_url/");
+        exit;
+    }
+    
+    // =================================================================
+    // LOGIC QUÊN MẬT KHẨU (CHỨC NĂNG MỚI)
+    // =================================================================
+
+    // 1. Hiển thị Form nhập email
+    public function showForgotPassword() {
+        $data = [
+            'title' => 'Quên Mật Khẩu',
+            'content_view' => __DIR__ . '/../view/forgot_password_email.php', 
+            'error' => $_SESSION['forgot_error'] ?? ''
+        ];
+        unset($_SESSION['forgot_error']);
+        extract($data);
+        include __DIR__ . '/../view/main.php';
+    }
+
+    // 2. Xử lý gửi mã xác nhận (Code 6 ký tự)
+    public function sendResetCode() {
+        $email = trim($_POST['email'] ?? '');
+        
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['forgot_error'] = "Email không hợp lệ.";
+            header("Location: $this->base_url/forgot_password");
+            exit;
+        }
+
+        // Lấy thông tin người dùng qua UserModel
+        $user = $this->userModel->getUserByEmail($email);
+
+        if ($user) {
+            $code = strtoupper(substr(bin2hex(random_bytes(3)), 0, 6)); // Code 6 ký tự
+            $expires_at = time() + (2 * 60); // Hết hạn sau 2 phút
+            
+            if ($this->userModel->saveResetCode($user['id_khach_hang'], $code, $expires_at)) {
+                
+                $subject = "Mã Xác Nhận Quên Mật Khẩu N5 Restaurant";
+                // Đặt mã code trong <strong> để EmailSender (mock) dễ trích xuất
+                $body = "Mã xác nhận của bạn là: <strong>$code</strong>. Mã này sẽ hết hạn sau 2 phút.";
+                
+                // Gửi email giả định (sẽ ghi log và lưu code vào SESSION['MOCK_CODE'])
+                EmailSender::sendEmail($email, $subject, $body); 
+                
+                // Chuyển hướng đến form nhập mã
+                header("Location: $this->base_url/verify_reset_code?email=" . urlencode($email));
+                exit;
+            } else {
+                $_SESSION['forgot_error'] = "Lỗi hệ thống khi lưu mã. Vui lòng thử lại.";
+            }
+        } else {
+            // Luôn thông báo chung chung để tránh lộ thông tin email nào tồn tại
+            $_SESSION['forgot_error'] = "Nếu email này tồn tại, mã xác nhận sẽ được gửi đến.";
+        }
+        
+        header("Location: $this->base_url/forgot_password");
+        exit;
+    }
+    
+    // 3. Hiển thị Form nhập mã code
+    public function showVerifyCode() {
+        $email = $_GET['email'] ?? '';
+        $error = $_SESSION['verify_error'] ?? '';
+        unset($_SESSION['verify_error']);
+        
+        // Lấy mã code giả định nếu có
+        $mock_code = $_SESSION['MOCK_CODE'] ?? 'N/A';
+        unset($_SESSION['MOCK_CODE']); // Xóa ngay sau khi lấy
+
+        if (empty($email)) {
+            header("Location: $this->base_url/forgot_password");
+            exit;
+        }
+
+        $data = [
+            'title' => 'Xác Nhận Mã Code',
+            'content_view' => __DIR__ . '/../view/verify_email.php', 
+            'email' => $email,
+            'error' => $error,
+            'mock_code' => $mock_code // Truyền mã code giả định ra View
+        ];
+        extract($data);
+        include __DIR__ . '/../view/main.php';
+    }
+
+    // 4. Xử lý xác nhận mã code
+    public function verifyResetCode() {
+        $email = trim($_POST['email'] ?? '');
+        $code = trim($_POST['otp'] ?? '');
+        $user = $this->userModel->getUserByEmail($email);
+        
+        if (!$user) {
+            $_SESSION['verify_error'] = "Lỗi hệ thống. Vui lòng thử lại quy trình.";
+            header("Location: $this->base_url/forgot_password");
+            exit;
+        }
+
+        if ($this->userModel->validateResetCode($user['id_khach_hang'], $code)) {
+            // Mã hợp lệ, tạo token để cho phép cập nhật mật khẩu
+            $reset_token = bin2hex(random_bytes(32)); 
+            $this->userModel->saveResetToken($user['id_khach_hang'], $reset_token);
+
+            // Chuyển hướng đến form cập nhật mật khẩu
+            header("Location: $this->base_url/reset_password?token=" . $reset_token);
+            exit;
+        } else {
+            $_SESSION['verify_error'] = "Mã xác nhận không hợp lệ hoặc đã hết hạn.";
+            // Để giữ email trên URL:
+            header("Location: $this->base_url/verify_reset_code?email=" . urlencode($email));
+            exit;
+        }
+    }
+    
+    // 5. Hiển thị Form cập nhật mật khẩu
+    public function showResetPassword() {
+        $token = $_GET['token'] ?? '';
+        $error = $_SESSION['reset_error'] ?? '';
+        unset($_SESSION['reset_error']);
+        
+        // Kiểm tra tính hợp lệ của token
+        if (empty($token) || !$this->userModel->getUserByResetToken($token)) {
+            $_SESSION['forgot_error'] = "Liên kết đặt lại mật khẩu không hợp lệ hoặc đã hết hạn.";
+            header("Location: $this->base_url/forgot_password");
+            exit;
+        }
+        
+        $data = [
+            'title' => 'Cập Nhật Mật Khẩu',
+            'content_view' => __DIR__ . '/../view/reset_password.php',
+            'token' => $token,
+            'error' => $error
+        ];
+        extract($data);
+        include __DIR__ . '/../view/main.php';
+    }
+
+    // 6. Xử lý cập nhật mật khẩu
+    public function resetPassword() {
+        $token = $_POST['token'] ?? '';
+        $password = $_POST['password'] ?? '';
+        $confirm_password = $_POST['confirm_password'] ?? '';
+
+        $user = $this->userModel->getUserByResetToken($token);
+
+        if (!$user) {
+            $_SESSION['forgot_error'] = "Phiên cập nhật đã hết hạn. Vui lòng thử lại.";
+            header("Location: $this->base_url/forgot_password");
+            exit;
+        }
+        
+        // Kiểm tra các điều kiện mật khẩu (giống như trong register)
+        $errors = [];
+        if (strlen($password) < 8) $errors[] = "Mật khẩu phải có tối thiểu 8 ký tự.";
+        if (!preg_match('/[A-Z]/', $password)) $errors[] = "Mật khẩu phải có ít nhất 1 chữ hoa (A-Z).";
+        if (!preg_match('/[a-z]/', $password)) $errors[] = "Mật khẩu phải có ít nhất 1 chữ thường.";
+        if (!preg_match('/[0-9]/', $password)) $errors[] = "Mật khẩu phải có ít nhất 1 số.";
+        if (!preg_match('/[^A-Za-z0-9]/', $password)) $errors[] = "Mật khẩu phải có ít nhất 1 ký tự đặc biệt.";
+        if ($password !== $confirm_password) $errors[] = "Xác nhận mật khẩu không khớp.";
+        
+        if (!empty($errors)) {
+             $_SESSION['reset_error'] = implode("<br>", $errors);
+        } else {
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            if ($this->userModel->updatePassword($user['id_khach_hang'], $hashed_password)) {
+                $this->userModel->clearResetData($user['id_khach_hang']);
+                $_SESSION['success'] = "Mật khẩu đã được cập nhật thành công! Vui lòng đăng nhập.";
+                header("Location: $this->base_url/login");
+                exit;
+            } else {
+                $_SESSION['reset_error'] = "Lỗi khi cập nhật mật khẩu. Vui lòng thử lại.";
+            }
+        }
+        
+        header("Location: $this->base_url/reset_password?token=" . $token);
         exit;
     }
 }
