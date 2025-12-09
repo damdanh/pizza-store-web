@@ -30,7 +30,11 @@ try {
         'name'    => $pending['name'],
         'phone'   => $pending['phone'],
         'email'   => $pending['email'] ?? null,
+<<<<<<< HEAD
         'soluongban'  => $pending['tables'] ?? null, // Lưu số bàn
+=======
+        'soluongban'  => $pending['tables'], 
+>>>>>>> 17f3eeb97c3c9dc60d1dd544285ad28b79763547
         'date'    => $pending['date'],
         'time'    => $pending['time'],
         'branch'  => $pending['branch'],

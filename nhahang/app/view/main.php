@@ -23,9 +23,23 @@ if (isset($content_view)) {
 
     <!-- CSS chung -->
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/contact.css"> 
+
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/xacnhandatban.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/home.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products.css"> 
     <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products_detail.css"> 
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/signin.css"> 
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/login.css">
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/datban.css">
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/sukien.css">
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/baochi.css">
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/chitietdatban.css">
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/contact.css">
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/mondachon.css">
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/home.css"> 
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products.css"> 
+    <link rel="stylesheet" href="<?php echo $base_url_path; ?>public/user/css/products_detail.css"> 
+
 
     <!-- CSS cho trang đăng nhập/đăng ký -->
     <?php if (in_array($current_page, ['login', 'register', 'signin', 'forgot_password_email', 'verify_email', 'reset_password'])): ?>
@@ -85,6 +99,7 @@ include __DIR__ . '/footer.php';
 ?>
 
 <script src="<?php echo $base_url_path; ?>public/cart.js"></script>
+
 
 </body>
 </html>

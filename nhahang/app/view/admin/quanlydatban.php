@@ -351,7 +351,12 @@ include 'views/layouts/sidebar.php';
             <input type="text" class="filter-input" placeholder="Tìm kiếm theo Tên/SĐT">
             <input type="text" class="filter-input" placeholder="Trạng Thái">
             <input type="text" class="filter-input" placeholder="Chi Nhánh">
+<<<<<<< HEAD
             <button class="refresh-btn">Làm mới</button>
+=======
+
+             <button class="refresh-btn">Làm mới</button>
+>>>>>>> 17f3eeb97c3c9dc60d1dd544285ad28b79763547
         </div>
     </section>
 

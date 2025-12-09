@@ -71,8 +71,13 @@ document.addEventListener('DOMContentLoaded', () => {
             cartItemsContainer.innerHTML = cartHtml;
             subtotalElement.textContent = formatCurrency(total);
             const vat = total * 0.08;
+<<<<<<< HEAD
             // const shipping = 30000;
             totalElement.textContent = formatCurrency(total);
+=======
+          
+            totalElement.textContent = formatCurrency(total + vat);
+>>>>>>> 17f3eeb97c3c9dc60d1dd544285ad28b79763547
 
             cartEmpty.style.display = 'none';
             cartItemsContainer.style.display = 'flex';
