@@ -19,6 +19,8 @@
         --nav-hover: #e9ecef; /* Nền hover nhẹ nhàng */
         --black-btn: #343a40; /* Nút hành động (đen) */
         --black-btn-hover: #1d2124;
+        --success-color: #28a745; /* Màu xanh cho trạng thái Còn hàng */
+        --danger-color: #dc3545; /* Màu đỏ cho trạng thái Hết hàng */
     }
 
     body {
@@ -212,6 +214,7 @@
 
     .action-btn:hover {
         background-color: var(--black-btn-hover);
+        
     }
 
     /* 📌 STYLE CHO THẺ <a> BÊN TRONG <BUTTON> (Theo cấu trúc gốc của bạn) */
@@ -293,7 +296,7 @@
 
     /* Tùy chỉnh cột hành động */
     .action-cell {
-        width: 100px; /* Giới hạn chiều rộng cho cột hành động */
+        width: 150px; /* Tăng chiều rộng cho nhiều icon */
         text-align: center;
     }
     
@@ -313,14 +316,19 @@
     .action-icon .material-icons-outlined {
         font-size: 18px;
     }
+    /* Thêm style cho icon ẩn/hiện */
+    .status-icon.active {
+        color: #28a745; /* Màu xanh khi món còn hàng/hiện */
+    }
+    .status-icon.inactive {
+        color: var(--text-sub); /* Màu xám khi món hết hàng/bị ẩn */
+    }
 
 </style>
 <?php
 $dish_count = count($dssp ?? []); 
 
-$base_image_path = 'app/public/img/'; 
 $dishes_list = $dssp ?? [];
-?>
 ?>
 <main class="main-content">
     <header class="page-header">
@@ -338,12 +346,23 @@ $dishes_list = $dssp ?? [];
                 <span class="material-icons-outlined" style="margin-right: 5px;">add</span>
                 Thêm món ăn
             </a>
+            <?php if (isset($_GET['show']) && $_GET['show'] === 'hidden'): ?>
+                <a href="admin.php?page=menu" class="action-btn" style="background:#6c757d;">
+                    <span class="material-icons-outlined" style="margin-right: 5px;">visibility</span>
+                    Quay lại danh sách
+                </a>
+            <?php else: ?>
+                <a href="admin.php?page=menu&show=hidden" class="action-btn" style="background:#17a2b8;">
+                    <span class="material-icons-outlined" style="margin-right: 5px;">visibility_off</span>
+                    Hiển thị món ẩn
+                </a>
+            <?php endif; ?>
         </div>
     </header>
 
     <section class="menu-list-section card">
         <div class="list-header">
-            <h2>Danh sách món ăn</h2>
+            <h2>Danh sách món ăn <?= (isset($_GET['show']) && $_GET['show'] === 'hidden') ? '(Đã ẩn)' : '(Đang bán)' ?></h2>
             <p>Tổng cộng **<?php echo $dish_count; ?>** món</p>
         </div>
         
@@ -352,10 +371,9 @@ $dishes_list = $dssp ?? [];
                 <thead>
                     <tr>
                         <th style="width: 5%;">ID</th>
-                        <th style="width: 10%;">Ảnh</th>
-                        <th style="width: 30%;">Tên Món</th>
+                        <th style="width: 45%;">Tên Món</th>
                         <th style="width: 15%;">Nhóm Món</th>
-                        <th style="width: 15%;">Giá</th>
+                        <th style="width: 10%;">Giá</th>
                         <th style="width: 15%;">Trạng Thái</th>
                         <th class="action-cell">Hành Động</th>
                     </tr>
@@ -363,33 +381,47 @@ $dishes_list = $dssp ?? [];
                 <tbody>
                     <?php if (!empty($dishes_list)): ?>
                         <?php foreach ($dishes_list as $dish): ?>
-                        <tr>
-                            <td><?php echo $dish['id_mon']; ?></td>
-                            <!-- <td>
-                                <img src="/nhahang/app/public/img/<?php echo htmlspecialchars($dish['hinh_anh']); ?>" 
-                                     alt="<?php echo htmlspecialchars($dish['ten_mon']); ?>" 
-                                     style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
-                            </td> -->
-                            <td><?php echo htmlspecialchars($dish['ten_mon']); ?></td>
+                             <?php 
+                                $current_status = $dish['trang_thai'];
+                                $is_active = ($current_status == 'Còn hàng');
+                                $new_status = $is_active ? 'Hết hàng' : 'Còn hàng';
+                                $status_color = $is_active ? '#28a745' : '#dc3545';
+                                $rowStyle = !$is_active ? 'background:#fcfcfc; color:#6c757d;' : ''; // Làm mờ món đã ẩn
+                            ?>
+                        <tr style="<?= $rowStyle ?>">
+                            <td><?php echo htmlspecialchars($dish['id_mon']); ?></td>
+                            <td>
+                                <?php echo htmlspecialchars($dish['ten_mon']); ?>
+                                <?php if (!$is_active): ?>
+                                    <span style="display:inline-block; margin-left:8px; font-size:12px; padding:3px 8px; background:#6c757d; color:#fff; border-radius:12px; vertical-align:middle;">ẨN</span>
+                                <?php endif; ?>
+                            </td>
                             <td><?php echo htmlspecialchars($dish['ten_danh_muc']); ?></td>
                             <td>
-                                <strong><?php echo number_format($dish['gia'], 0, ',', '.'); ?> VNĐ</strong>
+                                <strong><?php echo number_format((float)$dish['gia'], 0, ',', '.'); ?> VNĐ</strong>
                             </td>
                             <td>
-                                <?php 
-                                    $status_class = ($dish['trang_thai'] == 'Còn hàng') ? 'text-success' : 'text-danger';
-                                    $status_color = ($dish['trang_thai'] == 'Còn hàng') ? 'green' : 'red';
-                                ?>
                                 <span style="color: <?php echo $status_color; ?>; font-weight: 500;">
-                                    <?php echo $dish['trang_thai']; ?>
+                                    <?php echo htmlspecialchars($current_status); ?>
                                 </span>
                             </td>
                             <td class="action-cell">
-                                <a href="admin.php?page=menu&action=edit&id=<?php echo $dish['id_mon']; ?>" class="action-icon" title="Sửa">
+                                
+                                <a href="admin.php?page=menu&action=<?php echo $is_active ? 'hide' : 'unhide'; ?>&id=<?php echo $dish['id_mon']; ?>&show=<?= htmlspecialchars($_GET['show'] ?? '') ?>" 
+                                   class="action-icon status-icon" 
+                                   title="<?php echo $is_active ? 'Ẩn món' : 'Hiện lại'; ?>"
+                                   onclick="return confirm('Xác nhận <?php echo $is_active ? 'ẨN' : 'HIỆN'; ?> món ăn này?');">
+                                    <span class="material-icons-outlined" style="color: <?php echo $is_active ? '#dc3545' : '#28a745'; ?>;">
+                                        <?php echo $is_active ? 'visibility_off' : 'visibility'; ?>
+                                    </span>
+                                </a>
+
+                                <a href="admin.php?page=menu&action=edit&id=<?php echo $dish['id_mon']; ?>" class="action-icon" title="Sửa chi tiết">
                                     <span class="material-icons-outlined">edit</span>
                                 </a>
+                                
                                 <a href="admin.php?page=menu&action=delete&id=<?php echo $dish['id_mon']; ?>" class="action-icon" title="Xóa"
-                                   onclick="return confirm('Xác nhận xóa món ăn <?php echo htmlspecialchars($dish['ten_mon']); ?>?');" style="color: #dc3545;">
+                                   onclick="return confirm('Xác nhận xóa món ăn <?php echo htmlspecialchars($dish['ten_mon']); ?>?');" style="color: #6c757d;">
                                     <span class="material-icons-outlined">delete</span>
                                 </a>
                             </td>
@@ -397,9 +429,9 @@ $dishes_list = $dssp ?? [];
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="7" style="text-align: center; color: var(--text-sub); padding: 20px;">
+                            <td colspan="6" style="text-align: center; color: var(--text-sub); padding: 20px;">
                                 <span class="material-icons-outlined" style="font-size: 20px; display: block; margin-bottom: 5px;">info</span>
-                                Hiện tại không có món ăn nào trong menu. Vui lòng thêm món mới.
+                                <?php echo (isset($_GET['show']) && $_GET['show'] === 'hidden') ? 'Không có món ăn nào bị ẩn.' : 'Hiện tại không có món ăn nào đang bán.'; ?>
                             </td>
                         </tr>
                     <?php endif; ?>
@@ -410,4 +442,3 @@ $dishes_list = $dssp ?? [];
 </main>
 
 <?php include 'views/layouts/footer.php'; ?>
-
