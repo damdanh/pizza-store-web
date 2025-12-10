@@ -34,8 +34,8 @@ try {
         'phone'   => $pending['phone'],
         'email'   => $pending['email'] ?? null,
         'soluongban'  => $pending['tables'] ?? null, // Lưu số bàn
-        'date'    => $pending['date'],
-        'time'    => $pending['time'],
+        'booking_date'    => $pending['date'],
+        'booking_time'    => $pending['time'],
         'branch'  => $pending['branch'],
         'notes'   => $pending['notes'] ?? '',
         'user_id' => $userId, // TRUYỀN USER ID VÀO

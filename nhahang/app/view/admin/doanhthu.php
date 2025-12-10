@@ -1,4 +1,5 @@
 <style>
+/* (Giữ nguyên phần CSS của bạn) */
     * {
         margin: 0;
         padding: 0;
@@ -237,10 +238,40 @@
     }
 </style>
 <?php
+// views/admin/doanhthu.php
+
+// Hàm helper đơn giản để format tiền tệ 
+if (!function_exists('format_currency')) {
+    function format_currency($amount) {
+        return number_format($amount, 0, ',', '.') . ' VNĐ';
+    }
+}
+
+// Giả định: Các biến $startDate, $endDate, $branchId, $summaryData, $branches, 
+// $labels_json, $revenueData_json, $profitData_json được cung cấp bởi DoanhthuController
+// Các biến này phải có khi file này được include.
+
 $pageTitle = "Thống kê Doanh thu | Hệ thống Nhà hàng";
 $activePage = "doanhthu";
-include 'views/layouts/header.php';
-include 'views/layouts/sidebar.php';
+// Kiểm tra và include layout
+if (file_exists('views/layouts/header.php')) {
+    include 'views/layouts/header.php';
+}
+if (file_exists('views/layouts/sidebar.php')) {
+    include 'views/layouts/sidebar.php';
+}
+
+// Nếu biến $summaryData chưa được định nghĩa (do lỗi Controller), gán giá trị mặc định
+if (!isset($summaryData)) {
+    $summaryData = ['total_revenue' => 0, 'net_profit' => 0, 'total_orders' => 0];
+    $labels_json = '[]';
+    $revenueData_json = '[]';
+    $profitData_json = '[]';
+    $branches = [];
+    $startDate = date('Y-m-d', strtotime('-7 days'));
+    $endDate = date('Y-m-d');
+    $branchId = 0;
+}
 ?>
 
 <main class="main-content">
@@ -248,23 +279,34 @@ include 'views/layouts/sidebar.php';
         <h1>Thống kê Doanh thu</h1>
         <p>Xem tổng quan về doanh thu và lợi nhuận của hệ thống</p>
     </header>
-
-    <div class="filter-controls-revenue">
-        <input type="date" class="date-input" value="2025-11-01">
-        <input type="date" class="date-input" value="2025-11-27">
-        <select class="branch-select">
-            <option>Tất cả chi nhánh</option>
-            <option>Chi nhánh 1</option>
-            <option>Chi nhánh 2</option>
-        </select>
-    </div>
-
+    
+    <form method="GET" action="admin.php" style="margin-bottom: 20px;">
+        <input type="hidden" name="page" value="doanhthu"> 
+        <div class="filter-controls-revenue">
+            <input type="date" class="date-input" name="start_date" 
+                   value="<?php echo htmlspecialchars($startDate); ?>" title="Ngày bắt đầu">
+            
+            <input type="date" class="date-input" name="end_date"
+                   value="<?php echo htmlspecialchars($endDate); ?>" title="Ngày kết thúc">
+            
+            <select class="branch-select" name="branch_id">
+                <option value="0">Tất cả chi nhánh</option>
+                <?php if (isset($branches) && is_array($branches)): ?>
+                    <?php foreach ($branches as $branch): ?>
+                        <option value="<?php echo htmlspecialchars($branch['id']); ?>" 
+                                <?php echo ($branchId == $branch['id']) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($branch['ten_chi_nhanh']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </select>
+            <button type="submit" class="black-btn" style="padding: 10px; border: none; background: #222; color: white; border-radius: 4px; cursor: pointer; max-width: 100px; flex-grow: 0;">Lọc dữ liệu</button>
+        </div>
+    </form>
     <section class="revenue-stats">
         <div class="card stat-card">
             <div>
-
-                <div class="stat-value">500,000,000 VNĐ</div>
-                <div class="stat-value">0 VNĐ</div>
+                <div class="stat-value"><?php echo format_currency($summaryData['total_revenue']); ?></div>
                 <div class="stat-label">Tổng Doanh thu</div>
             </div>
             <span class="material-icons-outlined" style="color: #34A853;">paid</span>
@@ -272,8 +314,7 @@ include 'views/layouts/sidebar.php';
 
         <div class="card stat-card">
             <div>
-                <div class="stat-value">500,000,000 VNĐ</div>
-                <div class="stat-value">0 VNĐ</div>
+                <div class="stat-value"><?php echo format_currency($summaryData['net_profit']); ?></div>
                 <div class="stat-label">Lợi nhuận ròng</div>
             </div>
             <span class="material-icons-outlined" style="color: #4285F4;">trending_up</span>
@@ -281,7 +322,7 @@ include 'views/layouts/sidebar.php';
 
         <div class="card stat-card">
             <div>
-                <div class="stat-value">0</div>
+                <div class="stat-value"><?php echo $summaryData['total_orders']; ?></div>
                 <div class="stat-label">Tổng đơn hàng</div>
             </div>
             <span class="material-icons-outlined" style="color: #EA4335;">shopping_cart</span>
@@ -292,76 +333,81 @@ include 'views/layouts/sidebar.php';
         <canvas id="revenueChart" width="100%" style="max-width:1000px"></canvas>
     </section>
 
-    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Dữ liệu giả định (mẫu) — bạn có thể thay bằng dữ liệu thực từ PHP/DB
-        const labels = [
-            '2025-11-21', '2025-11-22', '2025-11-23', '2025-11-24', '2025-11-25', '2025-11-26', '2025-11-27'
-        ];
+        // Sửa đổi: Dữ liệu được truyền từ PHP Controller dưới dạng JSON
+        const labels = <?php echo $labels_json ?? '[]'; ?>;
+        const revenueData = <?php echo $revenueData_json ?? '[]'; ?>; 
+        const profitData = <?php echo $profitData_json ?? '[]'; ?>; 
 
-        const revenueData = [12000000, 15000000, 10000000, 18000000, 22000000, 20000000, 25000000]; // VNĐ
-        const profitData = [4000000, 5000000, 3000000, 6000000, 7000000, 6500000, 9000000]; // VNĐ
-
-        const ctx = document.getElementById('revenueChart').getContext('2d');
-        const revenueChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Doanh thu (VNĐ)',
-                        data: revenueData,
-                        borderColor: '#4285F4',
-                        backgroundColor: 'rgba(66,133,244,0.08)',
-                        tension: 0.3,
-                        fill: true,
-                        pointRadius: 4
-                    },
-                    {
-                        label: 'Lợi nhuận (VNĐ)',
-                        data: profitData,
-                        borderColor: '#34A853',
-                        backgroundColor: 'rgba(52,168,83,0.08)',
-                        tension: 0.3,
-                        fill: true,
-                        pointRadius: 4
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        display: true,
-                        title: { display: true, text: 'Ngày' }
-                    },
-                    y: {
-                        display: true,
-                        title: { display: true, text: 'VNĐ' },
-                        ticks: {
-                            callback: function (value) {
-                                // Format as currency (VNĐ) compact
-                                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
-                            }
+        if (labels.length === 0) {
+            // Nếu không có dữ liệu, hiển thị thông báo thay vì biểu đồ trống
+            document.getElementById('revenueChart').parentElement.innerHTML = '<p style="text-align: center; color: var(--text-sub); margin: 100px;">Không có đơn hàng hoàn thành trong khoảng thời gian đã chọn.</p>';
+        } else {
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            const revenueChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels, // Dữ liệu động
+                    datasets: [
+                        {
+                            label: 'Doanh thu (VNĐ)',
+                            data: revenueData, // Dữ liệu động
+                            borderColor: '#4285F4',
+                            backgroundColor: 'rgba(66,133,244,0.08)',
+                            tension: 0.3,
+                            fill: true,
+                            pointRadius: 4
+                        },
+                        {
+                            label: 'Lợi nhuận (VNĐ)',
+                            data: profitData, // Dữ liệu động
+                            borderColor: '#34A853',
+                            backgroundColor: 'rgba(52,168,83,0.08)',
+                            tension: 0.3,
+                            fill: true,
+                            pointRadius: 4
                         }
-                    }
+                    ]
                 },
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function (context) {
-                                let v = context.parsed.y || 0;
-                                return context.dataset.label + ': ' + v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            display: true,
+                            title: { display: true, text: 'Ngày' }
+                        },
+                        y: {
+                            display: true,
+                            title: { display: true, text: 'VNĐ' },
+                            ticks: {
+                                callback: function (value) {
+                                    // Format as currency (VNĐ)
+                                    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
+                                }
                             }
                         }
                     },
-                    legend: { position: 'top' }
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    let v = context.parsed.y || 0;
+                                    return context.dataset.label + ': ' + v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
+                                }
+                            }
+                        },
+                        legend: { position: 'top' }
+                    }
                 }
-            }
-        });
+            });
+        }
     </script>
 </main>
 
-<?php include 'views/layouts/footer.php'; ?>
+<?php 
+if (file_exists('views/layouts/footer.php')) {
+    include 'views/layouts/footer.php'; 
+}
+?>
