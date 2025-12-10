@@ -157,24 +157,43 @@ class AdminController {
             }
 
             // === SỬA LỖI XỬ LÝ NGÀY/GIỜ ===
-            // Chuyển đổi định dạng ngày (từ dd/mm/yy sang yyyy-mm-dd)
             $ngay_dat = trim($_POST['ngay'] ?? '');
-            $booking_date = DateTime::createFromFormat('d/m/y', $ngay_dat) 
-                            ? DateTime::createFromFormat('d/m/y', $ngay_dat)->format('Y-m-d')
-                            : null;
-            
-            // Lấy giờ và định dạng lại thành HH:mm:ss cho SQL
             $gio_dat = trim($_POST['gio'] ?? ''); 
-            // Cố gắng parse Giờ (ví dụ: 19:00, 7:00 PM) thành định dạng H:i:s cho SQL
-            $booking_time_obj = DateTime::createFromFormat('H:i', $gio_dat);
-            if (!$booking_time_obj) {
-                $booking_time_obj = DateTime::createFromFormat('h:i A', strtoupper($gio_dat));
-            }
-            $booking_time = $booking_time_obj ? $booking_time_obj->format('H:i:s') : null;
             
-            // Kiểm tra lỗi ngày/giờ
-            if (empty($booking_date) || empty($booking_time)) {
-                $error_msg = "Lỗi: Định dạng Ngày hoặc Giờ không hợp lệ (Cần dd/mm/yy và HH:mm).";
+            $booking_date = null;
+            $booking_time = null;
+            
+            // 1. Phân tích Ngày: Đảm bảo format dd/mm/yy chính xác
+            if (!empty($ngay_dat)) {
+                $date_obj = DateTime::createFromFormat('d/m/y', $ngay_dat);
+                // Kiểm tra nếu object được tạo và ngày tháng không bị tràn (false positives)
+                if ($date_obj && $date_obj->format('d/m/y') === $ngay_dat) {
+                    $booking_date = $date_obj->format('Y-m-d');
+                }
+            }
+            
+            // 2. Phân tích Giờ: Đảm bảo format HH:mm chính xác
+            if (!empty($gio_dat)) {
+                $time_obj = DateTime::createFromFormat('H:i', $gio_dat);
+                // Nếu H:i thất bại, thử H:i A (vì đôi khi form web mặc định nhập kiểu này)
+                if (!$time_obj) {
+                     $time_obj = DateTime::createFromFormat('h:i A', strtoupper($gio_dat));
+                }
+                
+                if ($time_obj) {
+                    $booking_time = $time_obj->format('H:i:s');
+                }
+            }
+            
+            // KIỂM TRA VALIDATION CỦA CONTROLLER
+            if (empty($booking_date)) {
+                $error_msg = "Lỗi: Ngày đặt bàn (dd/mm/yy) không hợp lệ hoặc bị thiếu.";
+                header("Location: admin.php?page=formDemo&error=" . urlencode($error_msg) . "&prev_data=" . urlencode(json_encode($_POST)));
+                exit;
+            }
+            
+            if (empty($booking_time)) {
+                $error_msg = "Lỗi: Giờ đặt bàn (HH:mm) không hợp lệ hoặc bị thiếu.";
                 header("Location: admin.php?page=formDemo&error=" . urlencode($error_msg) . "&prev_data=" . urlencode(json_encode($_POST)));
                 exit;
             }
@@ -186,8 +205,8 @@ class AdminController {
                 'phone' => trim($_POST['sdt'] ?? ''),
                 'email' => trim($_POST['email'] ?? ''),
                 'branch' => $branchName, 
-                'booking_date' => $booking_date, 
-                'booking_time' => $booking_time, 
+                'booking_date' => $booking_date, // Đã validate và format
+                'booking_time' => $booking_time, // Đã validate và format
                 'soluongban' => (int)($_POST['songuoi'] ?? 1),
                 'notes' => trim($_POST['ghichu'] ?? ''),
                 'id_khach_hang' => $_SESSION['user']['id'] ?? null, // SỬ DỤNG id_khach_hang

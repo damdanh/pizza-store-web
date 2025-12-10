@@ -38,54 +38,55 @@ class BookingModel {
      * Tạo một đơn đặt bàn mới.
      */
     public function createBooking($data) {
-        try {
-            // Validate dữ liệu
-            $required = ['name', 'phone', 'soluongban', 'booking_date', 'booking_time', 'branch'];
-            foreach ($required as $field) {
-                if (empty($data[$field])) {
-                    throw new Exception("Thiếu trường bắt buộc: {$field}"); 
-                }
+    try {
+        // Validate dữ liệu
+        $required = ['name', 'phone', 'soluongban', 'booking_date', 'booking_time', 'branch'];
+        foreach ($required as $field) {
+            if (empty($data[$field])) {
+                throw new Exception("Thiếu trường bắt buộc: {$field}"); 
             }
-            
-            // LẤY DỮ LIỆU BỔ SUNG
-            $userId = $data['id_khach_hang'] ?? null;
-            $totalAmount = $data['total'] ?? 0;
-            $status = $data['status'] ?? 0;
-            
-            // CẬP NHẬT CÂU LỆNH SQL: Thêm cột status
-            $stmt = $this->pdo->prepare("
-                INSERT INTO bookings (name, phone, email, id_khach_hang, soluongban, booking_date, booking_time, branch, notes, total, created_at, status)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)
-            ");
-            
-            // CẬP NHẬT THỨ TỰ THAM SỐ:
-            $success = $stmt->execute([
-                $data['name'], 
-                $data['phone'], 
-                $data['email'] ?? null,
-                $userId,                    
-                $data['soluongban'], 
-                $data['booking_date'],      
-                $data['booking_time'], 
-                $data['branch'], 
-                $data['notes'] ?? '',
-                $totalAmount,               
-                $status,
-                $tienThanhToanSau ?? 0                
-            ]);
-
-            if (!$success) {
-                throw new Exception("Execute failed: " . implode(", ", $stmt->errorInfo()));
-            }
-
-            return $this->pdo->lastInsertId();
-            
-        } catch (PDOException $e) {
-            error_log("PDO Error in createBooking: " . $e->getMessage());
-            throw new Exception("Lỗi database: " . $e->getMessage());
         }
-    }
+        
+        // LẤY DỮ LIỆU BỔ SUNG
+        $userId = $data['id_khach_hang'] ?? null;
+        $totalAmount = $data['total'] ?? 0;
+        $status = $data['status'] ?? 0;
+        
+        // CẬP NHẬT CÂU LỆNH SQL: Có 11 dấu hỏi (?)
+        $stmt = $this->pdo->prepare("
+            INSERT INTO bookings (name, phone, email, id_khach_hang, soluongban, booking_date, booking_time, branch, notes, total, created_at, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)
+        ");
+        
+        // CẬP NHẬT THỨ TỰ THAM SỐ:
+        // Cần 11 tham số. Tham số thứ 11 là $status.
+        // Biến $tienThanhToanSau không tồn tại và không cần thiết
+        // Nếu $totalAmount là tổng tiền, thì $tienThanhToanSau là biến thừa, ta loại bỏ nó.
+        $success = $stmt->execute([
+            $data['name'], 
+            $data['phone'], 
+            $data['email'] ?? null,
+            $userId,
+            $data['soluongban'], 
+            $data['booking_date'], 
+            $data['booking_time'], 
+            $data['branch'], 
+            $data['notes'] ?? '',
+            $totalAmount,  // Tham số thứ 10
+            $status // Tham số thứ 11. KHÔNG CẦN $tienThanhToanSau ?? 0
+        ]);
 
+        if (!$success) {
+            throw new Exception("Execute failed: " . implode(", ", $stmt->errorInfo()));
+        }
+
+        return $this->pdo->lastInsertId();
+        
+    } catch (PDOException $e) {
+        error_log("PDO Error in createBooking: " . $e->getMessage());
+        throw new Exception("Lỗi database: " . $e->getMessage());
+    }
+}
     public function addBookingItem($bookingId, $idMon, $soLuong, $gia) {
         try {
             // ✅ Validate
