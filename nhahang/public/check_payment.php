@@ -19,6 +19,7 @@ $postData = [
     "description" => $pending['order_code']
 ];
 
+// Đây là cách PHP gửi request POST dạng JSON
 $ch = curl_init($apiUrl);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
@@ -41,18 +42,22 @@ if (!empty($data['data'])) {
     
     // Nếu có user_id trong session, gán vào booking.
     $userId = $_SESSION['user_id'] ?? null;
+    
+    // LẤY GIÁ TRỊ TIỀN THANH TOÁN SAU MỚI TỪ SESSION PENDING
+    $tienThanhToanSauDB = $pending['tien_thanh_toan_sau_db'] ?? 0;
 
     $id = $model->createBooking([
         'name'   => $pending['name'],
         'phone'  => $pending['phone'],
         'email'  => $pending['email'] ?? null,
-        'people' => $pending['tables'], // Dùng tables thay vì people
+        'soluongban' => $pending['tables'], 
         'date'   => $pending['date'],
         'time'   => $pending['time'],
         'branch' => $pending['branch'],
         'notes'  => $pending['notes'] ?? '',
         'user_id' => $userId, // TRUYỀN USER ID VÀO
-        'total'   => $pending['amount'] // LƯU TỔNG TIỀN ĐÃ THANH TOÁN
+        'total'   => $pending['amount'], // LƯU TỔNG TIỀN ĐÃ THANH TOÁN
+        'tien_thanh_toan_sau_db' => $tienThanhToanSauDB // KEY MỚI: Tiền thanh toán sau (Tổng món - Tiền cọc)
     ]);
     
 
@@ -65,7 +70,7 @@ if (!empty($data['data'])) {
         require_once '../app/model/AccountModel.php';
         $accountModel = new AccountModel($pdo);
         
-        // LẤY TỔNG GIÁ TRỊ MÓN ĂN (CÓ VAT) - THEO YÊU CẦU MỚI
+        // LẤY TỔNG GIÁ TRỊ MÓN ĂN (CÓ VAT) - TỔNG TIỀN MÓN THỰC TẾ
         $totalFoodValue = $pending['tien_mon_co_vat']; 
         
         $accountModel->capNhatTongChiTieu($userId, $totalFoodValue);
@@ -76,13 +81,14 @@ if (!empty($data['data'])) {
         'id' => $id,
         'name' => $pending['name'],
         'phone' => $pending['phone'],
-        'tables' => $pending['tables'], // Thêm thông tin này
+        'tables' => $pending['tables'], 
         'date' => $pending['date'],
         'time' => $pending['time'],
         'branch' => $pending['branch'],
         'total' => $pending['amount'],
         'paid' => true,
-        'order_code' => $pending['order_code'] // Thêm thông tin này
+        'order_code' => $pending['order_code'],
+        'tien_thanh_toan_sau_db' => $tienThanhToanSauDB // THÊM KEY MỚI VÀO SESSION BOOKING
     ];
     
     // Xóa session cart
@@ -91,5 +97,5 @@ if (!empty($data['data'])) {
     echo json_encode(['status' => 'success']);
     exit;
 }
-
+// NẾU CHƯA CÓ GIAO DỊCH → TRẢ “WAITING”
 echo json_encode(['status' => 'waiting']);

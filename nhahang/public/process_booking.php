@@ -3,12 +3,9 @@ session_start();
 require_once '../app/config/database.php';
 require_once '../app/model/BookingModel.php';
 
-// ====== CHẶN DOUBLE SUBMIT ======
-if (isset($_SESSION['last_booking_time'])) {
-    $timeSinceLastBooking = time() - $_SESSION['last_booking_time'];
-    if ($timeSinceLastBooking < 3) {
-        die("Vui lòng đợi trước khi đặt bàn lại!");
-    }
+// Chặn double submit
+if (isset($_SESSION['last_booking_time']) && (time() - $_SESSION['last_booking_time']) < 3) {
+    die("Vui lòng đợi trước khi đặt bàn lại!");
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -18,14 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $pdo = getConnection();
 $bookingModel = new BookingModel($pdo);
 
-// ====== LẤY DỮ LIỆU FORM ======
-$tables = (int)($_POST['tables'] ?? 1); // Số bàn
+// LẤY DỮ LIỆU
+$soluongban = max(1, (int)($_POST['tables'] ?? 1)); // SỬA TẠI ĐÂY
 $name   = trim($_POST['name'] ?? '');
 $phone  = trim($_POST['phone'] ?? '');
 $email  = trim($_POST['email'] ?? '');
 $date   = $_POST['date'] ?? date('Y-m-d');
 $time   = $_POST['time'] ?? '19:00:00';
-$branch = $_POST['branch'] ?? '';
+$branch = trim($_POST['branch'] ?? '');
 $notes  = trim($_POST['notes'] ?? '');
 
 // Validate
@@ -33,113 +30,73 @@ if (empty($name) || empty($phone) || empty($branch)) {
     die("Vui lòng điền đầy đủ thông tin bắt buộc!");
 }
 
-// ====== TÍNH PHÍ ======
+// TÍNH TIỀN MÓN
 $cart = $_SESSION['cart'] ?? [];
-$totalMonChuaVAT = 0; // Tổng tiền món (chưa VAT)
+$tongGiaMenuCoVAT = 0;
 
 foreach ($cart as $item) {
-    if (isset($item['gia'], $item['so_luong'])) {
-        $totalMonChuaVAT += $item['gia'] * $item['so_luong'];
+    if (isset($item['gia'], $item['so_luong']) && is_numeric($item['gia']) && is_numeric($item['so_luong'])) {
+        $tongGiaMenuCoVAT += $item['gia'] * $item['so_luong'];
     }
 }
 
-// Phí bàn
 define('GIA_MOT_BAN', 50000);
-$phiBan = $tables * GIA_MOT_BAN;
+$phiBan = $soluongban * GIA_MOT_BAN; // DÙNG $soluongban
 
-// Tính tổng CẦN THANH TOÁN
-if ($totalMonChuaVAT > 0) {
-    // CÓ MÓN: Tính VAT 8% + Phí dịch vụ 20%
-    $vat = $totalMonChuaVAT * 0.08; // VAT 8%
-    $totalMonCoVAT = $totalMonChuaVAT + $vat; // Tổng món + VAT
-    $phiDichVu = $totalMonCoVAT * 0.20; // Phí dịch vụ 20% tính trên tổng có VAT
-    $tongCuoiCung = $phiBan + $phiDichVu; // CHỈ trả phí bàn + phí dịch vụ
+if ($tongGiaMenuCoVAT > 0) {
+    $totalMonChuaVAT = $tongGiaMenuCoVAT / 1.08;
+    $vat = $tongGiaMenuCoVAT - $totalMonChuaVAT;
+    $phiDichVu = $tongGiaMenuCoVAT * 0.20;
+    $tongCuoiCung = $phiBan + $phiDichVu;
+    $tienThanhToanSauDB = $tongGiaMenuCoVAT - $tongCuoiCung;
 } else {
-    // KHÔNG CÓ MÓN: Chỉ tính phí bàn
     $vat = 0;
-    $totalMonCoVAT = 0;
-    $tongCuoiCung = $phiBan;
+    $totalMonChuaVAT = 0;
     $phiDichVu = 0;
+    $tongCuoiCung = $phiBan;
+    $tienThanhToanSauDB = 0;
 }
 
-// ====== CASE 1: KHÔNG CÓ MÓN ======
-if (empty($cart) || $totalMonChuaVAT <= 0) {
-    try {
-        $bookingId = $bookingModel->createBooking([
-            'name' => $name,
-            'phone' => $phone,
-            'email' => $email,
-            'people' => $tables, // Lưu số bàn vào cột people
-            'date' => $date,
-            'time' => $time,
-            'branch' => $branch,
-            'notes' => $notes
-        ]);
+// Làm tròn
+$totalMonChuaVAT = round($totalMonChuaVAT);
+$vat = round($vat);
+$tongGiaMenuCoVAT = round($tongGiaMenuCoVAT);
+$phiDichVu = round($phiDichVu);
+$tongCuoiCung = round($tongCuoiCung);
+$tienThanhToanSauDB = round($tienThanhToanSauDB);
 
-        if (!$bookingId) {
-            throw new Exception("Không thể tạo booking");
-        }
+// Nếu tổng = 0 → lưu luôn (hiếm)
+// if ($tongCuoiCung <= 0) {
+//     $bookingId = $bookingModel->createBooking([
+//         'name' => $name, 'phone' => $phone, 'email' => $email,
+//         'soluongban' => $soluongban, 'date' => $date, 'time' => $time,
+//         'branch' => $branch, 'notes' => $notes
+//     ]);
+//     $_SESSION['booking'] = ['id' => $bookingId, 'paid' => true, 'total' => 0];
+//     unset($_SESSION['cart']);
+//     header("Location: xac-nhan");
+//     exit;
+// }
 
-        $_SESSION['booking'] = [
-            'id' => $bookingId,
-            'name' => $name,
-            'phone' => $phone,
-            'email' => $email,
-            'date' => $date,
-            'time' => $time,
-            'tables' => $tables,
-            'branch' => $branch,
-            'notes' => $notes,
-            'cart' => [],
-            'tien_mon_chua_vat' => 0,
-            'vat' => 0,
-            'tien_mon_co_vat' => 0,
-            'phi_ban' => $phiBan,
-            'phi_dich_vu' => 0,
-            'total' => $phiBan,
-            'paid' => true
-        ];
-
-        $_SESSION['last_booking_time'] = time();
-        unset($_SESSION['cart']);
-        header("Location: xac-nhan");
-        exit;
-
-    } catch (Exception $e) {
-        error_log("Lỗi đặt bàn: " . $e->getMessage());
-        die("Đã xảy ra lỗi, vui lòng thử lại!");
-    }
-}
-
-
-$orderCode = "DATBAN" . date('YmdHis') . rand(100, 999);
-
-$bankBin = "970416";
-$accountNo = "34251757";
-$accountName = "VU TIEN DAT";
-
-$qrUrl = "https://img.vietqr.io/image/{$bankBin}-{$accountNo}-compact2.png"
-       . "?amount=" . (int)$tongCuoiCung
-       . "&addInfo=" . urlencode($orderCode)
-       . "&accountName=" . urlencode($accountName);
-
+// TẠO QR + PENDING
+$orderCode = "DATBAN" . date('YmdHis') . rand(100,999);
+$qrUrl = "https://img.vietqr.io/image/970416-34251757-compact2.png?amount={$tongCuoiCung}&addInfo=" . urlencode($orderCode) . "&accountName=" . urlencode("VU TIEN DAT");
+// chờ thanh toán
 $_SESSION['pending_booking'] = [
     'order_code' => $orderCode,
-    'amount'     => $tongCuoiCung,
+    'amount' => $tongCuoiCung,
     'tien_mon_chua_vat' => $totalMonChuaVAT,
-    'vat'        => $vat,
-    'tien_mon_co_vat' => $totalMonCoVAT,
-    'phi_ban'    => $phiBan,
+    'vat' => $vat,
+    'tien_mon_co_vat' => $tongGiaMenuCoVAT,
+    'phi_ban' => $phiBan,
     'phi_dich_vu' => $phiDichVu,
-    'name'       => $name,
-    'phone'      => $phone,
-    'email'      => $email,
-    'tables'     => $tables,
-    'date'       => $date,
-    'time'       => $time,
-    'branch'     => $branch,
-    'notes'      => $notes,
-    'cart'       => $cart
+    'tien_thanh_toan_sau_db' => $tienThanhToanSauDB,
+    'name' => $name, 'phone' => $phone, 'email' => $email,
+    'tables' => $soluongban, // Dùng tables để hiển thị
+    'date' => $date, 'time' => $time, 
+    'branch' => $branch,
+     'notes' => $notes,
+    'cart' => $cart
 ];
 
 $_SESSION['qr_code'] = $qrUrl;
@@ -147,3 +104,4 @@ $_SESSION['last_booking_time'] = time();
 
 header("Location: xac-nhan");
 exit;
+?>
