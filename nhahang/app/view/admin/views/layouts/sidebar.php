@@ -1,6 +1,6 @@
  <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="https://via.placeholder.com/40" alt="Logo" class="avatar">
+                <img src="img/logoN5.png" alt="logoN5" class="avatar">
                 <div>
                     <div class="system-name">Hệ thống</div>
                     <div class="sub-text">Quản lý nhà hàng</div>
@@ -50,9 +50,9 @@
             <div class="sidebar-footer">
     <div class="login-info">Đăng nhập với <br> <strong><?= $_SESSION['admin']['ten'] ?? 'Admin' ?></strong></div>
     
-    <button class="logout-btn" onclick="location.href='admin.php?action=logout'">
-        <span class="material-icons-outlined">logout</span>
-        Đăng xuất
-    </button>
+ <a href="admin.php?action=logout" class="logout-btn">
+    <span class="material-icons-outlined">logout</span>
+    Đăng xuất
+</a>
 </div>
         </aside>

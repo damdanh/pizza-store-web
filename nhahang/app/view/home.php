@@ -75,7 +75,6 @@ $categoryImages = [
                 <div class="dish-info">
                     <p class="dish-name"><?php echo htmlspecialchars($product['ten_mon']); ?></p>
                     <div class="dish-footer">
-                        <button class="add-btn">+</button>
                         <p class="dish-price"><?php echo number_format($product['gia'], 0, ',', '.'); ?> vnđ</p>
                     </div>
                 </div>
@@ -91,8 +90,6 @@ $categoryImages = [
         </div>
     </div>
 </section>
-
-<!-- Community Section -->
 <section class="community-section">
     <div class="container">
         <h2>THAM GIA CỘNG ĐỒNG CỦA CHÚNG TÔI</h2>

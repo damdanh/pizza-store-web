@@ -151,6 +151,12 @@ switch ($route) {
     case 'account': 
         (new AccountController())->index();
         exit;
+<<<<<<< HEAD
+=======
+    case 'dang-cho-xu-ly':
+        (new BookingController())->showProcessingPage();
+            exit;
+>>>>>>> feat_Lộc
 
     default:
       
@@ -162,6 +168,10 @@ switch ($route) {
         http_response_code(404);
         echo "<h1>404 Not Found</h1>";
         exit;
+<<<<<<< HEAD
+=======
+
+>>>>>>> feat_Lộc
 }
 // Dấu đóng của file php nếu có (phải được xóa theo logic MVC chuẩn)
 // }

@@ -1,4 +1,5 @@
 
+
 <style>
         /* --- DÁN TOÀN BỘ MÃ CSS CHUNG BẠN ĐÃ CÓ VÀO ĐÂY --- */
 
@@ -187,6 +188,7 @@
 
         /* Nút hành động đơn */
         .action-button-single {
+            margin: 5px;
             flex-shrink: 0;
         }
 
@@ -274,7 +276,6 @@
     
 </style>
 
-
 <main class="main-content">
     <header class="page-header">
         <div class="page-title-group">
@@ -283,16 +284,22 @@
         </div>
 
         <div class="action-button-single">
-            <button class="action-btn">
+            <a href="admin.php?page=admin&action=add" class="action-btn">
                 Thêm Admin
-            </button>
+            </a>
         </div>
     </header>
+
+    <?php if (!empty($message)): ?>
+    <div style="padding: 10px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 4px; margin-bottom: 20px;">
+        <?= htmlspecialchars($message) ?>
+    </div>
+    <?php endif; ?>
 
     <section class="card admin-list-section">
         <div class="list-header">
             <h2>Danh sách Admin</h2>
-            <p>Tổng cộng 4 tài khoản</p>
+            <p>Tổng cộng <?= count($ds_admin ?? []) ?> tài khoản</p>
         </div>
 
         <table class="data-table">
@@ -306,64 +313,30 @@
                 </tr>
             </thead>
             <tbody>
+                <?php if (!empty($ds_admin)): ?>
+                <?php foreach ($ds_admin as $admin): ?>
                 <tr>
-                    <td>Danh</td>
-                    <td><a href="mailto:danhdam200@gmail.com">danhdam200@gmail.com</a></td>
-                    <td>admin</td>
-                    <td>19/11/2025</td>
+                    <td><?= htmlspecialchars($admin['ten']) ?></td>
+                    <td><a href="mailto:<?= htmlspecialchars($admin['email']) ?>"><?= htmlspecialchars($admin['email']) ?></a></td>
+                    <td><?= htmlspecialchars($admin['vai_tro']) ?></td>
+                    <td><?= htmlspecialchars(date('d/m/Y', strtotime($admin['ngay_tao'] ?? ''))) ?></td> 
                     <td>
-
-                        <a href="#" class="action-link">Sửa</a>
-
                         <a href="admin.php?page=admin&action=edit&id=<?= $admin['id_admin'] ?>" class="action-link">Sửa</a>
-                        <?php if (isset($admin['trang_thai_hoat_dong'])): ?>
-                            |
-                            <?php if ((int)$admin['trang_thai_hoat_dong'] === 1): ?>
-                                <a href="admin.php?page=admin&action=toggle_status&id=<?= $admin['id_admin'] ?>&status=0" 
-                                   class="action-link"
-                                   onclick="return confirm('Bạn có muốn ẩn tài khoản <?= htmlspecialchars($admin['ten']) ?> không?')">
-                                   Ẩn
-                                </a>
-                            <?php else: ?>
-                                <a href="admin.php?page=admin&action=toggle_status&id=<?= $admin['id_admin'] ?>&status=1" 
-                                   class="action-link"
-                                   onclick="return confirm('Bạn có muốn kích hoạt tài khoản <?= htmlspecialchars($admin['ten']) ?> không?')">
-                                   Kích hoạt
-                                </a>
-                            <?php endif; ?>
-                        <?php endif; ?>
+                        |
+                        <a href="admin.php?page=admin&action=delete&id=<?= $admin['id_admin'] ?>" 
+                           class="action-link"
+                           onclick="return confirm('Bạn có chắc chắn muốn xóa tài khoản <?= htmlspecialchars($admin['ten']) ?> không?')">
+                           Xóa
+                        </a>
                     </td>
                 </tr>
+                <?php endforeach; ?>
+                <?php else: ?>
                 <tr>
-                    <td>Trị</td>
-                    <td><a href="mailto:thanhtri@gmail.com">thanhtri@gmail.com</a></td>
-                    <td>admin</td>
-                    <td>19/11/2025</td>
-                    <td>
-                        <a href="#" class="action-link">Sửa</a>
-                    </td>
+                    <td colspan="5">Không có tài khoản Admin nào.</td>
                 </tr>
-                <tr>
-                    <td>Đạt</td>
-                    <td><a href="mailto:tiendat@gmail.com">tiendat@gmail.com</a></td>
-                    <td>admin</td>
-                    <td>19/11/2025</td>
-                    <td>
-                        <a href="#" class="action-link">Sửa</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Lộc</td>
-                    <td><a href="mailto:tanloc@gmail.com">tanloc@gmail.com</a></td>
-                    <td>admin</td>
-                    <td>19/11/2025</td>
-                    <td>
-                        <a href="#" class="action-link">Sửa</a>
-                    </td>
-                </tr>
+                <?php endif; ?>
             </tbody>
         </table>
     </section>
 </main>
-
-<?php include 'views/layouts/footer.php'; ?>

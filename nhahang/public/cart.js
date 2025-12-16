@@ -71,8 +71,13 @@ document.addEventListener('DOMContentLoaded', () => {
             cartItemsContainer.innerHTML = cartHtml;
             subtotalElement.textContent = formatCurrency(total);
             const vat = total * 0.08;
+<<<<<<< HEAD
           
             totalElement.textContent = formatCurrency(total + vat);
+=======
+            // const shipping = 30000;
+            totalElement.textContent = formatCurrency(total);
+>>>>>>> feat_Lộc
 
             cartEmpty.style.display = 'none';
             cartItemsContainer.style.display = 'flex';

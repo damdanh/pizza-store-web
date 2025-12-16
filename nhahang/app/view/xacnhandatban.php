@@ -6,16 +6,26 @@
     <div class="booking-info-section" id="bookingContent">
 
         <?php if (isset($_SESSION['pending_booking'])): ?>
+<<<<<<< HEAD
             <!-- ĐANG CHỜ THANH TOÁN -->
             <?php $pb = $_SESSION['pending_booking']; ?>
+=======
+            <?php $pb = $_SESSION['pending_booking']; // ?>
+>>>>>>> feat_Lộc
             
             <h2 style="color: #e67e22; text-align:center;">Vui lòng thanh toán để hoàn tất đặt bàn</h2>
             
             <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
                 <div style="padding: 15px; background: #fff3cd; border-radius: 8px; margin-bottom: 15px;">
                     <p style="margin: 0; font-size: 14px; color: #856404;">
+<<<<<<< HEAD
                         ℹ️ <strong>Lưu ý:</strong> Bạn chỉ cần thanh toán tiền đặt bàn và phí dịch vụ.<br>
                         Tiền món ăn sẽ thanh toán trực tiếp tại nhà hàng.
+=======
+                        ℹ️ <strong>Lưu ý:</strong> Bạn chỉ cần thanh toán tiền đặt bàn và phí dịch vụ.
+                        <br>
+                        Phần còn lại của tiền món ăn sẽ thanh toán trực tiếp tại nhà hàng.
+>>>>>>> feat_Lộc
                     </p>
                 </div>
                 
@@ -35,7 +45,11 @@
                         <?= number_format($pb['tien_mon_co_vat'], 0, ',', '.') ?>đ
                     </span>
                     <span style="color: #27ae60; font-size: 12px; margin-left: 10px;">
+<<<<<<< HEAD
                         (Trả sau)
+=======
+                        (Tổng giá trị đơn hàng)
+>>>>>>> feat_Lộc
                     </span>
                 </div>
                 
@@ -58,6 +72,18 @@
                     </span>
                 </div>
                 
+<<<<<<< HEAD
+=======
+                <div style="background: #e8f5e9; padding: 10px; border-radius: 5px; margin-top: 20px; text-align: center;">
+                    <p style="margin: 0; color: #155724; font-size: 16px;">
+                        👉 Số tiền còn lại phải thanh toán tại quầy:
+                    </p>
+                    <p style="margin: 5px 0 0 0; color: #27ae60; font-size: 24px; font-weight: bold;">
+                        <?= number_format($pb['tien_thanh_toan_sau_db'] ?? 0, 0, ',', '.') ?>đ
+                    </p>
+                </div>
+                
+>>>>>>> feat_Lộc
                 <p style="color:#2c3e50; font-weight:bold; background:#f8f9fa; padding:12px; border-radius:8px; text-align:center; margin-top:15px;">
                     Nội dung chuyển khoản: 
                     <span style="color:#e74c3c; font-size:20px;">
@@ -67,29 +93,46 @@
             </div>
 
             <div style="text-align:center; margin:30px 0;">
+<<<<<<< HEAD
                 <img src="<?= $_SESSION['qr_code'] ?>" alt="QR ACB - Vũ Tiến Đạt" 
+=======
+                <img src="<?= $_SESSION['qr_code'] ?>" alt="QR Code" 
+>>>>>>> feat_Lộc
                      style="width:300px; height:300px; border:3px solid #ddd; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.1);">
                 <p style="margin-top:15px; color:#7f8c8d;">
                     Quét bằng app ngân hàng (MB Bank, Vietcombank, ACB, BIDV, v.v.)
                 </p>
             </div>
 
+<<<<<<< HEAD
             <!-- NÚT XÁC NHẬN THỦ CÔNG -->
+=======
+>>>>>>> feat_Lộc
             <div style="text-align: center; margin-top: 30px; padding: 20px; background: #fff3cd; border-radius: 10px; border: 2px dashed #ffc107;">
                 <p style="margin: 0 0 15px 0; color: #e67e22; font-size: 16px;">
                     <strong>Đã chuyển khoản xong?</strong><br>
                     (Thường mất 30 giây - 2 phút để cập nhật)
                 </p>
+<<<<<<< HEAD
                 <form action="<?= $base_url_path ?>public/force_confirm.php" method="POST" style="display: inline;">
                     <button type="submit" style="
                         padding: 14px 40px; 
                         background: #27ae60; 
+=======
+                
+                <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
+                    
+                    <a href="<?= $base_url_path ?>public/dat-ban" style="
+                        padding: 14px 40px; 
+                        background: #95a5a6; 
+>>>>>>> feat_Lộc
                         color: white; 
                         border: none; 
                         border-radius: 8px; 
                         font-size: 18px; 
                         font-weight: bold; 
                         cursor: pointer;
+<<<<<<< HEAD
                         box-shadow: 0 4px 15px rgba(39,174,96,0.4);">
                         XÁC NHẬN ĐÃ THANH TOÁN
                     </button>
@@ -103,6 +146,38 @@
         <?php elseif (isset($_SESSION['booking']) && !empty($_SESSION['booking']['id'])): ?>
             <!-- ĐÃ THANH TOÁN THÀNH CÔNG -->
             <?php $bookingInfo = $_SESSION['booking']; ?>
+=======
+                        display: inline-flex;
+                        align-items: center;
+                        text-decoration: none;
+                        box-shadow: 0 4px 15px rgba(149,165,166,0.4);">
+                        <span class="material-icons-outlined" style="margin-right: 8px; font-size: 20px;"></span> TRỞ LẠI
+                    </a>
+
+                    <form action="<?= $base_url_path ?>public/force_confirm.php" method="POST" style="margin: 0;">
+                        <button type="submit" style="
+                            padding: 14px 40px; 
+                            background: #27ae60; 
+                            color: white; 
+                            border: none; 
+                            border-radius: 8px; 
+                            font-size: 18px; 
+                            font-weight: bold; 
+                            cursor: pointer;
+                            box-shadow: 0 4px 15px rgba(39,174,96,0.4);">
+                            XÁC NHẬN ĐÃ THANH TOÁN
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div style="text-align:center; margin-top:20px; color:#95a5a6; font-size:14px;">
+                Sau khi bấm nút, hệ thống sẽ lưu đặt bàn ngay lập tức (Chờ Admin xác nhận)
+            </div>
+
+        <?php elseif (isset($_SESSION['booking']) && !empty($_SESSION['booking']['id'])): ?>
+            <?php $bookingInfo = $_SESSION['booking']; // ?>
+>>>>>>> feat_Lộc
 
             <h2 style="color: #27ae60; text-align: center;">ĐẶT BÀN & THANH TOÁN THÀNH CÔNG!</h2>
 
@@ -112,7 +187,11 @@
             </p>
 
             <p style="text-align:center; color:#27ae60; font-size:18px; font-weight:bold;">
+<<<<<<< HEAD
                 Cảm ơn quý khách! Chúng tôi đã nhận được tiền và sẽ liên hệ sớm.
+=======
+                Cảm ơn quý khách! Chúng tôi đã nhận được tiền cọc và sẽ liên hệ sớm. (Đang chờ Admin xác nhận)
+>>>>>>> feat_Lộc
             </p>
 
             <div class="info-item"><span class="info-label">Tên:</span> <span><?= htmlspecialchars($bookingInfo['name']) ?></span></div>
@@ -141,11 +220,19 @@
                 <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 15px;">
                     <div style="background: #d4edda; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
                         <p style="margin: 0; color: #155724; font-size: 14px;">
+<<<<<<< HEAD
                             ✅ Tổng món (có VAT 8%): <?= number_format($bookingInfo['tien_mon_co_vat'] ?? 0, 0, ',', '.') ?>đ 
                             sẽ thanh toán tại quầy
                         </p>
                         <p style="margin: 5px 0 0 0; color: #155724; font-size: 12px;">
                             (Chưa VAT: <?= number_format($bookingInfo['tien_mon_chua_vat'] ?? 0, 0, ',', '.') ?>đ + VAT 8%: <?= number_format($bookingInfo['vat'] ?? 0, 0, ',', '.') ?>đ)
+=======
+                            ✅ Tổng tiền món: <strong style="text-decoration: line-through;"><?= number_format($bookingInfo['tien_mon_co_vat'] ?? 0, 0, ',', '.') ?>đ</strong> 
+                            (Bao gồm VAT 8%: <?= number_format($bookingInfo['vat'] ?? 0, 0, ',', '.') ?>đ)
+                        </p>
+                        <p style="margin: 5px 0 0 0; color: #155724; font-size: 12px;">
+                            (Giá trị gốc chưa VAT: <?= number_format($bookingInfo['tien_mon_chua_vat'] ?? 0, 0, ',', '.') ?>đ)
+>>>>>>> feat_Lộc
                         </p>
                     </div>
                     
@@ -162,7 +249,11 @@
                     <hr style="border: none; border-top: 2px solid #ddd; margin: 10px 0;">
                     
                     <div style="display: flex; justify-content: space-between;">
+<<<<<<< HEAD
                         <span style="font-size: 18px; font-weight: bold;">ĐÃ THANH TOÁN:</span>
+=======
+                        <span style="font-size: 18px; font-weight: bold;">ĐÃ THANH TOÁN (CỌC):</span>
+>>>>>>> feat_Lộc
                         <span style="font-size: 20px; font-weight: bold; color: #27ae60;">
                             <?= number_format($bookingInfo['total'], 0, ',', '.') ?>đ
                         </span>
@@ -170,8 +261,15 @@
                     
                     <div style="background: #fff3cd; padding: 10px; border-radius: 5px; margin-top: 10px;">
                         <p style="margin: 0; color: #856404; font-size: 13px;">
+<<<<<<< HEAD
                             💰 Tổng tiền món có VAT (<?= number_format($bookingInfo['tien_mon_co_vat'] ?? 0, 0, ',', '.') ?>đ) 
                             vui lòng thanh toán tại nhà hàng khi nhận bàn.
+=======
+                            💰 <strong>Vui lòng thanh toán tại nhà hàng khi nhận bàn:</strong>
+                        </p>
+                        <p style="margin: 5px 0 0 0; color: #e74c3c; font-size: 20px; font-weight: bold; text-align: center;">
+                            <?= number_format($bookingInfo['tien_thanh_toan_sau_db'] ?? 0, 0, ',', '.') ?>đ
+>>>>>>> feat_Lộc
                         </p>
                     </div>
                 </div>
@@ -207,7 +305,11 @@
         <?php else: ?>
             <div style="text-align:center; padding:40px; background:#ffe6e6; border-radius:10px; margin:30px 0;">
                 <p style="color:#e74c3c; font-size:18px; margin-bottom:20px;">
+<<<<<<< HEAD
                     ⚠️ Không tìm thấy thông tin đặt bàn. Vui lòng đặt lại.
+=======
+                    ⚠️ Không tìm thấy thông tin đặt bàn hoặc đặt bàn không thành công. Vui lòng đặt lại.
+>>>>>>> feat_Lộc
                 </p>
                 <a href="<?= $base_url_path ?>public/dat-ban" style="
                     display: inline-block;

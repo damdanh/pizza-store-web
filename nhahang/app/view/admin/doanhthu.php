@@ -264,7 +264,10 @@ include 'views/layouts/sidebar.php';
             <div>
 
                 <div class="stat-value">500,000,000 VNĐ</div>
+<<<<<<< HEAD
                 <div class="stat-value">0 VNĐ</div>
+=======
+>>>>>>> feat_Lộc
                 <div class="stat-label">Tổng Doanh thu</div>
             </div>
             <span class="material-icons-outlined" style="color: #34A853;">paid</span>
@@ -272,8 +275,12 @@ include 'views/layouts/sidebar.php';
 
         <div class="card stat-card">
             <div>
+<<<<<<< HEAD
                 <div class="stat-value">500,000,000 VNĐ</div>
                 <div class="stat-value">0 VNĐ</div>
+=======
+                <div class="stat-value">50,000,000 VNĐ</div>
+>>>>>>> feat_Lộc
                 <div class="stat-label">Lợi nhuận ròng</div>
             </div>
             <span class="material-icons-outlined" style="color: #4285F4;">trending_up</span>
@@ -281,7 +288,7 @@ include 'views/layouts/sidebar.php';
 
         <div class="card stat-card">
             <div>
-                <div class="stat-value">0</div>
+                <div class="stat-value">10</div>
                 <div class="stat-label">Tổng đơn hàng</div>
             </div>
             <span class="material-icons-outlined" style="color: #EA4335;">shopping_cart</span>
@@ -294,6 +301,7 @@ include 'views/layouts/sidebar.php';
 
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<<<<<<< HEAD
     <script>
         // Dữ liệu giả định (mẫu) — bạn có thể thay bằng dữ liệu thực từ PHP/DB
         const labels = [
@@ -362,6 +370,80 @@ include 'views/layouts/sidebar.php';
             }
         });
     </script>
+=======
+<script>
+    // Dữ liệu giả định (mẫu) — giữ nguyên
+    const labels = [
+        '2025-11-21', '2025-11-22', '2025-11-23', '2025-11-24', '2025-11-25', '2025-11-26', '2025-11-27'
+    ];
+
+    const revenueData = [12000000, 15000000, 10000000, 18000000, 22000000, 20000000, 25000000]; // VNĐ
+    const profitData = [4000000, 5000000, 3000000, 6000000, 7000000, 6500000, 9000000]; // VNĐ
+
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    const revenueChart = new Chart(ctx, {
+        // *** THAY ĐỔI LỚN NHẤT: type: 'bar' ***
+        type: 'bar', 
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Doanh thu (VNĐ)',
+                    data: revenueData,
+                    // Đối với biểu đồ cột, chúng ta dùng backgroundColor thay vì borderColor cho màu chính
+                    backgroundColor: '#4285F4', 
+                    borderColor: '#4285F4',
+                    borderWidth: 1,
+                    // Bỏ thuộc tính tension và fill không cần thiết cho biểu đồ cột
+                },
+                {
+                    label: 'Lợi nhuận (VNĐ)',
+                    data: profitData,
+                    backgroundColor: '#34A853',
+                    borderColor: '#34A853',
+                    borderWidth: 1,
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    display: true,
+                    title: { display: true, text: 'Ngày' },
+                    // Cài đặt để các cột cùng ngày đứng cạnh nhau
+                    stacked: false, 
+                },
+                y: {
+                    display: true,
+                    title: { display: true, text: 'VNĐ' },
+                    // Cài đặt để các cột cùng ngày đứng cạnh nhau
+                    stacked: false, 
+                    ticks: {
+                        callback: function (value) {
+                            // Định dạng tiền tệ VNĐ
+                            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            let v = context.parsed.y || 0;
+                            // Định dạng tooltip thành tiền tệ VNĐ
+                            return context.dataset.label + ': ' + v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ';
+                        }
+                    }
+                },
+                legend: { position: 'top' }
+            }
+        }
+    });
+</script>
+>>>>>>> feat_Lộc
 </main>
 
 <?php include 'views/layouts/footer.php'; ?>

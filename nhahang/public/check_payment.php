@@ -41,11 +41,18 @@ if (!empty($data['data'])) {
     
     // Nếu có user_id trong session, gán vào booking.
     $userId = $_SESSION['user_id'] ?? null;
+<<<<<<< HEAD
+=======
+    
+    // LẤY GIÁ TRỊ TIỀN THANH TOÁN SAU MỚI TỪ SESSION PENDING
+    $tienThanhToanSauDB = $pending['tien_thanh_toan_sau_db'] ?? 0;
+>>>>>>> feat_Lộc
 
     $id = $model->createBooking([
         'name'   => $pending['name'],
         'phone'  => $pending['phone'],
         'email'  => $pending['email'] ?? null,
+<<<<<<< HEAD
         'people' => $pending['tables'], // Dùng tables thay vì people
         'date'   => $pending['date'],
         'time'   => $pending['time'],
@@ -53,6 +60,16 @@ if (!empty($data['data'])) {
         'notes'  => $pending['notes'] ?? '',
         'user_id' => $userId, // TRUYỀN USER ID VÀO
         'total'   => $pending['amount'] // LƯU TỔNG TIỀN ĐÃ THANH TOÁN
+=======
+        'soluongban' => $pending['tables'], 
+        'booking_date'   => $pending['date'],
+        'booking_time'   => $pending['time'],
+        'branch' => $pending['branch'],
+        'notes'  => $pending['notes'] ?? '',
+        'user_id' => $userId, // TRUYỀN USER ID VÀO
+        'total'   => $pending['amount'], // LƯU TỔNG TIỀN ĐÃ THANH TOÁN
+        'tien_thanh_toan_sau_db' => $tienThanhToanSauDB // KEY MỚI: Tiền thanh toán sau (Tổng món - Tiền cọc)
+>>>>>>> feat_Lộc
     ]);
     
 
@@ -65,7 +82,11 @@ if (!empty($data['data'])) {
         require_once '../app/model/AccountModel.php';
         $accountModel = new AccountModel($pdo);
         
+<<<<<<< HEAD
         // LẤY TỔNG GIÁ TRỊ MÓN ĂN (CÓ VAT) - THEO YÊU CẦU MỚI
+=======
+        // LẤY TỔNG GIÁ TRỊ MÓN ĂN (CÓ VAT) - TỔNG TIỀN MÓN THỰC TẾ
+>>>>>>> feat_Lộc
         $totalFoodValue = $pending['tien_mon_co_vat']; 
         
         $accountModel->capNhatTongChiTieu($userId, $totalFoodValue);
@@ -76,13 +97,22 @@ if (!empty($data['data'])) {
         'id' => $id,
         'name' => $pending['name'],
         'phone' => $pending['phone'],
+<<<<<<< HEAD
         'tables' => $pending['tables'], // Thêm thông tin này
+=======
+        'tables' => $pending['tables'], 
+>>>>>>> feat_Lộc
         'date' => $pending['date'],
         'time' => $pending['time'],
         'branch' => $pending['branch'],
         'total' => $pending['amount'],
         'paid' => true,
+<<<<<<< HEAD
         'order_code' => $pending['order_code'] // Thêm thông tin này
+=======
+        'order_code' => $pending['order_code'],
+        'tien_thanh_toan_sau_db' => $tienThanhToanSauDB // THÊM KEY MỚI VÀO SESSION BOOKING
+>>>>>>> feat_Lộc
     ];
     
     // Xóa session cart
