@@ -1,4 +1,5 @@
 <?php
+// file: AccountModel.php (ĐÃ LOẠI BỎ LOGIC ĐÁNH GIÁ)
 require_once __DIR__ . '/../config/database.php';
 
 class AccountModel {
@@ -21,61 +22,75 @@ class AccountModel {
     }
 
     public function getOrderHistory($userId, $limit = 10) {
+        // Lấy cả đơn hàng và đơn đặt bàn (booking)
         $stmt = $this->pdo->prepare("
-            SELECT id_don_hang, tong_tien, trang_thai, ngay_dat
-            FROM don_hang
-            WHERE id_khach_hang = ?
+            (SELECT dh.id_don_hang, dh.tong_tien, dh.trang_thai, dh.ngay_dat, 'order' as loai_don, dh.tong_tien as tong_tien_hien_thi
+            FROM don_hang dh
+            WHERE dh.id_khach_hang = :userId1)
+            
+            UNION ALL
+            
+            (SELECT b.id as id_don_hang,              
+            b.total as tong_tien, 
+            'Đã đặt bàn' as trang_thai, 
+            b.booking_date as ngay_dat,   
+            'booking' as loai_don,
+            -- CẬP NHẬT LOGIC: TỔNG TIỀN MÓN (CÓ VAT) = TIỀN THANH TOÁN SAU + TIỀN CỌC
+            (b.tien_thanh_toan_sau + b.total) as tong_tien_hien_thi
+            FROM bookings b
+            WHERE b.id_khach_hang = :userId2)
+            
             ORDER BY ngay_dat DESC
-            LIMIT ?
+            LIMIT :limit
         ");
 
-        $stmt->bindValue(1, $userId, PDO::PARAM_INT);
-        $stmt->bindValue(2, (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':userId1', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':userId2', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
 
-        $stmt->execute();
+        if (!$stmt->execute()) {
+             error_log("LỖI TRUY VẤN getOrderHistory: " . implode(" | ", $stmt->errorInfo()));
+        }
+        
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
+    
+    // Xóa các hàm đánh giá cũ (getReviewByOrderAndUser, verifyOrderOwnership, hasReviewed, addReview, updateReview)
 
     public function getCustomerReviews($userId, $limit = 5) {
-        $stmt = $this->pdo->prepare("
-            SELECT * FROM danh_gia
-            WHERE id_khach_hang = ? 
-            ORDER BY ngay_danh_gia DESC
-            LIMIT ?
-        ");
+        // Giữ lại hàm này nhưng sẽ luôn trả về mảng rỗng vì không cần dùng nữa
+        return [];
+    }
+    
+    // ======== LOGIC HẠNG THÀNH VIÊN (Giữ nguyên) ========
 
-        $stmt->bindValue(1, $userId, PDO::PARAM_INT);
-        $stmt->bindValue(2, (int)$limit, PDO::PARAM_INT);
-
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public function xacDinhHang($tongChiTieu) {
+        if ($tongChiTieu >= 15000000) {
+            return 'kimcuong';
+        } elseif ($tongChiTieu >= 5000000) {
+            return 'vang';
+        } elseif ($tongChiTieu >= 2000000) {
+            return 'bac';
+        } elseif ($tongChiTieu >= 500000) {
+            return 'dong'; 
+        } else {
+            return 'thuong'; 
+        }
     }
 
-
-    public function verifyOrderOwnership($orderId, $userId) {
-        // Đã sửa 'id' thành 'id_don_hang' và 'user_id' thành 'id_khach_hang'
-        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM don_hang WHERE id_don_hang = ? AND id_khach_hang = ?"); 
-        $stmt->execute([$orderId, $userId]);
-        return $stmt->fetchColumn() > 0;
-    }
-
-    public function hasReviewed($orderId, $userId) {
-        // Đã sửa 'don_hang_id' thành 'id_don_hang'
-        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM danh_gia WHERE id_don_hang = ? AND id_khach_hang = ?");
-        $stmt->execute([$orderId, $userId]);
-        return $stmt->fetchColumn() > 0;
-    }
-
-    public function addReview($orderId, $userId, $rating, $comment) {
-        // Đã sửa tên cột
-        $stmt = $this->pdo->prepare("INSERT INTO danh_gia (id_khach_hang, id_don_hang, sao, nhan_xet) VALUES (?, ?, ?, ?)");
-        return $stmt->execute([$userId, $orderId, $rating, $comment]);
-    }
-
-    public function capNhatTongChiTieu($userId, $tongTien) {
+    public function capNhatTongChiTieu($userId, $tongTienMoi) {
+        // Cập nhật tổng chi tiêu
         $stmt = $this->pdo->prepare("UPDATE khach_hang SET tong_chi_tieu = tong_chi_tieu + ? WHERE id_khach_hang = ?");
-        $stmt->execute([$tongTien, $userId]);
+        $stmt->execute([$tongTienMoi, $userId]); 
+        
+        // Lấy lại tổng chi tiêu mới
+        $newTongChiTieu = $this->getTongChiTieu($userId);
+        
+        // Tự động cập nhật hạng thành viên
+        $newHang = $this->xacDinhHang($newTongChiTieu);
+        $this->capNhatHangThanhVien($userId, $newHang);
+        
+        return $newHang;
     }
 
     public function getTongChiTieu($userId) {

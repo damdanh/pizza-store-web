@@ -1,5 +1,7 @@
 <?php 
-// app/view/verify_email.php (Đã sửa để dùng CSS layout từ login.css)
+// app/view/verify_email.php
+// Đã sửa để loại bỏ hiển thị MÃ CODE TEST
+
 // Đảm bảo có biến $base_url_path từ main.php
 $base_url_path = '/WD20302-PRO1014_N5/nhahang/'; 
 ?>
@@ -11,12 +13,9 @@ $base_url_path = '/WD20302-PRO1014_N5/nhahang/';
             Chúng tôi đã gửi mã xác minh 6 số đến: <b><?= htmlspecialchars($email) ?></b>
         </p>
 
-        <?php if (isset($mock_code) && $mock_code !== 'N/A'): ?>
-            <div class="alert alert-warning text-center" style="font-size: 1em; font-weight: bold; padding: 10px; border: 1px solid #f0ad4e; background-color: #fcf8e3; margin-bottom: 20px;">
-                **MÃ CODE TEST (DEV MODE): <?= htmlspecialchars($mock_code) ?>**
-            </div>
-            <script>console.log('Mã OTP Giả định: <?= htmlspecialchars($mock_code) ?>');</script>
-        <?php endif; ?>
+        <?php 
+        // KHỐI CODE MOCK CODE TEST ĐÃ ĐƯỢC XÓA 
+        ?>
         
         <?php if(isset($error) && $error): ?>
             <div class="alert alert-danger" style="margin-bottom: 20px;"><?= $error ?></div>

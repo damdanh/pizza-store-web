@@ -1,5 +1,5 @@
 <style>
-
+/* ... (GIỮ NGUYÊN CSS TỪ ĐẦU) ... */
 
         * {
             margin: 0;
@@ -185,24 +185,24 @@
 
         /* --- Filter Section Styling (Thanh tìm kiếm/lọc) --- */
         .filter-section {
-            padding: 15px 20px; /* Padding cho card này nhỏ hơn một chút */
+            padding: 15px 20px; 
             margin-bottom: 20px;
         }
 
         .filter-controls {
             display: flex;
-            gap: 15px; /* Khoảng cách giữa các input/button */
-            align-items: center; /* Căn giữa theo chiều dọc */
+            gap: 15px; 
+            align-items: center; 
         }
 
         .filter-input {
-            flex-grow: 1; /* Cho phép input chiếm hết không gian */
+            flex-grow: 1; 
             padding: 10px 12px;
             border: 1px solid var(--border-color);
             border-radius: 4px;
             font-size: 14px;
             color: var(--text-dark);
-            background-color: #f7f7f7; /* Màu nền input xám nhạt */
+            background-color: #f7f7f7; 
         }
 
         .filter-input::placeholder {
@@ -218,7 +218,7 @@
             font-size: 14px;
             cursor: pointer;
             transition: background-color 0.2s;
-            white-space: nowrap; /* Ngăn nút xuống dòng */
+            white-space: nowrap; 
         }
 
         .refresh-btn:hover {
@@ -227,10 +227,12 @@
 
         /* --- Content Table Area Styling (Khu vực hiển thị dữ liệu/bảng) --- */
         .content-table-area {
-            min-height: 400px; /* Chiều cao tối thiểu cho dễ nhìn */
-            display: flex;
-            align-items: center; /* Căn giữa nội dung theo chiều dọc */
-            justify-content: center; /* Căn giữa nội dung theo chiều ngang */
+            min-height: 400px;
+            /* Bỏ căn giữa để bảng hiển thị từ trên xuống */
+            /* display: flex; 
+            align-items: center; 
+            justify-content: center; */
+            padding: 20px; /* Thêm padding nếu cần thiết */
         }
 
         .empty-state {
@@ -240,37 +242,191 @@
             text-align: center;
         }
 
+        /* Style cho bảng đặt bàn */
+        .booking-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: auto; 
+        }
+        .booking-table th, .booking-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+        .booking-table th {
+            background-color: var(--nav-hover);
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        .booking-table tr:nth-child(even) {
+            background-color: #fcfcfc;
+        }
+        .btn-detail {
+            padding: 5px 10px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: block; /* Đặt thành block để mỗi nút chiếm một dòng */
+            text-align: center;
+            margin-bottom: 5px; /* Thêm margin để tách các nút */
+        }
+        
+        /* Thêm style cho nút Xác nhận và Xóa */
+        .btn-confirm {
+            padding: 5px 10px;
+            background-color: #28a745; /* Màu xanh lá cho xác nhận */
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .btn-delete {
+            padding: 5px 10px;
+            background-color: #dc3545; /* Màu đỏ cho xóa */
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-pending { background-color: #ffc107; color: #333; } /* Vàng (Chờ xác nhận) */
+        .status-confirmed { background-color: #28a745; color: white; } /* Xanh lá (Đã xác nhận) */
+        .status-cancelled { background-color: #dc3545; color: white; } /* Đỏ (Đã hủy) */
+        .status-completed { background-color: #007bff; color: white; } /* Xanh dương (Đã hoàn tất) */
+
+
 </style>
 <?php
 $pageTitle = "Quản lý đặt bàn & Pre-order | Hệ thống Nhà hàng";
 $activePage = "quanlydatban";
 include 'views/layouts/header.php';
 include 'views/layouts/sidebar.php';
+
+// Giả sử $ds_datban, $message, $error đã được AdminController truyền vào
 ?>
 
 <main class="main-content">
     <header class="page-header">
         <h1>Quản lý đặt bàn & Pre-order</h1>
         <p>Xem và xác nhận đơn đặt bàn</p>
+        
+        <?php if (isset($message) && !empty($message)): // Hiển thị thông báo thành công từ Controller ?>
+            <div style="padding: 10px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 4px; margin-top: 15px; font-weight: bold;">
+                <?php echo htmlspecialchars($message); ?>
+            </div>
+        <?php endif; ?>
+        
+        <?php if (isset($error) && !empty($error)): // Hiển thị lỗi từ Controller ?>
+            <div style="padding: 10px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 4px; margin-top: 15px; font-weight: bold;">
+                <?php echo htmlspecialchars($error); ?>
+            </div>
+        <?php endif; ?>
     </header>
 
     <section class="filter-section card">
         <div class="filter-controls">
-            <input type="text" class="filter-input" placeholder="Tìm kiếm">
-            
+            <input type="text" class="filter-input" placeholder="Tìm kiếm theo Tên/SĐT">
             <input type="text" class="filter-input" placeholder="Trạng Thái">
-            
             <input type="text" class="filter-input" placeholder="Chi Nhánh">
-
             <button class="refresh-btn">Làm mới</button>
         </div>
     </section>
 
     <section class="content-table-area card">
-        <div class="empty-state">
-            Không tìm thấy đơn đặt bàn nào
-        </div>
+        <?php if (!empty($ds_datban) && is_array($ds_datban)): ?>
+            
+            <table class="booking-table">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">ID</th>
+                        <th style="width: 15%;">Tên Khách Hàng</th>
+                        <th style="width: 10%;">SĐT</th>
+                        <th style="width: 20%;">Chi Nhánh</th>
+                        <th style="width: 15%;">Thời Gian</th>
+                        <th style="width: 5%;">SL</th>
+                        <th style="width: 10%;">Trạng Thái</th>
+                        <th style="width: 10%;">Tổng tiền</th>
+                        <th style="width: 10%;">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+                    // Hàm đơn giản để chuyển trạng thái số thành chữ và CSS class
+                    function getStatusDisplay($statusId) {
+                        $statusId = (int)$statusId; 
+                        $statuses = [
+                            0 => ['text' => 'Chờ xác nhận', 'class' => 'status-pending'],
+                            1 => ['text' => 'Đã xác nhận', 'class' => 'status-confirmed'],
+                            2 => ['text' => 'Đã hủy', 'class' => 'status-cancelled'],
+                            3 => ['text' => 'Đã hoàn tất', 'class' => 'status-completed'],
+                        ];
+                        return $statuses[$statusId] ?? ['text' => 'Không rõ', 'class' => ''];
+                    }
+                    ?>
+
+                    <?php foreach ($ds_datban as $datban): ?>
+                        <?php $status = getStatusDisplay($datban['status'] ?? 0); // Giả sử có cột 'status' ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($datban['id']); ?></td>
+                            <td><?php echo htmlspecialchars($datban['name']); ?></td>
+                            <td><?php echo htmlspecialchars($datban['phone']); ?></td>
+                            <td><?php echo htmlspecialchars($datban['branch']); ?></td>
+                            <td>
+                                <?php echo htmlspecialchars(date('d/m/Y', strtotime($datban['booking_date']))); ?><br>
+                                **<?php echo htmlspecialchars(date('H:i', strtotime($datban['booking_time']))); ?>**
+                            </td>
+                            <td><?php echo htmlspecialchars($datban['soluongban'] ?? 0); ?></td> 
+                            <td><span class="status-badge <?php echo $status['class']; ?>"><?php echo $status['text']; ?></span></td>
+                            <td><?php echo number_format((float)($datban['total'] ?? 0), 0, ',', '.') . '₫'; ?></td> 
+                            <td>
+                                <?php if ((int)($datban['status'] ?? 0) === 0): ?>
+                                    <a href="admin.php?page=quanlydatban&action=confirm&id=<?php echo $datban['id']; ?>" class="btn-confirm" onclick="return confirm('Bạn có chắc chắn muốn XÁC NHẬN đơn đặt bàn #<?php echo $datban['id']; ?> này?');">
+                                        Xác nhận
+                                    </a>
+                                <?php endif; ?>
+                                
+                                <!-- <a href="admin.php?page=datban_detail&id=<?php echo $datban['id']; ?>" class="btn-detail">Chi tiết</a> -->
+                                
+                                <a href="admin.php?page=quanlydatban&action=delete&id=<?php echo $datban['id']; ?>" class="btn-delete" onclick="return confirm('Bạn có chắc chắn muốn XÓA đơn đặt bàn #<?php echo $datban['id']; ?> này? Đây là hành động không thể hoàn tác.');">
+                                    Xóa
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else: ?>
+            <div class="empty-state">
+                <?php if (isset($error) && !empty($error)): ?>
+                    <?php echo htmlspecialchars($error); ?>
+                <?php else: ?>
+                    Không tìm thấy đơn đặt bàn nào.
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
     </section>
 </main>
-
 <?php include 'views/layouts/footer.php'; ?>

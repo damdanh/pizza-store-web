@@ -4,11 +4,14 @@ require_once __DIR__. '/../Model/CategoryModel.php';
 require_once __DIR__. '/../Model/ProductModel.php';
 // require_once __DIR__. '/../Model/UserModel.php';
 require_once __DIR__. '/../Model/AdminModel.php';
+require_once __DIR__. '/../Model/BookingModel.php';
+require_once __DIR__. '/../Model/chinhanhModel.php';
 
 class AdminController {
     public $danhmuc;
     public $sanpham;
     public $admin;
+    public $booking;
     // public $user;
     public $db;
 
@@ -16,6 +19,7 @@ class AdminController {
         $this->danhmuc = new CategoryModel();
         $this->sanpham = new ProductModel();
         $this->admin = new AdminModel();
+        $this->booking = new BookingModel();
         $this->db = $db_object;
         // $this->user = new UserModel($this->db);
     }
@@ -31,15 +35,94 @@ class AdminController {
     }
 
     public function dashboard(){
+        // Prepare counts for dashboard KPIs
+        require_once __DIR__ . '/../Model/chinhanhModel.php';
+        
+        // --- LẤY DỮ LIỆU ĐẶT BÀN ---
+        $totalBookings = 0;
+        $pendingBookings = 0;
+        try {
+            // Sử dụng getAllBookings để lấy toàn bộ danh sách
+            $ds_datban = $this->booking->getAllBookings(); 
+            $totalBookings = is_array($ds_datban) ? count($ds_datban) : 0;
+            
+            // Đếm số đơn chờ xác nhận (status = 0)
+            foreach($ds_datban as $datban) {
+                // Giả định cột 'status' tồn tại và 0   là chờ xác nhận
+                if (($datban['status'] ?? 0) == 0) { 
+                    $pendingBookings++;
+                }
+            }
+        } catch (Exception $e) {
+            // Bỏ qua lỗi DB nếu không tìm thấy dữ liệu đặt bàn, chỉ set count về 0
+            error_log("Lỗi lấy dữ liệu đặt bàn cho dashboard: " . $e->getMessage()); 
+        }
+        // --- KẾT THÚC LẤY DỮ LIỆU ĐẶT BÀN ---
+        
+        try {
+            $dssp = $this->sanpham->getAllProducts();
+        } catch (Exception $e) {
+            $dssp = [];
+        }
+        $totalProducts = is_array($dssp) ? count($dssp) : 0;
+
+        try {
+            $branchesModel = new ChinhanhModel();
+            $branches = $branchesModel->getAllBranches();
+        } catch (Exception $e) {
+            $branches = [];
+        }
+        $totalBranches = is_array($branches) ? count($branches) : 0;
+
+        // Truyền các biến mới vào view
         include '../app/view/admin/dashboard.php';
     }
 
     public function quanlydatban(){
+        $message = $_GET['msg'] ?? null;
+        $error = $_GET['error'] ?? null;
+
+        // Xử lý các hành động: Xóa và Cập nhật trạng thái
+        if (isset($_GET['action']) && isset($_GET['id'])) {
+            $bookingId = (int)$_GET['id'];
+            try {
+             // >>> THAY THẾ: Xử lý HỦY BỎ/THẤT BẠI (Status 2) <<<
+                if ($_GET['action'] === 'cancel' || $_GET['action'] === 'delete') { 
+                    $this->booking->updateBookingStatus($bookingId, 2); 
+                    $message = "Đơn đặt bàn #{$bookingId} đã được **HỦY BỎ** (Trạng thái 2).";
+                    header("Location: admin.php?page=quanlydatban&msg=" . urlencode($message));
+                    exit;
+                }
+                // ----------------------------------------------------
+                
+                elseif ($_GET['action'] === 'confirm') {
+                    // XỬ LÝ CẬP NHẬT TRẠNG THÁI (LUÔN LÀ ĐÃ XÁC NHẬN: 1)
+                    $this->booking->updateBookingStatus($bookingId, 1); 
+                    $message = "Đơn đặt bàn #{$bookingId} đã được **XÁC NHẬN** (Trạng thái 1).";
+                    header("Location: admin.php?page=quanlydatban&msg=" . urlencode($message));
+                    exit;
+                }
+            } catch (\Exception $e) {
+                $error = "Lỗi xử lý đơn hàng: " . $e->getMessage();
+            }
+        }
+        
+        try {
+            // Lấy danh sách đơn đặt bàn từ Model
+            $ds_datban = $this->booking->getAllBookings();
+        } catch (\Exception $e) {
+            $ds_datban = [];
+            $error = $e->getMessage();
+        }
+
+        // Truyền $ds_datban ra view
         include '../app/view/admin/quanlydatban.php';
     }
 
     public function chinhanh(){
-        include '../app/view/admin/chinhanh.php';
+        require_once __DIR__ . '/chinhanh.Controller.php';
+        $c = new ChinhanhController();
+        $c->index();
     }
 
     public function doanhthu(){
@@ -47,12 +130,123 @@ class AdminController {
     }
 
     public function formDemo(){
+        
+        // 1. Lấy danh sách chi nhánh để hiển thị trong select box
+        require_once __DIR__ . '/../Model/ChinhanhModel.php'; 
+        $branchesModel = new ChinhanhModel();
+        $ds_chinhanh = $branchesModel->getAllBranches(); 
+        $error = $_GET['error'] ?? null;
+        $prev_data = json_decode(urldecode($_GET['prev_data'] ?? '{}'), true); 
+
+        // =============== XỬ LÝ POST FORM ĐẶT BÀN ===============
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_booking'])) {
+            // Lấy ID chi nhánh được gửi lên
+            $selectedBranchId = (int)($_POST['chinhanh'] ?? 0);
+            
+            // Tìm tên chi nhánh dựa trên ID đã chọn từ danh sách
+            $branchName = '';
+            foreach ($ds_chinhanh as $cn) {
+                if ((int)$cn['id'] === $selectedBranchId) {
+                    $branchName = htmlspecialchars($cn['ten_chi_nhanh']);
+                    break;
+                }
+            }
+            
+            // Kiểm tra xem đã tìm thấy tên chi nhánh chưa
+            if (empty($branchName)) {
+                $error_msg = "Lỗi: Chi nhánh không hợp lệ hoặc không được chọn.";
+                header("Location: admin.php?page=formDemo&error=" . urlencode($error_msg) . "&prev_data=" . urlencode(json_encode($_POST)));
+                exit;
+            }
+
+            // === SỬA LỖI XỬ LÝ NGÀY/GIỜ ===
+            $ngay_dat = trim($_POST['ngay'] ?? '');
+            $gio_dat = trim($_POST['gio'] ?? ''); 
+            
+            $booking_date = null;
+            $booking_time = null;
+            
+            // 1. Phân tích Ngày: Đảm bảo format dd/mm/yy chính xác
+            if (!empty($ngay_dat)) {
+                $date_obj = DateTime::createFromFormat('d/m/y', $ngay_dat);
+                // Kiểm tra nếu object được tạo và ngày tháng không bị tràn (false positives)
+                if ($date_obj && $date_obj->format('d/m/y') === $ngay_dat) {
+                    $booking_date = $date_obj->format('Y-m-d');
+                }
+            }
+            
+            // 2. Phân tích Giờ: Đảm bảo format HH:mm chính xác
+            if (!empty($gio_dat)) {
+                $time_obj = DateTime::createFromFormat('H:i', $gio_dat);
+                // Nếu H:i thất bại, thử H:i A (vì đôi khi form web mặc định nhập kiểu này)
+                if (!$time_obj) {
+                     $time_obj = DateTime::createFromFormat('h:i A', strtoupper($gio_dat));
+                }
+                
+                if ($time_obj) {
+                    $booking_time = $time_obj->format('H:i:s');
+                }
+            }
+            
+            // KIỂM TRA VALIDATION CỦA CONTROLLER
+            if (empty($booking_date)) {
+                $error_msg = "Lỗi: Ngày đặt bàn (dd/mm/yy) không hợp lệ hoặc bị thiếu.";
+                header("Location: admin.php?page=formDemo&error=" . urlencode($error_msg) . "&prev_data=" . urlencode(json_encode($_POST)));
+                exit;
+            }
+            
+            if (empty($booking_time)) {
+                $error_msg = "Lỗi: Giờ đặt bàn (HH:mm) không hợp lệ hoặc bị thiếu.";
+                header("Location: admin.php?page=formDemo&error=" . urlencode($error_msg) . "&prev_data=" . urlencode(json_encode($_POST)));
+                exit;
+            }
+            // ===============================
+
+            // Chuẩn bị dữ liệu cho Model
+            $data = [
+                'name' => trim($_POST['ten'] ?? ''),
+                'phone' => trim($_POST['sdt'] ?? ''),
+                'email' => trim($_POST['email'] ?? ''),
+                'branch' => $branchName, 
+                'booking_date' => $booking_date, // Đã validate và format
+                'booking_time' => $booking_time, // Đã validate và format
+                'soluongban' => (int)($_POST['songuoi'] ?? 1),
+                'notes' => trim($_POST['ghichu'] ?? ''),
+                'id_khach_hang' => $_SESSION['user']['id'] ?? null, // SỬ DỤNG id_khach_hang
+                'total' => 0,
+                'status' => 0 // ĐẶT TRẠNG THÁI MẶC ĐỊNH LÀ CHỜ XÁC NHẬN (0)
+            ];
+
+            try {
+                // Gọi Model để lưu dữ liệu
+                $bookingId = $this->booking->createBooking($data);
+                
+                // Chuyển hướng thành công về trang quản lý đặt bàn kèm ID
+                header("Location: admin.php?page=quanlydatban&msg=" . urlencode("Đã tạo đơn đặt bàn #{$bookingId} thành công và đang chờ xác nhận."));
+                exit;
+
+            } catch (\Exception $e) {
+                // Chuyển hướng lại form Demo với lỗi và dữ liệu đã nhập
+                $error_msg = "Lỗi đặt bàn: " . $e->getMessage();
+                header("Location: admin.php?page=formDemo&error=" . urlencode($error_msg) . "&prev_data=" . urlencode(json_encode($_POST))); 
+                exit;
+            }
+        }
+        // ========================================================
+        
         include '../app/view/admin/formDemo.php';
     }
 
     public function menu(){
     $dsdm = $this->danhmuc->getAllCategories();
-    $dssp = $this->sanpham->getAllProducts();
+    
+    // --- 1. XÁC ĐỊNH CHẾ ĐỘ LỌC TỪ URL ---
+    $filter_mode = 'active'; // Mặc định hiển thị món 'Còn hàng' (active)
+    if (isset($_GET['show']) && $_GET['show'] == 'hidden') {
+        $filter_mode = 'hidden'; // Nếu có &show=hidden, chỉ hiển thị món đã ẩn
+    }
+    // Giả định nếu không có tham số nào, ProductModel::getAllProducts() mặc định chỉ lấy món "Còn hàng"
+    // Nếu bạn muốn hiển thị TẤT CẢ theo mặc định: $filter_mode = 'all';
     
     // Khởi tạo các biến nếu cần, ví dụ: $sp_edit, $dm
 
@@ -62,19 +256,15 @@ class AdminController {
         $mo_ta = trim($_POST['category_description'] ?? '');
 
         try {
-            // Logic cập nhật (nếu có id) hoặc thêm mới
-            // Hiện tại chỉ xử lý thêm mới:
             $this->danhmuc->createCategory($ten_danh_muc, $mo_ta);
-            header("Location: admin.php?page=menu");
+            header("Location: admin.php?page=menu&msg=" . urlencode("Đã thêm nhóm món thành công."));
             exit;
         } catch (\Exception $e) {
-            // Thêm logic xử lý lỗi tại đây nếu cần
             echo "<script>alert('Lỗi thêm nhóm món: " . $e->getMessage() . "');</script>";
         }
     }
 
-    /* ================== 3. LƯU SẢN PHẨM (THÊM/SỬA) ================== */
-    // Kiểm tra tên nút submit trong form themmonan.php là 'save_product'
+    /* ================== LƯU SẢN PHẨM (THÊM/SỬA) ================== */
     if (isset($_POST['save_product'])) {
         $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : null;
         $name = $_POST['ten_mon'];
@@ -83,18 +273,16 @@ class AdminController {
         $cat_id = $_POST['category'];
         $mota = isset($_POST['mo_ta']) ? $_POST['mo_ta'] : '';
 
-        // Xử lý ảnh
+        // Xử lý ảnh (Giữ nguyên logic upload ảnh của bạn)
         $img = "";
         $upload_dir = "nhahang/app/public/img/";
         if (!empty($_FILES['img']['name'])) {
             $img = time() . "_" . basename($_FILES['img']['name']);
-            // Kiểm tra và tạo thư mục nếu chưa có
             if (!is_dir($upload_dir)) {
                 mkdir($upload_dir, 0777, true);
             }
             move_uploaded_file($_FILES['img']['tmp_name'], $upload_dir . $img);
         } else {
-            // Giữ lại ảnh cũ khi sửa nếu không upload ảnh mới
             $img = $_POST['old_img'] ?? ''; 
         }
 
@@ -109,13 +297,13 @@ class AdminController {
 
         try {
             if ($product_id) {
-                // Cập nhật sản phẩm
                 $this->sanpham->updateProduct($product_id, $data);
+                $msg = "Đã cập nhật món ăn thành công.";
             } else {
-                // Thêm sản phẩm mới
                 $this->sanpham->createProduct($data);
+                $msg = "Đã thêm món ăn mới thành công.";
             }
-            header("Location: admin.php?page=menu");
+            header("Location: admin.php?page=menu&msg=" . urlencode($msg));
             exit;
         } catch (\Exception $e) {
              echo "<script>alert('Lỗi lưu sản phẩm: " . $e->getMessage() . "');</script>";
@@ -125,17 +313,51 @@ class AdminController {
     /* ================== 1. XÓA SẢN PHẨM ================== */
     if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
         $this->sanpham->deleteProduct($_GET['id']);
-        header("Location: admin.php?page=menu");
+        header("Location: admin.php?page=menu&msg=" . urlencode("Đã xóa món ăn thành công."));
         exit;
     }
 
-    /* ================== 2. SỬA SẢN PHẨM (HIỂN THỊ FORM) ================== */
+    /* ================== 2. ẨN / HIỆN SẢN PHẨM (TOGGLE STATUS) ================== */
+    if (isset($_GET['action']) && ($_GET['action'] == 'hide' || $_GET['action'] == 'unhide') && isset($_GET['id'])) {
+        $id = (int)$_GET['id'];
+        $action = $_GET['action'];
+        
+        // Xác định trạng thái mới dựa trên action
+        $new_status = ($action === 'hide') ? 'Hết hàng' : 'Còn hàng';
+        $msg = ($action === 'hide') ? 'Đã ẩn món ăn thành công.' : 'Đã hiển thị món ăn thành công.';
+
+        try {
+            // Cập nhật trạng thái thông qua ProductModel
+            $data = ['trang_thai' => $new_status];
+            $this->sanpham->updateProduct($id, $data);
+            
+            // CHUYỂN HƯỚNG VỀ TRANG XEM HIỆN TẠI ĐỂ DUY TRÌ BỘ LỌC
+            $redirect_url = "admin.php?page=menu";
+            if ($filter_mode === 'hidden') {
+                $redirect_url .= "&show=hidden";
+            }
+            $redirect_url .= "&msg=" . urlencode($msg);
+
+            header("Location: " . $redirect_url);
+            exit;
+        } catch (\Exception $e) {
+            $error_msg = "Lỗi cập nhật trạng thái: " . $e->getMessage();
+            header("Location: admin.php?page=menu&error=" . urlencode($error_msg));
+            exit;
+        }
+    }
+
+
+    /* ================== 3. HIỂN THỊ FORM SỬA/THÊM MÓN ================== */
+    
+    // Giữ lại logic hiển thị form SỬA
     if (isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
         $sp_edit = $this->sanpham->getProductById($_GET['id']);
         $dsdm = $this->danhmuc->getAllCategories();
         include "../app/view/admin/themmonan.php";
         return;
     }
+
 
     /* ================== 4. THÊM NHÓM MÓN (HIỂN THỊ FORM) ================== */
     if (isset($_GET['action']) && $_GET['action'] == 'add_category') {
@@ -144,14 +366,24 @@ class AdminController {
         return;
     }
 
-    /* ================== 4. THÊM SẢN PHẨM (HIỂN THỊ FORM) ================== */
+    /* ================== 5. THÊM SẢN PHẨM (HIỂN THỊ FORM) ================== */
     if (isset($_GET['action']) && $_GET['action'] == 'add') {
         $dsdm = $this->danhmuc->getAllCategories();
         $sp_edit = null; 
         include_once  "../app/view/admin/themmonan.php";
         return;
     }
-    $dssp = $this->sanpham->getAllProducts();
+    
+    // --- 2. GỌI MODEL VỚI BỘ LỌC (Cần sửa ProductModel để chấp nhận tham số) ---
+    // Giả sử ProductModel::getAllProducts($filter_mode) đã được sửa để hoạt động
+    // Nếu bạn chưa sửa Model, nó sẽ chỉ lấy mặc định, bạn cần phải sửa Model
+    $dssp = $this->sanpham->getAllProducts($filter_mode);
+    
+    // Gán cờ is_hidden vào từng món ăn để View có thể xử lý style
+    foreach ($dssp as $key => $dish) {
+        $dssp[$key]['is_hidden'] = ($dish['trang_thai'] === 'Hết hàng');
+    }
+    
     include '../app/view/admin/menu.php';
 }
 
@@ -302,13 +534,32 @@ class AdminController {
             }
         }
         
-        /* ================== Xử lý XÓA ADMIN ================== */
+        /* ================== XỬ LÝ XÓA ADMIN (ĐÃ VÔ HIỆU HÓA) ================== */
         if ($action == 'delete' && isset($_GET['id'])) {
-            $id = $_GET['id'];
+            // Vô hiệu hóa chức năng xóa để tránh mất dữ liệu bằng URL.
+            $message = "Chức năng xóa tài khoản Admin đã bị vô hiệu hóa.";
+            header("Location: admin.php?page=admin&msg=" . urlencode($message));
+            exit;
+        }
+
+        /* ================== XỬ LÝ ẨN / KÍCH HOẠT ADMIN (SOFT) ================== */
+        if ($action == 'toggle_status' && isset($_GET['id'])) {
+            $id = (int)$_GET['id'];
+            // mong đợi param status (0 hoặc 1)
+            $status = isset($_GET['status']) ? ((int)$_GET['status'] ? 1 : 0) : 0;
             try {
-                $this->admin->deleteAdmin($id);
-                $message = "Đã xóa tài khoản Admin.";
-                header("Location: admin.php?page=admin&msg=" . urlencode($message));
+                // Không cho phép admin ẩn chính họ
+                if (session_status() === PHP_SESSION_NONE) session_start();
+                $currentAdminId = $_SESSION['admin']['id'] ?? null;
+                if ($currentAdminId && (int)$currentAdminId === $id) {
+                    $message = 'Không thể ẩn/kích hoạt chính bạn.';
+                    header("Location: admin.php?page=admin&msg=" . urlencode($message));
+                    exit;
+                }
+
+                $this->admin->setAdminStatus($id, $status);
+                $msg = $status ? 'Đã kích hoạt tài khoản Admin.' : 'Đã ẩn tài khoản Admin.';
+                header("Location: admin.php?page=admin&msg=" . urlencode($msg));
                 exit;
             } catch (\Exception $e) {
                 $message = "Lỗi: " . $e->getMessage();
@@ -348,7 +599,7 @@ public function login_process() {
 
         if ($admin_info) {
             // 2. Kiểm tra mật khẩu (Quan trọng: Dùng password_verify)
-            if (password_verify($mat_khau, $admin_info['mat_khau'])) {
+            if ($mat_khau === $admin_info['mat_khau']) {
                 
                 // 3. Kiểm tra trạng thái hoạt động (trang_thai_hoat_dong = 1)
                 if ($admin_info['trang_thai_hoat_dong'] != 1) {
@@ -384,6 +635,22 @@ public function login_process() {
     header("Location: admin.php?action=login&error=" . urlencode($error_msg));
     exit;
 }
+/* ================== XỬ LÝ ĐĂNG XUẤT ================== */
+    public function logout() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        // Xóa tất cả các biến session
+        $_SESSION = [];
+        
+        // Hủy session
+        session_destroy();
+        
+        // Chuyển hướng về trang đăng nhập
+        header("Location: admin.php?action=login&msg=" . urlencode("Đã đăng xuất thành công!"));
+        exit;
+    }
 
 
 }

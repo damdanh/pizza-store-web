@@ -4,7 +4,7 @@
 // Đảm bảo đường dẫn đúng theo cấu trúc: nhahang/app/controller/
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../model/UserModel.php';
-require_once __DIR__ . '/../Utils/EmailSender.php'; 
+require_once __DIR__ . '/../Utils/EmailService.php'; // <--- ĐÃ THAY THẾ EmailSender.php
 
 class UserController {
     private $base_url = '/WD20302-PRO1014_N5/nhahang/public';
@@ -18,7 +18,7 @@ class UserController {
     }
     
     // =================================================================
-    // CÁC HÀM XỬ LÝ ĐĂNG KÝ/ĐĂNG NHẬP (GIỮ NGUYÊN CODE CŨ CỦA BẠN)
+    // CÁC HÀM XỬ LÝ ĐĂNG KÝ/ĐĂNG NHẬP
     // =================================================================
     
     public function showRegister() {
@@ -178,9 +178,15 @@ class UserController {
                     
                     error_log("✅ Đăng nhập thành công - User ID: " . $user['id_khach_hang']);
                     
-                    
-                    $redirect = $_SESSION['redirect_after_login'] ?? "$this->base_url/";
+                    // LƯU Ý: ĐÃ SỬA LOGIC CHUYỂN HƯỚNG TẠI ĐÂY
+                    $default_redirect = "$this->base_url/";
+                    $redirect = $_SESSION['redirect_after_login'] ?? $default_redirect;
                     unset($_SESSION['redirect_after_login']);
+                    
+                    // KIỂM TRA và LOẠI BỎ nếu URL chứa "admin.php" (ngăn chuyển hướng sang Admin)
+                    if (strpos($redirect, 'admin.php') !== false) {
+                        $redirect = $default_redirect;
+                    }
                     
                     header("Location: $redirect");
                     exit;
@@ -202,11 +208,7 @@ class UserController {
         exit;
     }
     
-    // =================================================================
-    // LOGIC QUÊN MẬT KHẨU (CHỨC NĂNG MỚI)
-    // =================================================================
 
-    // 1. Hiển thị Form nhập email
     public function showForgotPassword() {
         $data = [
             'title' => 'Quên Mật Khẩu',
@@ -238,11 +240,32 @@ class UserController {
             if ($this->userModel->saveResetCode($user['id_khach_hang'], $code, $expires_at)) {
                 
                 $subject = "Mã Xác Nhận Quên Mật Khẩu N5 Restaurant";
-                // Đặt mã code trong <strong> để EmailSender (mock) dễ trích xuất
-                $body = "Mã xác nhận của bạn là: <strong>$code</strong>. Mã này sẽ hết hạn sau 2 phút.";
                 
-                // Gửi email giả định (sẽ ghi log và lưu code vào SESSION['MOCK_CODE'])
-                EmailSender::sendEmail($email, $subject, $body); 
+                // Nội dung email dạng HTML chuyên nghiệp hơn
+                $body = "
+                    <html>
+                    <body style='font-family: Arial, sans-serif; line-height: 1.6;'>
+                        <h2>Yêu cầu Đặt lại Mật khẩu</h2>
+                        <p>Bạn đã yêu cầu đặt lại mật khẩu cho tài khoản N5 Restaurant của bạn.</p>
+                        <p>Mã xác nhận 6 số của bạn là:</p>
+                        <h1 style='background-color: #f4f4f4; padding: 15px; text-align: center; border-radius: 5px; color: #d9534f; font-size: 24px; font-weight: bold;'>$code</h1>
+                        <p>Mã này sẽ hết hạn sau 2 phút. Vui lòng nhập mã này vào trang xác minh.</p>
+                        <p>Nếu bạn không thực hiện yêu cầu này, vui lòng bỏ qua email này.</p>
+                        <p style='color: #888; font-size: 12px;'>Đây là email tự động, vui lòng không trả lời.</p>
+                    </body>
+                    </html>
+                ";
+                
+                // === GỬI EMAIL BẰNG PHPMailer qua EmailService ===
+                $mail_sent = EmailService::sendSMTP($email, $subject, $body); 
+                
+                if (!$mail_sent) {
+                    error_log("❌ Lỗi nghiêm trọng khi gửi email bằng PHPMailer. Kiểm tra log.");
+                    // Thông báo lỗi thân thiện cho người dùng
+                    $_SESSION['forgot_error'] = "Lỗi khi gửi email xác nhận. Vui lòng thử lại sau.";
+                    header("Location: $this->base_url/forgot_password");
+                    exit;
+                }
                 
                 // Chuyển hướng đến form nhập mã
                 header("Location: $this->base_url/verify_reset_code?email=" . urlencode($email));
@@ -265,9 +288,7 @@ class UserController {
         $error = $_SESSION['verify_error'] ?? '';
         unset($_SESSION['verify_error']);
         
-        // Lấy mã code giả định nếu có
-        $mock_code = $_SESSION['MOCK_CODE'] ?? 'N/A';
-        unset($_SESSION['MOCK_CODE']); // Xóa ngay sau khi lấy
+        // ĐÃ XÓA: Logic lấy và truyền $mock_code ra View
 
         if (empty($email)) {
             header("Location: $this->base_url/forgot_password");
@@ -279,7 +300,7 @@ class UserController {
             'content_view' => __DIR__ . '/../view/verify_email.php', 
             'email' => $email,
             'error' => $error,
-            'mock_code' => $mock_code // Truyền mã code giả định ra View
+            // ĐÃ XÓA: 'mock_code' => $mock_code 
         ];
         extract($data);
         include __DIR__ . '/../view/main.php';

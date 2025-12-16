@@ -1,10 +1,11 @@
-
- <?php
+<?php
+// file: AccountController.php (ĐÃ LOẠI BỎ LOGIC GỌI ĐÁNH GIÁ)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
 require_once __DIR__ . '/../model/AccountModel.php';
+
 
 class AccountController {
     private $account;
@@ -28,7 +29,11 @@ class AccountController {
             $customer  = $this->account->getCustomerInfo($userId);
             $membership = $this->account->getMembershipInfo($userId);
             $orders = $this->account->getOrderHistory($userId);
-            $reviews = $this->account->getCustomerReviews($userId);
+            // XÓA: $reviews = $this->account->getCustomerReviews($userId);
+            $reviews = []; // Gán mảng rỗng để profile.php không bị lỗi
+
+            // KHẮC PHỤC LỖI: Gán đối tượng Model cho biến để truyền xuống View
+            $accountModel = $this->account; 
 
             // gửi dữ liệu sang view
             $title = "Hồ sơ cá nhân";
@@ -46,8 +51,9 @@ class AccountController {
     }
 
     public function profile() {
-        // điều hướng về /account
+       
         header("Location: /WD20302-PRO1014_N5/nhahang/public/account");
         exit;
     }
 }
+// XÓA DẤU NGOẶC NHỌN THỪA

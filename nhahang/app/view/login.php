@@ -15,7 +15,6 @@
         <?php endif; ?>
         
         <form action="/WD20302-PRO1014_N5/nhahang/public/login" method="POST">
-            
             <div class="form-group">
                 <label class="form-label">Địa chỉ Email</label>
                 <input 
@@ -53,10 +52,7 @@
             </p>
         </div>
 
-        <button class="google-login-btn">
-            <i class="fab fa-google"></i>
-            Đăng nhập bằng Google
-        </button>
+     
 
         <p class="privacy-note">
             Tất cả dữ liệu và hình ảnh của chúng tôi được lưu trữ an toàn<br>

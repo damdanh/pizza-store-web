@@ -90,10 +90,7 @@
             <span class="divider-text">Or</span>
         </div>
 
-        <button class="google-register-btn">
-            <i class="fab fa-google"></i>
-            Đăng nhập bằng Google
-        </button>
+        
 
         <div class="text-center mt-3">
             <p>Đã có tài khoản? 
