@@ -369,7 +369,8 @@ include 'views/layouts/sidebar.php';
                         <th style="width: 5%;">SL</th>
                         <th style="width: 10%;">Trạng Thái</th>
                         <th style="width: 10%;">Tổng tiền</th>
-                        <th style="width: 10%;">Hành động</th>
+                        <th style="width: 10%;">Hành động</th>3
+                        
                     </tr>
                 </thead>
                 <tbody>

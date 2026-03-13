@@ -199,11 +199,9 @@
         cursor: pointer;
     }
 
-    /* Khu vực Biểu đồ/Số liệu */
     .revenue-stats {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        /* 3 cột cho các thẻ KPI nhỏ */
         gap: 20px;
         margin-bottom: 30px;
     }
@@ -341,12 +339,11 @@ if (!isset($summaryData)) {
         const profitData = <?php echo $profitData_json ?? '[]'; ?>; 
 
         if (labels.length === 0) {
-            // Nếu không có dữ liệu, hiển thị thông báo thay vì biểu đồ trống
             document.getElementById('revenueChart').parentElement.innerHTML = '<p style="text-align: center; color: var(--text-sub); margin: 100px;">Không có đơn hàng hoàn thành trong khoảng thời gian đã chọn.</p>';
         } else {
             const ctx = document.getElementById('revenueChart').getContext('2d');
             const revenueChart = new Chart(ctx, {
-                type: 'line',
+                type: 'bar',
                 data: {
                     labels: labels, // Dữ liệu động
                     datasets: [
